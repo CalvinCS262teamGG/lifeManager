@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">lifeManager</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="intro_text">Welcome to LifeManager! \nSelect an activity to start</string>
+    <string name="button_schedule">Schedule</string>
+    <string name="button_analytics">Analytics</string>
+    <string name="title_activity_analytics">Analytics</string>
+    <string name="spinner_text">How much time have you spent in the past:</string>
+    <string name="calculate">Calculate</string>
+    <string name="analyticsTotalTimes">This will hold total times spent \n Gaming - 100 \n Sleeping - 0 \n Homework - 5 \n CS262 - over 9000</string>
+    <string-array name="binArray">
+        <item>Day</item>
+        <item>Week</item>
+        <item>Month</item>
+        <item>Year</item>
+    </string-array>
+    <string-array name="listOfActivities">
+        <item>Eating</item>
+        <item>Sleeping</item>
+        <item>Going to the Bathroom</item>
+        <item>Shopping</item>
+    </string-array>
+    <string name="title_activity_schedule">Schedule</string>
+    <string name="buttonStart">Start</string>
+    <string name="buttonStop">Stop</string>
+    <string name="setTime">Manually Enter Time</string>
+    <string name="startTime">Start Time</string>
+    <string name="endTime">End Time</string>
+    <string name="enterStart">Enter Start Time</string>
+    <string name="enterStartDate">Enter Start Date</string>
+    <string name="enterEnd">Enter End Time</string>
+    <string name="enterEndDate">Enter End Date</string>
 </resources>
