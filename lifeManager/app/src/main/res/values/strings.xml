@@ -32,4 +32,29 @@
     <string name="enterStartDate">Enter Start Date</string>
     <string name="enterEnd">Enter End Time</string>
     <string name="enterEndDate">Enter End Date</string>
+    <string name="action_settings">Settings</string>
+    <string name="iceCreamSandwich">Ice Cream Sandwiches</string>
+    <string name="testString">There would likely not be a picture here, just text and maybe a description   Just trying to demonstrate the cardView</string>
+    <string name="categoryText">Exercise</string>
+    <string name="descriptionText">Self-development</string>
+    <string name="timeText">7:30 AM 8:30 AM</string>
+    <string name="titleHint">Title</string>
+    <string name="choose_an_area">Choose an area</string>
+    <string name="direct">Direct</string>
+    <string name="indirect">Indirect</string>
+    <string name="personal">Personal</string>
+    <string name="self_dev">Self-Dev</string>
+    <string name="etc">Etc</string>
+    <string name="activityHint">What activity (optional)</string>
+    <string name="date">Date</string>
+    <string name="defaultDate">Mon, Oct 1, 2018</string>
+    <string name="start">Start</string>
+    <string name="defaultStart">7:30 AM</string>
+    <string name="end">End</string>
+    <string name="defaultEnd">8:30 AM</string>
+    <string name="noteHint">Note</string>
+    <string name="lableHint">Label</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
