@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="89dp"
+        android:layout_marginLeft="89dp"
+        android:layout_marginBottom="0dp"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/navigation" />
 
     <TextView
         android:id="@+id/intro_text"
@@ -19,14 +31,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/intro_text"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="107dp"
+        android:layout_marginEnd="-49dp"
+        android:layout_marginBottom="117dp"
         android:onClick="openNewEvent"
         android:text="Button" />
 

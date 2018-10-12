@@ -2,18 +2,47 @@ package teamgg.cs262.calvin.edu.lifemanager;
 
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+    private TextView mTextMessage;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    mTextMessage.setText(R.string.title_home);
+                    return true;
+                case R.id.navigation_dashboard:
+                    mTextMessage.setText(R.string.title_dashboard);
+                    return true;
+                case R.id.navigation_notifications:
+                    mTextMessage.setText(R.string.title_notifications);
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTextMessage = (TextView) findViewById(R.id.message);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     public void launchAnalyticsActivity(View view) {
@@ -31,18 +60,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-    public void toggleSelectedActivity(View view) {
-        Button toggleStart = (Button) findViewById(R.id.toggleStart);
-        Button toggleStop = (Button) findViewById(R.id.toggleStop);
-        if (toggleStart.getVisibility() == View.VISIBLE) {
-            toggleStart.setVisibility(View.INVISIBLE);
-            toggleStop.setVisibility(View.VISIBLE);
-        } else {
-            toggleStart.setVisibility(View.VISIBLE);
-            toggleStop.setVisibility(View.INVISIBLE);
-        }
-    }
 
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
