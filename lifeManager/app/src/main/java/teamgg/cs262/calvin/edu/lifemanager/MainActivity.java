@@ -26,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openNewEvent(View view) {
+        Intent intent = new Intent(this, NewEvent.class);
+        startActivity(intent);
+    }
+
 
     public void toggleSelectedActivity(View view) {
         Button toggleStart = (Button) findViewById(R.id.toggleStart);

@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Analytics" />
-        <activity android:name=".schedule"></activity>
         <activity android:name=".Schedule" />
+        <activity android:name=".NewEvent"></activity>
     </application>
 
 </manifest>
