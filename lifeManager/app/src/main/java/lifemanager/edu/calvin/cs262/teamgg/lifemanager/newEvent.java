@@ -5,32 +5,56 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
-public class newEvent extends Fragment {
+public class newEvent extends Fragment implements View.OnClickListener {
 
-    Fragment fragment = null;
+    public newEvent() {
 
-    @Nullable
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_new_event, null);
-    }
-    public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getFragmentManager(), "timePicker");
-//        getActivity().getSupportFragmentManager();
+        View rootView = inflater.inflate(R.layout.fragment_new_event, container, false);
+
+        TextView pickDate = (TextView) rootView.findViewById(R.id.enterDate);
+        TextView pickStartTime = (TextView) rootView.findViewById(R.id.enterStart);
+        TextView pickEndTime = (TextView) rootView.findViewById(R.id.enterEnd);
+
+        pickDate.setOnClickListener(this);
+        pickStartTime.setOnClickListener(this);
+        pickEndTime.setOnClickListener(this);
+
+        return rootView;
     }
 
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getFragmentManager(), "datePicker");
-//        getActivity().getSupportFragmentManager();
-    }
+    @Override
+    public void onClick(View view) {
+        DialogFragment newFragment;
+        switch (view.getId()) {
+            case R.id.enterDate:
+                    newFragment = new DatePickerFragment();
+                    newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                break;
 
+            case R.id.enterStart:
+                    newFragment = new TimePickerFragment();
+                    newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+                break;
+
+            case R.id.enterEnd:
+                newFragment = new TimePickerFragment();
+                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+                break;
+        }
+    }
 }
