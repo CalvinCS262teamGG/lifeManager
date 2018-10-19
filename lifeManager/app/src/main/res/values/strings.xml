@@ -24,4 +24,7 @@
     <string name="defaultEnd">8:30 AM</string>
     <string name="noteHint">Note</string>
     <string name="lableHint">Label</string>
+    <string name="categoryText">Exercise</string>
+    <string name="descriptionText">Self-development</string>
+    <string name="timeText">7:30 AM 8:30 AM</string>
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,9 +21,12 @@ public class newEvent extends Fragment implements View.OnClickListener {
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        ((MainActivity) getActivity()).setActionBarTitle("New Event");
 
         View rootView = inflater.inflate(R.layout.fragment_new_event, container, false);
 

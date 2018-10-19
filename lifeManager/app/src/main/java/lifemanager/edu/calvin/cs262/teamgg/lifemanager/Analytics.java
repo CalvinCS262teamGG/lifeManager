@@ -19,9 +19,17 @@ import android.view.ViewGroup;
 // * create an instance of this fragment.
 // */
 public class Analytics extends Fragment {
+
+    public Analytics() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        ((MainActivity) getActivity()).setActionBarTitle("Analytics");
+
         //just change the fragment_dashboard
         //with the fragment you want to inflate
         //like if the class is HomeFragment it should have R.layout.home_fragment

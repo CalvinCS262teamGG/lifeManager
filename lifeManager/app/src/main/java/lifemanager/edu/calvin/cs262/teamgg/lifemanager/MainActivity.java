@@ -46,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return loadFragment(fragment);
     }
 
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
     private boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
