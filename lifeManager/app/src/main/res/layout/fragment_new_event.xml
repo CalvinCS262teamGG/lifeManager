@@ -217,4 +217,13 @@
         android:inputType="textPersonName"
         android:hint="@string/noteHint" />
 
+    <Button
+        android:id="@+id/enterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="135dp"
+        android:text="Enter" />
+
 </RelativeLayout>

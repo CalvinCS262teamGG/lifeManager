@@ -5,9 +5,10 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/scheduleCardID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp" >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,6 +43,15 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:text="@string/timeText" />
+
+            <Button
+                android:id="@+id/options"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:text="Options"
+                android:onClick="openOptions" />
 
         </RelativeLayout>
 
