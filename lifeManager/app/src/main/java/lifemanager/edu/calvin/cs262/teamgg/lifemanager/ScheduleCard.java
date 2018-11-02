@@ -2,30 +2,34 @@ package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 public class ScheduleCard {
 
-    private String id, title, category, description, date, time, label, note;
+    private String id, title, category, description, date, time, startTime, endTime,label, note;
 
-    public ScheduleCard(String id, String title, String category, String description, String date, String time, String label, String note) {
-        this.id = id;
+    public ScheduleCard(String title, String category, String description, String date, String time, String startTime, String endTime, String label, String note) {
+//        this.id = id;
         this.title = title;
         this.category = category;
         this.description = description;
         this.date = date;
         this.time = time;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.label = label;
         this.note = note;
     }
 
     public ScheduleCard () {
-        this.id = "ID";
+//        this.id = "ID";
         this.title = "Card Title";
         this.category = "Category";
         this.description = "Description";
         this.date = "January 01";
-        this.time = "00:00";
+        this.time = "00:00 - 00:00";
+        this.startTime = "00:00";
+        this.endTime = "00:00";
         this.label = "Label";
         this.note = "Note";
     }
-    public String getCardId() { return id; }
+//    public String getCardId() { return id; }
 
     public String getCardTitle() { return title; }
 
@@ -43,6 +47,14 @@ public class ScheduleCard {
 
     public String getCardTime() {
         return time;
+    }
+
+    public String getCardStartTime() {
+        return startTime;
+    }
+
+    public String getCardEndTime() {
+        return endTime;
     }
 
     public String getCardLabel() {

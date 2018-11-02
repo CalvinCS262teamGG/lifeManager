@@ -21,8 +21,21 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.jsonFile;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.newEvent.currentDate;
 
 //we need to extend the ArrayAdapter class as we are building an adapter
 public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
@@ -70,8 +83,8 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
         final ScheduleCard scheduleCard = scheduleCardList.get(position);
 
         //adding values to the list item
-        textViewCategory.setText(scheduleCard.getCardCategory());
-        textViewDescription.setText(scheduleCard.getCardDescription());
+        textViewCategory.setText(scheduleCard.getCardTitle());
+        textViewDescription.setText(scheduleCard.getCardCategory());
         textViewTime.setText(scheduleCard.getCardTime());
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +131,9 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
 
                 //reloading the list
                 notifyDataSetChanged();
+
+                WriteSchedule  ws = new WriteSchedule();
+                ws.writeSchedule();
             }
         });
 
@@ -149,8 +165,8 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
         TextView popupTextViewTime = popupDialog.findViewById(R.id.itemTime);
 
         //adding values to the popup item
-        popupTextViewCategory.setText(scheduleCard.getCardCategory());
-        popupTextViewDescription.setText(scheduleCard.getCardDescription());
+        popupTextViewCategory.setText(scheduleCard.getCardTitle());
+        popupTextViewDescription.setText(scheduleCard.getCardCategory());
         popupTextViewTime.setText(scheduleCard.getCardTime());
 
         Window window = popupDialog.getWindow();
