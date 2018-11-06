@@ -2,9 +2,11 @@ package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 public class ScheduleCard {
 
-    private String id, title, category, description, date, time, startTime, endTime,label, note;
+    private String id, title, category, description, date, time, startTime, endTime, label, note;
 
-    public ScheduleCard(String title, String category, String description, String date, String time, String startTime, String endTime, String label, String note) {
+    private int totalHr, totalMin;
+
+    public ScheduleCard(String title, String category, String description, String date, String time, String startTime, String endTime, String label, String note, int totalHr, int totalMin) {
 //        this.id = id;
         this.title = title;
         this.category = category;
@@ -15,6 +17,8 @@ public class ScheduleCard {
         this.endTime = endTime;
         this.label = label;
         this.note = note;
+        this.totalHr = totalHr;
+        this.totalMin = totalMin;
     }
 
     public ScheduleCard () {
@@ -24,10 +28,12 @@ public class ScheduleCard {
         this.description = "Description";
         this.date = "January 01";
         this.time = "00:00 - 00:00";
-        this.startTime = "00:00";
-        this.endTime = "00:00";
+        this.startTime = "0000";
+        this.endTime = "0000"; // 24hr base
         this.label = "Label";
         this.note = "Note";
+        this.totalHr = 0;
+        this.totalMin = 0;
     }
 //    public String getCardId() { return id; }
 
@@ -61,8 +67,9 @@ public class ScheduleCard {
         return label;
     }
 
-    public String getCardNote() {
-        return note;
-    }
+    public String getCardNote() { return note; }
 
+    public int getCardTotalHr() { return totalHr; }
+
+    public int getCardTotalMin() { return totalMin; }
 }
