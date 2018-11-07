@@ -10,7 +10,9 @@
     <string name="newevent">newEvent</string>
     <string name="titleHint">Title</string>
     <string name="choose_an_area">Choose an area</string>
-    <string name="direct">Direct</string>
+    <string name="direct">
+        <font size="20">Direct</font>
+    </string>
     <string name="indirect">Indirect</string>
     <string name="personal">Personal</string>
     <string name="self_dev">Self-Dev</string>

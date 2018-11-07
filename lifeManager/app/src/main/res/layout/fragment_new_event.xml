@@ -17,6 +17,7 @@
         android:layout_alignParentTop="true"
         android:textSize="24sp"
         android:ems="10"
+        android:paddingLeft="5dp"
         android:inputType="textPersonName"
         android:hint="@string/titleHint" />
 
@@ -29,7 +30,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:textSize="16sp"
+        android:textSize="18sp"
+        android:paddingLeft="5dp"
         android:text="@string/choose_an_area" />
 
     <View
@@ -39,7 +41,8 @@
         android:layout_marginEnd="8dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:layout_marginVertical="8dp"
+        android:background="@color/blue"/>
 
     <RadioGroup
         android:id="@+id/eventCategory"
@@ -70,6 +73,7 @@
             android:id="@+id/selfDev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight=""
             android:text="@string/self_dev" />
 
         <RadioButton
@@ -84,22 +88,25 @@
         android:layout_below="@+id/eventCategory"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginVertical="10dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@color/blue"/>
 
     <EditText
         android:id="@+id/editTextActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/eventCategory"
+        android:layout_marginVertical="10dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:ems="12"
         android:hint="@string/activityHint"
-        android:textSize="16sp" />
+        android:paddingLeft="10dp"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/date"
@@ -110,7 +117,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        android:paddingLeft="5dp"
         android:text="@string/date" />
 
     <TextView
@@ -123,7 +131,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:onClick="onClick"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:text="@string/defaultDate" />
 
     <View
@@ -131,10 +139,10 @@
         android:layout_below="@+id/date"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginVertical="3dp"
+        android:layout_marginVertical="5dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@color/blue"/>
 
     <TextView
         android:id="@+id/start"
@@ -145,7 +153,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        android:paddingLeft="5dp"
         android:text="@string/start" />
 
     <TextView
@@ -157,7 +166,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:onClick="onClick"
         android:text="@string/defaultStart" />
 
@@ -170,7 +179,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        android:paddingLeft="5dp"
         android:text="@string/end" />
 
     <TextView
@@ -182,7 +192,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:onClick="onClick"
         android:text="@string/defaultEnd" />
 
@@ -191,9 +201,10 @@
         android:layout_below="@+id/end"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginVertical="8dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@color/blue"/>
 
     <EditText
         android:id="@+id/editTextLabel"
@@ -203,6 +214,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:ems="10"
+        android:textSize="19dp"
         android:inputType="textPersonName"
         android:hint="@string/lableHint" />
 
@@ -214,6 +226,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:ems="10"
+        android:textSize="19dp"
         android:inputType="textPersonName"
         android:hint="@string/noteHint" />
 
@@ -223,7 +236,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="135dp"
+        android:layout_marginBottom="18dp"
         android:text="Enter" />
 
 </RelativeLayout>
