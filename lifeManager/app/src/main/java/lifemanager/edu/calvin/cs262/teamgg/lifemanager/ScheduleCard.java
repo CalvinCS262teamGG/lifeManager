@@ -2,30 +2,40 @@ package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 public class ScheduleCard {
 
-    private String id, title, category, description, date, time, label, note;
+    private String id, title, category, description, date, time, startTime, endTime, label, note;
 
-    public ScheduleCard(String id, String title, String category, String description, String date, String time, String label, String note) {
-        this.id = id;
+    private int totalHr, totalMin;
+
+    public ScheduleCard(String title, String category, String description, String date, String time, String startTime, String endTime, String label, String note, int totalHr, int totalMin) {
+//        this.id = id;
         this.title = title;
         this.category = category;
         this.description = description;
         this.date = date;
         this.time = time;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.label = label;
         this.note = note;
+        this.totalHr = totalHr;
+        this.totalMin = totalMin;
     }
 
     public ScheduleCard () {
-        this.id = "ID";
+//        this.id = "ID";
         this.title = "Card Title";
         this.category = "Category";
         this.description = "Description";
         this.date = "January 01";
-        this.time = "00:00";
+        this.time = "00:00 - 00:00";
+        this.startTime = "0000";
+        this.endTime = "0000"; // 24hr base
         this.label = "Label";
         this.note = "Note";
+        this.totalHr = 0;
+        this.totalMin = 0;
     }
-    public String getCardId() { return id; }
+//    public String getCardId() { return id; }
 
     public String getCardTitle() { return title; }
 
@@ -45,12 +55,21 @@ public class ScheduleCard {
         return time;
     }
 
+    public String getCardStartTime() {
+        return startTime;
+    }
+
+    public String getCardEndTime() {
+        return endTime;
+    }
+
     public String getCardLabel() {
         return label;
     }
 
-    public String getCardNote() {
-        return note;
-    }
+    public String getCardNote() { return note; }
 
+    public int getCardTotalHr() { return totalHr; }
+
+    public int getCardTotalMin() { return totalMin; }
 }

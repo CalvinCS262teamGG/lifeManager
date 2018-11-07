@@ -12,6 +12,8 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
+
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
     public static String time;
@@ -49,7 +51,14 @@ public class TimePickerFragment extends DialogFragment
         } else if (c.get(Calendar.AM_PM) == Calendar.PM) {
             ampm = "PM";
         }
+
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int min =  c.get(Calendar.MINUTE);
+        Log.d(TAG, "pickStartTime - hour" + hour );
+        Log.d(TAG, "pickStartTime - min" + min );
+
         String setHour = (c.get(Calendar.HOUR) == 0) ?"12":c.get(Calendar.HOUR)+"";
         timeText.setText( setHour +":" + String.format("%02d", c.get(Calendar.MINUTE)) + " " + ampm );
+
     }
 }
