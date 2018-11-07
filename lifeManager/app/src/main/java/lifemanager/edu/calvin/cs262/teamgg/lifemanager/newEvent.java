@@ -20,6 +20,11 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
 
 public class newEvent extends Fragment implements View.OnClickListener {
 
@@ -131,13 +136,26 @@ public class newEvent extends Fragment implements View.OnClickListener {
             case R.id.enterButton:
                 String title = titleText.getText().toString() ;
 //                String category;
-                String description = categoryString;
+                String category = categoryString;
 //                String date;
                 String time = (pickStartTime.getText() + " - " + pickEndTime.getText());
+
+                time cardTime = new time(pickStartTime.getText().toString(), pickEndTime.getText().toString());
+
+                String cardStart = cardTime.getCardStart();
+                String cardEnd = cardTime.getCardEnd();
+                int totalHr = cardTime.getTotalHr();
+                int totalMin = cardTime.getTotalMin();
+
 //                String label;
 //                String note;
-                if (!title.equals("") & description != null) {
-                    myScheduleCardList.add(new ScheduleCard(title, "Self-development", description, "October 9", time, pickStartTime.getText().toString(), pickEndTime.getText().toString(), "LABEL", "note"));
+                if (!title.equals("") & category != null) {
+                    myScheduleCardList.add(new ScheduleCard(title, category, "Description", "October 9", time, cardStart, cardEnd, "LABEL", "note", totalHr, totalMin));
+
+                    Log.d(TAG, "pickStartTime" + pickStartTime.getText().toString() );
+                    Log.d(TAG, "pickEndTime" + pickEndTime.getText().toString() );
+
+                    sortScheduleCard();
 
                     WriteSchedule  ws = new WriteSchedule();
                     ws.writeSchedule();
@@ -148,5 +166,91 @@ public class newEvent extends Fragment implements View.OnClickListener {
         }
     }
 
+    // output the start and end time and the total hours and total mins for calculation of analytics
+    public class time {
+
+        String cardStart, cardEnd;
+        int totalHr, totalMin;
+
+        public time(String start, String end) {
+            String startHr = start.substring(0,start.lastIndexOf(":"));
+            String startMin = start.substring(start.lastIndexOf(":")+1,start.lastIndexOf(":")+3);
+            String startAm_pm = start.substring(start.lastIndexOf(":")+4,start.lastIndexOf(":")+6);
+
+            int startHrInt = Integer.parseInt(startHr);
+            int startMinInt = Integer.parseInt(startMin);
+            if (startAm_pm.equals("PM")) {
+                if (startHrInt != 12) {
+                    startHrInt = startHrInt + 12;
+                }
+            } else if (startAm_pm.equals("AM")) {
+                if (startHrInt == 12) {
+                    startHrInt = 0;
+                }
+            }
+            Log.d(TAG, "check!!!: " + Integer.toString(startHrInt) + startMin + startAm_pm);
+
+            String endHr = end.substring(0,end.lastIndexOf(":"));
+            String endMin = end.substring(end.lastIndexOf(":")+1,end.lastIndexOf(":")+3);
+            String endAm_pm = end.substring(end.lastIndexOf(":")+4,end.lastIndexOf(":")+6);
+
+            int endHrInt = Integer.parseInt(endHr);
+            int endMinInt = Integer.parseInt(endMin);
+            if (endAm_pm.equals("PM")) {
+                if (endHrInt != 12) {
+                    endHrInt = endHrInt + 12;
+                }
+            } else if (endAm_pm.equals("AM")) {
+                if (endHrInt == 12) {
+                    endHrInt = 0;
+                }
+            }
+            Log.d(TAG, "check!!!: " + Integer.toString(endHrInt) + endMin + endAm_pm);
+
+            totalMin = endMinInt - startMinInt;
+            if (totalMin < 0) {
+                endHrInt = endHrInt - 1;
+                totalMin = totalMin + 60;
+            }
+            totalHr = endHrInt - startHrInt;
+
+            Log.d(TAG, "check!!!: hr diff: " + Integer.toString(totalHr)  + " min diff: " + Integer.toString(totalMin));
+
+            cardStart = Integer.toString(startHrInt) + startMin;
+            cardEnd = Integer.toString(endHrInt) + endMin;
+        }
+
+        public String getCardStart() {
+            return cardStart;
+        }
+        public String getCardEnd() {
+            return cardEnd;
+        }
+        public int getTotalHr() {
+            return totalHr;
+        }
+        public int getTotalMin() {
+            return totalMin;
+        }
+
+    }
+
+    // sort the schedule card list
+    public void sortScheduleCard() {
+        Collections.sort(myScheduleCardList, new Comparator<ScheduleCard>(){
+
+            @Override
+            public int compare(ScheduleCard s1, ScheduleCard s2) {
+
+                if (Integer.parseInt(s1.getCardStartTime()) > Integer.parseInt(s2.getCardStartTime())) {
+                    return 1;
+                } else if (Integer.parseInt(s1.getCardStartTime()) < Integer.parseInt(s2.getCardStartTime())) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+    }
 
 }

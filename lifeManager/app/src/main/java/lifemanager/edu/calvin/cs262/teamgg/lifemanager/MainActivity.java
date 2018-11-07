@@ -1,9 +1,6 @@
 package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.content.res.AssetManager.AssetInputStream;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -21,8 +18,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public static final String TAG = "MyLog";
 
     public static String jsonFile;
+
+    String currentDate;
 
     @SuppressLint("SdCardPath")
     @Override
@@ -49,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("MMddyyyy");
         format.setTimeZone(cal.getTimeZone());
 
-        String currentDate = format.format(cal.getTime());
+        currentDate = format.format(cal.getTime());
         String dirPath = getFilesDir().getAbsolutePath();
         jsonFile = "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + currentDate + ".json";
 
@@ -62,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (!file.exists()) {
             file.mkdirs();
         }
-        String res = null;
+//        String res = null;
 
         File schedule = new File(jsonFile);
         if (!schedule.exists()) {
@@ -71,35 +68,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fos.close();
             } catch (IOException e) {}
         } else {
-            InputStream inputStream = null;
-            try{
-                inputStream = openFileInput(currentDate+".json");
-                InputStreamReader isr = new InputStreamReader(inputStream);
-                BufferedReader br = new BufferedReader(isr);
-                StringBuilder sb = new StringBuilder();
-                String str ="";
-
-                while((str = br.readLine()) != null){
-                    sb.append(str);
-                }
-                // store contents of json file into res
-                res = sb.toString();
-                JSONObject obj = new JSONObject(res);
-                JSONArray jsonArray = new JSONArray(obj.getString("data"));
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    String title =  jsonArray.getJSONObject(i).getString("title");
-                    String category =  jsonArray.getJSONObject(i).getString("category");
-                    String description =  jsonArray.getJSONObject(i).getString("description");
-                    String date =  jsonArray.getJSONObject(i).getString("date");
-                    String time =  jsonArray.getJSONObject(i).getString("time");
-                    String startTime =  jsonArray.getJSONObject(i).getString("startTime");
-                    String endTime =  jsonArray.getJSONObject(i).getString("endTime");
-                    String label =  jsonArray.getJSONObject(i).getString("label");
-                    String note =  jsonArray.getJSONObject(i).getString("note");
-                    myScheduleCardList.add(new ScheduleCard(title, category, description, date, time, startTime, endTime,label, note));
-                    Log.d(TAG, "save!" + title );
-                }
-            } catch (Exception e) {}
+            readSchedule();
         }
 //        myScheduleCardList.add(new ScheduleCard("Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM", "7:30 AM", "8:30 AM","LABEL", "note"));
 //        myScheduleCardList.add(new ScheduleCard("Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM", "7:30 AM", "8:30 AM","LABEL", "note"));
@@ -112,6 +81,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onStop();
         myScheduleCardList.clear();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        myScheduleCardList.clear();
+        readSchedule();
     }
 
     @Override
@@ -151,5 +127,41 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
+    private void readSchedule() {
+        String res = null;
+        InputStream inputStream = null;
+        try{
+            inputStream = openFileInput(currentDate+".json");
+            InputStreamReader isr = new InputStreamReader(inputStream);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String str ="";
+
+            while((str = br.readLine()) != null){
+                sb.append(str);
+            }
+            // store contents of json file into res
+            res = sb.toString();
+            JSONObject obj = new JSONObject(res);
+            JSONArray jsonArray = new JSONArray(obj.getString("data"));
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String title =  jsonArray.getJSONObject(i).getString("title");
+                String category =  jsonArray.getJSONObject(i).getString("category");
+                String description =  jsonArray.getJSONObject(i).getString("description");
+                String date =  jsonArray.getJSONObject(i).getString("date");
+                String time =  jsonArray.getJSONObject(i).getString("time");
+                String startTime =  jsonArray.getJSONObject(i).getString("startTime");
+                String endTime =  jsonArray.getJSONObject(i).getString("endTime");
+                String label =  jsonArray.getJSONObject(i).getString("label");
+                String note =  jsonArray.getJSONObject(i).getString("note");
+                int totalHr =  jsonArray.getJSONObject(i).getInt("totalHr");
+                int totalMin =  jsonArray.getJSONObject(i).getInt("totalMin");
+
+
+                myScheduleCardList.add(new ScheduleCard(title, category, description, date, time, startTime, endTime,label, note, totalHr, totalMin));
+                Log.d(TAG, "save!" + title );
+            }
+        } catch (Exception e) {}
+    }
 
 }
