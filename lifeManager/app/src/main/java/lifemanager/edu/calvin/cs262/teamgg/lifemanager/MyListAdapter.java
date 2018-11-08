@@ -3,41 +3,29 @@ package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.jsonFile;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.newEvent.currentDate;
 
 //we need to extend the ArrayAdapter class as we are building an adapter
 public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
@@ -114,10 +102,10 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
                             openDetails(position);
                             break;
                         case R.id.action_edit:
-                            editCard(position);
+                            //editCard(position);
                             break;
                         case R.id.action_share:
-
+                            //shareCard(position);
                             break;
                         case R.id.action_delete:
                             deleteCard(position);
@@ -142,7 +130,7 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
 
 
     //this method will remove the item from the list
-    private void deleteCard(final int position) {
+    public void deleteCard(final int position) {
         //Creating an alert dialog to confirm the deletion
         AlertDialog.Builder builder = new AlertDialog.Builder(this.activity);
         builder.setTitle("Are you sure you want to delete this?");
@@ -202,18 +190,19 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
 
     }
 
+
     private void editCard(final int position) {
         ScheduleCard scheduleCard = scheduleCardList.get(position);
 
-        Dialog popupDialog = new Dialog(getContext());
-        popupDialog.setContentView(R.layout.fragment_new_event);
+        DialogAdapter editDialogAdaptor = DialogAdapter.newInstance(position);
 
-        Window window = popupDialog.getWindow();
+        Dialog editDialog = new Dialog(getContext());
+        if (editDialogAdaptor.getMyView().equals(null)) {
+            editDialog.setContentView(editDialogAdaptor.getMyView());
+        }
 
-        WindowManager.LayoutParams wlp = window.getAttributes();
-
-        wlp.gravity = Gravity.TOP;
-        wlp.y = 50;
-        popupDialog.show();
     }
+
+
+
 }
