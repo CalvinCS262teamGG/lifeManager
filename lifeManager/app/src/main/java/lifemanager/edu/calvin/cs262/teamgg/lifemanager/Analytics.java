@@ -2,12 +2,27 @@ package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 
 ///**
@@ -20,10 +35,14 @@ import android.view.ViewGroup;
 // */
 public class Analytics extends Fragment {
 
+    public static ArrayList<ScheduleCard> analyticsCardList = new ArrayList<>();
+
+
     public Analytics() {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,8 +53,96 @@ public class Analytics extends Fragment {
         //with the fragment you want to inflate
         //like if the class is HomeFragment it should have R.layout.home_fragment
         //if it is DashboardFragment it should have R.layout.fragment_dashboard
-        return inflater.inflate(R.layout.fragment_analytics, null);
+        View rootView = inflater.inflate(R.layout.fragment_analytics, null);
+        ListView listView = (ListView) rootView.findViewById(R.id.listView);
+
+
+        ArrayList<ScheduleCard> scheduleCardList = new ArrayList<>();
+        //add values to the test array
+        scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
+                "DESCRIPTION", "11/08/2018","3:30 AM - 4:30 PM",
+                "3:30 PM", "4:30 PM","LABEL" ,
+                "NOTE", 5, 300));
+        scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
+                "DESCRIPTION", "11/08/2018","3:30 AM - 4:30 PM",
+                "3:30 PM", "4:30 PM","LABEL" ,
+                "NOTE", 3, 180));
+        scheduleCardList.add(new ScheduleCard("Study", "Study",
+                "DESCRIPTION", "11/07/2018","3:30 AM - 4:30 PM",
+                "3:30 PM", "4:30 PM","LABEL" ,
+                "NOTE", 2, 120));
+        scheduleCardList.add(new ScheduleCard("Study", "Homework",
+                "DESCRIPTION", "10/07/2018","3:30 AM - 4:30 PM",
+                "3:30 PM", "4:30 PM","LABEL" ,
+                "NOTE", 2, 120));
+
+        //getting current date information
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        LocalDateTime now = LocalDateTime.now();
+        Calendar cal = Calendar.getInstance();
+        Date parsedDate = null;
+
+
+
+        //create a hashmap of each category with total hours for today
+        HashMap<String, Integer> today = new HashMap<String, Integer>();
+        for (ScheduleCard card : scheduleCardList) {
+            if (card.getCardDate().equals(df.format(cal.getTime()).trim())) //if date = today
+            {
+                Integer oldValue = today.get(card.getCardCategory());
+                if (oldValue == null) {oldValue = 0;}
+                //update the total hours of specific category
+                today.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
+            }
+        }
+        System.out.println(today);
+
+        //create a hashmap of each category with total hours for yesterday
+        HashMap<String, Integer> yesterday = new HashMap<String, Integer>();
+        cal.add(Calendar.DATE, -1);
+        for (ScheduleCard card : scheduleCardList) {
+            if (card.getCardDate().equals(df.format(cal.getTime()).trim())) //if date = yesterday
+            {
+                Integer oldValue = yesterday.get(card.getCardCategory());
+                if (oldValue == null) {oldValue = 0;}
+                //update the total hours of specific category
+                yesterday.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
+            }
+        }
+        System.out.println(yesterday);
+
+
+        //create a hashmap of each category with total hours for this month
+        HashMap<String, Integer> lastMonth = new HashMap<String, Integer>();
+        for (ScheduleCard card : scheduleCardList){
+            try{
+                parsedDate = df.parse(card.getCardDate());
+                System.out.println("parsedDate month: " + parsedDate.getMonth());
+            }
+            catch (Exception e) {
+                Log.e("Analytics: last month", "failed to parse date");
+            }
+            if (parsedDate.getMonth() + 1 == now.getMonthValue()) //+1 because getMonth starts at 0
+            {
+                Integer oldValue = yesterday.get(card.getCardCategory());
+                if (oldValue == null) {oldValue = 0;}
+                //update the total hours of specific category
+                lastMonth.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
+            }
+        }
+        System.out.println(lastMonth);
+
+
+
+        return rootView;
+
     }
+
+
+
+
+
+
 //    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 //    private static final String ARG_PARAM1 = "param1";
