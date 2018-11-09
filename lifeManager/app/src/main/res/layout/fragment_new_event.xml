@@ -30,7 +30,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:paddingLeft="5dp"
         android:text="@string/choose_an_area" />
 
@@ -115,11 +115,12 @@
         android:layout_below="@+id/editTextActivity"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:textSize="20sp"
+        android:layout_marginStart="54dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="0dp"
         android:paddingLeft="5dp"
-        android:text="@string/date" />
+        android:text="@string/date"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/enterDate"
@@ -151,11 +152,36 @@
         android:layout_below="@+id/line3"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:textSize="20sp"
+        android:layout_marginStart="54dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="5dp"
         android:paddingLeft="5dp"
-        android:text="@string/start" />
+        android:text="@string/start"
+        android:textSize="20sp" />
+
+
+    <ImageView
+        android:id="@+id/clock"
+        android:layout_width="40dp"
+        android:layout_height="64dp"
+        android:layout_alignBottom="@+id/start"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="-29dp"
+        android:paddingLeft="5dp"
+        android:src="@drawable/ic_schedule_black_24dp" />
+
+    <ImageView
+        android:id="@+id/Calandar"
+        android:layout_width="54dp"
+        android:layout_height="41dp"
+        android:layout_below="@+id/editTextActivity"
+        android:layout_alignLeft="@+id/editTextActivity"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="-8dp"
+        android:paddingLeft="1dp"
+        android:src="@drawable/ic_calandar" />
 
     <TextView
         android:id="@+id/enterStart"
@@ -177,11 +203,12 @@
         android:layout_below="@+id/start"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:textSize="20sp"
+        android:layout_marginStart="56dp"
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="-3dp"
         android:paddingLeft="5dp"
-        android:text="@string/end" />
+        android:text="@string/end"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/enterEnd"
@@ -237,6 +264,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="18dp"
+        android:background="@drawable/ic_enter"
         android:text="Enter" />
 
 </RelativeLayout>
