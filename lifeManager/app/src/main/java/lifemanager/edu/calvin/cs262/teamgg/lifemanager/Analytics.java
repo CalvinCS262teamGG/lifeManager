@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,6 +25,7 @@ import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 
 ///**
@@ -37,6 +40,9 @@ public class Analytics extends Fragment {
 
     public static ArrayList<ScheduleCard> analyticsCardList = new ArrayList<>();
 
+    private TextView todayText;
+    private TextView yesterdayText;
+    private TextView thisMonthText;
 
     public Analytics() {
 
@@ -54,17 +60,22 @@ public class Analytics extends Fragment {
         //like if the class is HomeFragment it should have R.layout.home_fragment
         //if it is DashboardFragment it should have R.layout.fragment_dashboard
         View rootView = inflater.inflate(R.layout.fragment_analytics, null);
-        ListView listView = (ListView) rootView.findViewById(R.id.listView);
+//        ListView listView = (ListView) rootView.findViewById(R.id.listView);
+
+        todayText = rootView.findViewById(R.id.today);
+        yesterdayText = rootView.findViewById(R.id.yesterday);
+        thisMonthText = rootView.findViewById(R.id.thisMonth);
+
 
 
         ArrayList<ScheduleCard> scheduleCardList = new ArrayList<>();
         //add values to the test array
         scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
-                "DESCRIPTION", "11/08/2018","3:30 AM - 4:30 PM",
+                "DESCRIPTION", "11/13/2018","3:30 AM - 4:30 PM",
                 "3:30 PM", "4:30 PM","LABEL" ,
                 "NOTE", 5, 300));
         scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
-                "DESCRIPTION", "11/08/2018","3:30 AM - 4:30 PM",
+                "DESCRIPTION", "11/12/2018","3:30 AM - 4:30 PM",
                 "3:30 PM", "4:30 PM","LABEL" ,
                 "NOTE", 3, 180));
         scheduleCardList.add(new ScheduleCard("Study", "Study",
@@ -83,56 +94,70 @@ public class Analytics extends Fragment {
         Date parsedDate = null;
 
 
+        String concatResults = "";
 
         //create a hashmap of each category with total hours for today
-        HashMap<String, Integer> today = new HashMap<String, Integer>();
+        HashMap<String, Integer> todayHash = new HashMap<String, Integer>();
         for (ScheduleCard card : scheduleCardList) {
             if (card.getCardDate().equals(df.format(cal.getTime()).trim())) //if date = today
             {
-                Integer oldValue = today.get(card.getCardCategory());
+                Integer oldValue = todayHash.get(card.getCardCategory());
                 if (oldValue == null) {oldValue = 0;}
                 //update the total hours of specific category
-                today.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
+                todayHash.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
             }
         }
-        System.out.println(today);
+        for (Map.Entry<String, Integer> entry : todayHash.entrySet()){
+            concatResults += entry.getKey() + " \ttotal hours: " + entry.getValue() + "\n";
+        }
+        todayText.setText(concatResults);
 
+        
+        concatResults = "";
         //create a hashmap of each category with total hours for yesterday
-        HashMap<String, Integer> yesterday = new HashMap<String, Integer>();
+        Map<String, Integer> yesterdayHash = new HashMap<String, Integer>();
         cal.add(Calendar.DATE, -1);
         for (ScheduleCard card : scheduleCardList) {
             if (card.getCardDate().equals(df.format(cal.getTime()).trim())) //if date = yesterday
             {
-                Integer oldValue = yesterday.get(card.getCardCategory());
+                Integer oldValue = yesterdayHash.get(card.getCardCategory());
                 if (oldValue == null) {oldValue = 0;}
                 //update the total hours of specific category
-                yesterday.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
+                yesterdayHash.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
             }
         }
-        System.out.println(yesterday);
+        for (Map.Entry<String, Integer> entry : yesterdayHash.entrySet()){
+            concatResults += entry.getKey() + " \ttotal hours: " + entry.getValue() + "\n";
+
+        }
+        yesterdayText.setText(concatResults);
 
 
+
+
+        concatResults = "";
         //create a hashmap of each category with total hours for this month
-        HashMap<String, Integer> lastMonth = new HashMap<String, Integer>();
+        HashMap<String, Integer> thisMonthHash = new HashMap<String, Integer>();
         for (ScheduleCard card : scheduleCardList){
             try{
                 parsedDate = df.parse(card.getCardDate());
-                System.out.println("parsedDate month: " + parsedDate.getMonth());
+                //System.out.println("parsedDate month: " + parsedDate.getMonth());
             }
             catch (Exception e) {
                 Log.e("Analytics: last month", "failed to parse date");
             }
             if (parsedDate.getMonth() + 1 == now.getMonthValue()) //+1 because getMonth starts at 0
             {
-                Integer oldValue = yesterday.get(card.getCardCategory());
+                Integer oldValue = yesterdayHash.get(card.getCardCategory());
                 if (oldValue == null) {oldValue = 0;}
                 //update the total hours of specific category
-                lastMonth.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
+                thisMonthHash.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
             }
         }
-        System.out.println(lastMonth);
-
-
+        for (Map.Entry<String, Integer> entry : thisMonthHash.entrySet()){
+            concatResults += entry.getKey() + " \ttotal hours: " + entry.getValue() + "\n";
+        }
+        thisMonthText.setText(concatResults);
 
         return rootView;
 

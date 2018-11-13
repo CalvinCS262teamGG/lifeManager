@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,9 +13,70 @@
         <!--android:layout_centerVertical="true"-->
         <!--android:text="@string/analyticst" /> -->
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <TextView
+    android:id="@+id/todayTextView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Today"
+    android:textSize="24sp"
+    />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/today"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/todayTextView"/>
+
+    <TextView
+        android:id="@+id/yesterdayTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/today"
+        android:text="Yesterday"
+        android:textSize="24sp"
+        />
+    <TextView
+        android:id="@+id/yesterday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yesterdayTextView"/>
+    <TextView
+        android:id="@+id/thisMonthTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/yesterday"
+        android:text="This Month"
+        android:textSize="24sp"
+        />
+    <TextView
+        android:id="@+id/thisMonth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thisMonthTextView"/>
+
+    <!--<ListView-->
+        <!--android:id="@+id/todayListView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/todayTextView"-->
+    <!--/>-->
+
+
+    <!--<TextView-->
+        <!--android:id="@+id/yesterdayTextView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/todayListView"-->
+        <!--android:text="Yesterday"-->
+        <!--android:textSize="24sp"-->
+        <!--/>-->
+
+    <!--<ListView-->
+        <!--android:id="@+id/yesterdayListView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/yesterdayTextView"-->
+        <!--/>-->
+
+
+</RelativeLayout>
