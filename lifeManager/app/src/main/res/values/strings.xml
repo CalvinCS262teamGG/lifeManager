@@ -27,4 +27,8 @@
     <string name="categoryText">Exercise</string>
     <string name="descriptionText">Self-development</string>
     <string name="timeText">7:30 AM 8:30 AM</string>
+    <string name="action_contact">Contact</string>
+    <string name="action_order">Order</string>
+    <string name="action_status">Status</string>
+    <string name="action_favorites">Favorites</string>
 </resources>
