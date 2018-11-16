@@ -112,7 +112,7 @@ public class Analytics extends Fragment {
         }
         todayText.setText(concatResults);
 
-        
+
         concatResults = "";
         //create a hashmap of each category with total hours for yesterday
         Map<String, Integer> yesterdayHash = new HashMap<String, Integer>();
