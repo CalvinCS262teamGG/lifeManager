@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+
+    android:background="@color/colorPrimary"
     >
 
     <TextView
@@ -16,7 +18,8 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="25sp"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="3dp"/>
+        android:layout_marginVertical="3dp"
+        android:textColor="@color/colorText"/>
 
     <TextView
         android:id="@+id/itemDescription"
@@ -27,6 +30,7 @@
         android:layout_alignParentLeft="true"
         android:text="@string/descriptionText"
         android:layout_marginHorizontal="10dp"
+        android:textColor="@color/colorAccent"
         android:layout_marginVertical="3dp"
         />
 
@@ -39,6 +43,7 @@
         android:layout_alignParentLeft="true"
         android:text="@string/timeText"
         android:layout_marginHorizontal="10dp"
+        android:textColor="@color/colorAccent"
         android:layout_marginVertical="3dp"
         />
 
@@ -48,9 +53,11 @@
         android:layout_below="@+id/itemTime"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:text="Here we are today, looking at a beautiful app. This popup will ideally have enough stuff to at least fill about a third of the screen. Perhaps some analytics and maybe detailed descriptions. This text here is just to see what it might look like. Exciting isn't it, to know that you are one of the few that will ever read or even see this small bit of literature. Thank you and goodbye."
+        android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="3dp"
-        />
+        android:layout_marginBottom="3dp"
+        android:text="Here we are today, looking at a beautiful app. This popup will ideally have enough stuff to at least fill about a third of the screen. Perhaps some analytics and maybe detailed descriptions. This text here is just to see what it might look like. Exciting isn't it, to know that you are one of the few that will ever read or even see this small bit of literature. Thank you and goodbye."
+        android:textColor="@color/colorAccent" />
 
 </RelativeLayout>
