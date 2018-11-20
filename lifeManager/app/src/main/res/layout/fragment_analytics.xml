@@ -1,16 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Analytics">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/analyticst" />
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:text="@string/analyticst" /> -->
 
-</FrameLayout>
+    <TextView
+    android:id="@+id/todayTextView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:padding="5dp"
+    android:text="Today"
+    android:textSize="24sp"
+    />
+
+    <TextView
+        android:id="@+id/today"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/todayTextView"
+        android:padding="5dp"/>
+
+    <TextView
+        android:id="@+id/yesterdayTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/today"
+        android:padding="5dp"
+        android:text="Yesterday"
+        android:textSize="24sp"
+        />
+    <TextView
+        android:id="@+id/yesterday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yesterdayTextView"
+        android:padding="5dp"/>
+    <TextView
+        android:id="@+id/thisMonthTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/yesterday"
+        android:padding="5dp"
+        android:text="This Month"
+        android:textSize="24sp"
+        />
+    <TextView
+        android:id="@+id/thisMonth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thisMonthTextView"
+        android:padding="5dp"/>
+
+    <!--<ListView-->
+        <!--android:id="@+id/todayListView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/todayTextView"-->
+    <!--/>-->
+
+
+    <!--<TextView-->
+        <!--android:id="@+id/yesterdayTextView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/todayListView"-->
+        <!--android:text="Yesterday"-->
+        <!--android:textSize="24sp"-->
+        <!--/>-->
+
+    <!--<ListView-->
+        <!--android:id="@+id/yesterdayListView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/yesterdayTextView"-->
+        <!--/>-->
+
+
+</RelativeLayout>
