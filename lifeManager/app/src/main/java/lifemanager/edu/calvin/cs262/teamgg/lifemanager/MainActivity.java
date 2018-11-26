@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment = null;
-
             switch (item.getItemId()) {
                 case R.id.navigation_schedule:
                     fragment = new ScheduleFragment();

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,7 +34,9 @@ public class ScheduleFragment extends Fragment {
     EditText titleText;
     DialogFragment newFragment;
 
+    public ScheduleFragment() {
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +49,7 @@ public class ScheduleFragment extends Fragment {
 
         //initializing objects
 //        ArrayList<ScheduleCard> scheduleCardList = new ArrayList<>();
-        ListView listView = (ListView) rootView.findViewById(R.id.listView);
+        ListView listView = rootView.findViewById(R.id.listView);
 
         //adding some values to our list
 //        scheduleCardList.add(new ScheduleCard("1", "Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM","LABEL", "note"));
@@ -60,9 +63,12 @@ public class ScheduleFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                openDetails(position);
+                Fragment editFragment = EditCardFragment.newInstance(position);
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, editFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
-
         });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -113,14 +119,14 @@ public class ScheduleFragment extends Fragment {
         Dialog editDialog = new Dialog(getContext());
         editDialog.setContentView(R.layout.fragment_new_event);
 
-        titleText = (EditText) editDialog.findViewById(R.id.editTextTitle);
+        titleText = editDialog.findViewById(R.id.editTextTitle);
 
-        pickDate = (TextView) editDialog.findViewById(R.id.enterDate);
-        pickStartTime = (TextView) editDialog.findViewById(R.id.enterStart);
-        pickEndTime = (TextView) editDialog.findViewById(R.id.enterEnd);
-        Button enterButton = (Button) editDialog.findViewById(R.id.enterButton);
+        pickDate = editDialog.findViewById(R.id.enterDate);
+        pickStartTime = editDialog.findViewById(R.id.enterStart);
+        pickEndTime = editDialog.findViewById(R.id.enterEnd);
+        Button enterButton = editDialog.findViewById(R.id.enterButton);
 
-        RadioGroup rg = (RadioGroup) editDialog.findViewById(R.id.eventCategory);
+        RadioGroup rg = editDialog.findViewById(R.id.eventCategory);
 
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -222,11 +228,15 @@ public class ScheduleFragment extends Fragment {
             }
 
         });
-
         editDialog.show();
-
     }
 
+    private boolean loadFragment(Fragment fragment) {
+        //switching fragment
+        if (fragment != null) {
 
-
+            return true;
+        }
+        return false;
+    }
 }
