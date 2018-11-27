@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         Log.d(TAG, " currentDate" +  currentDate);
         Log.d(TAG, "dirPath" + dirPath);
+        File[] listFile = getFilesDir().listFiles();
+        Log.d(TAG, "listFiles!!" + listFile.toString());
+
 
 
         File file = new File("/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files");
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             } catch (IOException e) {}
         } else {
             readSchedule();
+            myScheduleCardList = myScheduleCardList;
         }
 //        myScheduleCardList.add(new ScheduleCard("Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM", "7:30 AM", "8:30 AM","LABEL", "note"));
 //        myScheduleCardList.add(new ScheduleCard("Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM", "7:30 AM", "8:30 AM","LABEL", "note"));

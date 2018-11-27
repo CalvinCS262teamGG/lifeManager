@@ -39,9 +39,22 @@ public class newEvent extends Fragment implements View.OnClickListener {
     private String endTime;
     private String label;
     private String note;
+    private static int position;
 
     public newEvent() {
 
+    }
+
+    public static newEvent newEventInstance(int cardPosition) {
+        position = cardPosition;
+        newEvent myEvent = new newEvent();
+
+        // Supply position input as argument
+        Bundle args = new Bundle();
+        args.putInt("position", position);
+        myEvent.setArguments(args);
+
+        return myEvent;
     }
 
     EditText titleText;
