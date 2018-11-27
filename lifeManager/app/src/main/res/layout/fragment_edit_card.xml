@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".newEvent">
 
-    <!-- TODO: Update blank fragment layout -->
     <EditText
         android:id="@+id/editTextTitle"
         android:layout_width="wrap_content"
@@ -221,9 +220,17 @@
         android:id="@+id/enterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/deleteButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="135dp"
         android:text="Enter" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/enterButton"
+        android:layout_alignStart="@+id/enterButton"
+        android:text="Delete"/>
 
 </RelativeLayout>

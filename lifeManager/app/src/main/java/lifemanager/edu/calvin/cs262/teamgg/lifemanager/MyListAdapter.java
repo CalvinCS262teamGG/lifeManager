@@ -2,7 +2,6 @@ package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,7 +32,6 @@ import java.util.List;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.newEvent.currentDate;
 
 
 //we need to extend the ArrayAdapter class as we are building an adapter
@@ -78,7 +76,7 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
         TextView textViewCategory = myview.findViewById(R.id.itemCategory);
         TextView textViewDescription = myview.findViewById(R.id.itemDescription);
         TextView textViewTime = myview.findViewById(R.id.itemTime);
-        final TextView textViewOptions = myview.findViewById(R.id.textViewOptions);
+//        final TextView textViewOptions = myview.findViewById(R.id.textViewOptions);
 
 
         //getting the scheduleCard of the specified position
@@ -91,42 +89,42 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
 
 
 
-        textViewOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            //open the options menu
-                //openOptions(scheduleCardList.indexOf(scheduleCard));
-
-            PopupMenu popup = new PopupMenu(getContext(), textViewOptions);
-
-            popup.inflate(R.menu.card_menu);
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.action_view:
-//                            openDetails(position);
-                            break;
-                        case R.id.action_edit:
-//                            ScheduleFragment.editCard(position);
-                            break;
-                        case R.id.action_share:
-                            //shareCard(position);
-                            break;
-                        case R.id.action_delete:
-                            deleteCard(position);
-                            break;
-                    }
-                    return false;
-                }
-            });
-
-            //displaying the popup
-            popup.show();
-
-            }
-
-        });
+//        textViewOptions.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//            //open the options menu
+//                //openOptions(scheduleCardList.indexOf(scheduleCard));
+//
+//            PopupMenu popup = new PopupMenu(getContext(), textViewOptions);
+//
+//            popup.inflate(R.menu.card_menu);
+//            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                @Override
+//                public boolean onMenuItemClick(MenuItem item) {
+//                    switch (item.getItemId()) {
+//                        case R.id.action_view:
+////                            openDetails(position);
+//                            break;
+//                        case R.id.action_edit:
+////                            ScheduleFragment.editCard(position);
+//                            break;
+//                        case R.id.action_share:
+//                            //shareCard(position);
+//                            break;
+//                        case R.id.action_delete:
+//                            deleteCard(position);
+//                            break;
+//                    }
+//                    return false;
+//                }
+//            });
+//
+//            //displaying the popup
+//            popup.show();
+//
+//            }
+//
+//        });
 
 
 

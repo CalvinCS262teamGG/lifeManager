@@ -18,19 +18,21 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.currentDate;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.newEvent.currentDate;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.selectedDate;
 
 
 public class ScheduleFragment extends Fragment {
 
-    String categoryString;
-    TextView pickDate, pickStartTime, pickEndTime;
+    String categoryString, newDay;
+    TextView pickDate, pickStartTime, pickEndTime, dateText;
     EditText titleText;
     DialogFragment newFragment;
 
@@ -38,14 +40,44 @@ public class ScheduleFragment extends Fragment {
 
     }
 
+    public static ScheduleFragment newInstance(String date) {
+
+        ScheduleFragment mySchedule = new ScheduleFragment();
+
+        // Supply position input as argument
+        Bundle args = new Bundle();
+        args.putString("selectedDate", date);
+        mySchedule.setArguments(args);
+
+        return mySchedule;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            newDay = getArguments().getString("selectedDate");
+            selectedDate = newDay;
+        }
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         ((MainActivity) getActivity()).setActionBarTitle("Schedule");
 
-        View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
 
+
+        View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
+        dateText = rootView.findViewById(R.id.pickDateText);
+
+        if (selectedDate.equals(currentDate)) {
+            dateText.setText(selectedDate);
+        }
+
+        dateText.setText(currentDate);
 
         //initializing objects
 //        ArrayList<ScheduleCard> scheduleCardList = new ArrayList<>();
@@ -80,6 +112,17 @@ public class ScheduleFragment extends Fragment {
                 return false;
             }
         });
+
+        dateText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment newDateFragment = new DatePickerFragment(dateText);
+                newDateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+            }
+        });
+
+
+
 
         return rootView;
     }
@@ -191,43 +234,6 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
-        enterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("enterButton", "ENTER PRESSED");
-//                String title = titleText.getText().toString() ;
-////                String category;
-//                String category = categoryString;
-////                String date;
-//                String time = (pickStartTime.getText() + " - " + pickEndTime.getText());
-//
-//                newEvent.time cardTime = new newEvent.time(pickStartTime.getText().toString(), pickEndTime.getText().toString());
-//
-//                String cardStart = cardTime.getCardStart();
-//                String cardEnd = cardTime.getCardEnd();
-//                int totalHr = cardTime.getTotalHr();
-//                int totalMin = cardTime.getTotalMin();
-//
-////                String label;
-////                String note;
-//                if (!title.equals("") & category != null) {
-//                    myScheduleCardList.add(new ScheduleCard(title, category, "Description", "October 9", time, cardStart, cardEnd, "LABEL", "note", totalHr, totalMin));
-//
-//                    Log.d(TAG, "pickStartTime" + pickStartTime.getText().toString() );
-//                    Log.d(TAG, "pickEndTime" + pickEndTime.getText().toString() );
-//
-//                    sortScheduleCard();
-//
-//                    WriteSchedule  ws = new WriteSchedule();
-//                    ws.writeSchedule();
-//                }
-//                FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                ft.detach(this).attach(this).commit();
-//                enterData();
-
-            }
-
-        });
         editDialog.show();
     }
 

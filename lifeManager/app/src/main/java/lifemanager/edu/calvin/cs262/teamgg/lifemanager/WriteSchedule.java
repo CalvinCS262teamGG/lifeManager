@@ -12,9 +12,9 @@ import java.io.FileWriter;
 import java.io.Writer;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.currentDate;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.jsonFile;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.newEvent.currentDate;
 
 /*
  * write arrayList of myScheduleCardList as a JSON format

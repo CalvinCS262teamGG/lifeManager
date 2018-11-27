@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public static String jsonFile;
 
-    String currentDate;
+    public static String currentDate, selectedDate;
 
     @SuppressLint("SdCardPath")
     @Override
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         format.setTimeZone(cal.getTimeZone());
 
         currentDate = format.format(cal.getTime());
+        selectedDate = currentDate;
         String dirPath = getFilesDir().getAbsolutePath();
         jsonFile = "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + currentDate + ".json";
 
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fos.close();
             } catch (IOException e) {}
         } else {
-            readSchedule();
+            readSchedule(currentDate);
         }
 //        myScheduleCardList.add(new ScheduleCard("Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM", "7:30 AM", "8:30 AM","LABEL", "note"));
 //        myScheduleCardList.add(new ScheduleCard("Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM", "7:30 AM", "8:30 AM","LABEL", "note"));
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onResume() {
         super.onResume();
         myScheduleCardList.clear();
-        readSchedule();
+        readSchedule(selectedDate);
     }
 
     @Override
@@ -110,11 +111,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return loadFragment(fragment);
     }
 
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
+    public void setActionBarTitle(String title) { getSupportActionBar().setTitle(title); }
 
-    private boolean loadFragment(Fragment fragment) {
+    public boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
             getSupportFragmentManager()
@@ -126,11 +125,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-    private void readSchedule() {
+    public void readSchedule(String d) {
         String res = null;
         InputStream inputStream = null;
         try{
-            inputStream = openFileInput(currentDate+".json");
+            inputStream = openFileInput(d + ".json");
             InputStreamReader isr = new InputStreamReader(inputStream);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();

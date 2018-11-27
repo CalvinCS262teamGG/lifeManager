@@ -25,10 +25,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.currentDate;
 
 public class newEvent extends Fragment implements View.OnClickListener {
-
-    private ArrayList<ScheduleCard> myScheduleCardList = MainActivity.myScheduleCardList;
 
     private String id;
     private EditText title;
@@ -57,15 +56,13 @@ public class newEvent extends Fragment implements View.OnClickListener {
         return myEvent;
     }
 
-    EditText titleText;
+    EditText titleText, activityText, labelText, noteText;
 
     TextView pickDate, pickStartTime, pickEndTime;
 
     RadioGroup rg;
 
     String categoryString;
-
-    static String currentDate;
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
@@ -76,14 +73,17 @@ public class newEvent extends Fragment implements View.OnClickListener {
 
         View rootView = inflater.inflate(R.layout.fragment_new_event, container, false);
 
-        titleText = (EditText) rootView.findViewById(R.id.editTextTitle);
+        titleText = rootView.findViewById(R.id.editTextTitle);
 
-        pickDate = (TextView) rootView.findViewById(R.id.enterDate);
-        pickStartTime = (TextView) rootView.findViewById(R.id.enterStart);
-        pickEndTime = (TextView) rootView.findViewById(R.id.enterEnd);
-        Button   enterButton = (Button) rootView.findViewById(R.id.enterButton);
+        pickDate = rootView.findViewById(R.id.enterDate);
+        pickStartTime = rootView.findViewById(R.id.enterStart);
+        pickEndTime = rootView.findViewById(R.id.enterEnd);
+        Button   enterButton = rootView.findViewById(R.id.enterButton);
+        activityText = rootView.findViewById(R.id.editTextActivity);
+        labelText = rootView.findViewById(R.id.editTextLabel);
+        noteText = rootView.findViewById(R.id.editTextNote);
 
-        rg = (RadioGroup) rootView.findViewById(R.id.eventCategory);
+        rg = rootView.findViewById(R.id.eventCategory);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -132,13 +132,13 @@ public class newEvent extends Fragment implements View.OnClickListener {
         DialogFragment newFragment;
         switch (view.getId()) {
             case R.id.enterDate:
-                    newFragment = new DatePickerFragment(pickDate);
-                    newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                newFragment = new DatePickerFragment(pickDate);
+                newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
                 break;
 
             case R.id.enterStart:
-                    newFragment = new TimePickerFragment(pickStartTime);
-                    newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+                newFragment = new TimePickerFragment(pickStartTime);
+                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
                 break;
 
             case R.id.enterEnd:
@@ -148,10 +148,12 @@ public class newEvent extends Fragment implements View.OnClickListener {
 
             case R.id.enterButton:
                 String title = titleText.getText().toString() ;
-//                String category;
                 String category = categoryString;
-//                String date;
+                String activity = labelText.getText().toString();
+                String label = labelText.getText().toString();
+                String note = noteText.getText().toString();
                 String time = (pickStartTime.getText() + " - " + pickEndTime.getText());
+                String date = pickDate.getText().toString();
 
                 time cardTime = new time(pickStartTime.getText().toString(), pickEndTime.getText().toString());
 
@@ -160,13 +162,8 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 int totalHr = cardTime.getTotalHr();
                 int totalMin = cardTime.getTotalMin();
 
-//                String label;
-//                String note;
                 if (!title.equals("") & category != null) {
-                    myScheduleCardList.add(new ScheduleCard(title, category, "Description", "October 9", time, cardStart, cardEnd, "LABEL", "note", totalHr, totalMin));
-
-                    Log.d(TAG, "pickStartTime" + pickStartTime.getText().toString() );
-                    Log.d(TAG, "pickEndTime" + pickEndTime.getText().toString() );
+                    MainActivity.myScheduleCardList.add(new ScheduleCard(title, category, activity, date, time, cardStart, cardEnd, label, note, totalHr, totalMin));
 
                     sortScheduleCard();
 
@@ -180,7 +177,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
     }
 
     // output the start and end time and the total hours and total mins for calculation of analytics
-    public class time {
+    public static class time {
 
         String cardStart, cardEnd;
         int totalHr, totalMin;
@@ -249,8 +246,8 @@ public class newEvent extends Fragment implements View.OnClickListener {
     }
 
     // sort the schedule card list
-    public void sortScheduleCard() {
-        Collections.sort(myScheduleCardList, new Comparator<ScheduleCard>(){
+    public static void sortScheduleCard() {
+        Collections.sort(MainActivity.myScheduleCardList, new Comparator<ScheduleCard>(){
 
             @Override
             public int compare(ScheduleCard s1, ScheduleCard s2) {

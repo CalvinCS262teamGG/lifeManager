@@ -72,4 +72,28 @@ public class ScheduleCard {
     public int getCardTotalHr() { return totalHr; }
 
     public int getCardTotalMin() { return totalMin; }
+
+    public void setCardTitle(String title) { this.title = title; }
+
+    public void setCardCategory(String category) { this.category = category;}
+
+    public void setCardDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCardDate(String date) { this.date = date; }
+
+    public void setCardTime(String time) { this.time = time; }
+
+    public void setCardStartTime(String startTime) { this.startTime = startTime; }
+
+    public void setCardEndTime(String endTime) { this.endTime = endTime; }
+
+    public void setCardLabel(String label) { this.label = label; }
+
+    public void setCardNote(String note) { this.note = note; }
+
+    public void setCardTotalHr(int totalHr) { this.totalHr = totalHr; }
+
+    public void setCardTotalMin(int totalMin) { this.totalMin = totalMin; }
 }
