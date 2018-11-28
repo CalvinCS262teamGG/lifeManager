@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,9 +20,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Calendar cal = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("MMddyyyy");
         format.setTimeZone(cal.getTimeZone());
+
 
         currentDate = format.format(cal.getTime());
         selectedDate = currentDate;
@@ -71,8 +76,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         } else {
             readSchedule(currentDate);
         }
-//        myScheduleCardList.add(new ScheduleCard("Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM", "7:30 AM", "8:30 AM","LABEL", "note"));
-//        myScheduleCardList.add(new ScheduleCard("Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM", "7:30 AM", "8:30 AM","LABEL", "note"));
 
     }
 
@@ -96,7 +99,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_schedule:
-                    fragment = new ScheduleFragment();
+                    Calendar cal = Calendar.getInstance();
+                    DateFormat format = DateFormat.getDateInstance(DateFormat.FULL);
+                    format.setTimeZone(cal.getTimeZone());
+
+                    String tempDate = format.format(cal.getTime());
+
+                    fragment = ScheduleFragment.newInstance(tempDate);
                     break;
 
                 case R.id.navigation_new_event:
@@ -162,4 +171,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         } catch (Exception e) {}
     }
 
+    public void reloadSchedule(View view) {
+        myScheduleCardList.clear();
+        TextView text = findViewById(R.id.pickDateText);
+        selectedDate = text.getText().toString();
+
+        readSchedule(ScheduleFragment.getDateFromString(selectedDate));
+        WriteSchedule ws = new WriteSchedule();
+        ws.writeSchedule();
+
+        loadFragment(ScheduleFragment.newInstance(selectedDate));
+    }
 }

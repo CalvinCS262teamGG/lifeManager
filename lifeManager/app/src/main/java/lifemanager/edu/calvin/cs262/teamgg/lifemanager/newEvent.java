@@ -155,6 +155,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 String time = (pickStartTime.getText() + " - " + pickEndTime.getText());
                 String date = pickDate.getText().toString();
 
+                Log.d("DATE", date);
                 time cardTime = new time(pickStartTime.getText().toString(), pickEndTime.getText().toString());
 
                 String cardStart = cardTime.getCardStart();

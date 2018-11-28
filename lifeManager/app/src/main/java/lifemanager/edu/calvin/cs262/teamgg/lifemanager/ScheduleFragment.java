@@ -31,7 +31,7 @@ import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.selec
 
 public class ScheduleFragment extends Fragment {
 
-    String categoryString, newDay;
+    String categoryString, givenDate, simpleDate;
     TextView pickDate, pickStartTime, pickEndTime, dateText;
     EditText titleText;
     DialogFragment newFragment;
@@ -56,11 +56,10 @@ public class ScheduleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            newDay = getArguments().getString("selectedDate");
-            selectedDate = newDay;
+            givenDate = getArguments().getString("selectedDate");
+            simpleDate = getDateFromString(givenDate);
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,11 +72,7 @@ public class ScheduleFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
         dateText = rootView.findViewById(R.id.pickDateText);
 
-        if (selectedDate.equals(currentDate)) {
-            dateText.setText(selectedDate);
-        }
-
-        dateText.setText(currentDate);
+        dateText.setText(givenDate);
 
         //initializing objects
 //        ArrayList<ScheduleCard> scheduleCardList = new ArrayList<>();
@@ -212,7 +207,6 @@ public class ScheduleFragment extends Fragment {
             public void onClick(View view) {
                 newFragment = new DatePickerFragment(pickDate);
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
-                Log.d("pickDate", "DATE PICKED");
             }
 
         });
@@ -234,15 +228,63 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
+
         editDialog.show();
     }
 
-    private boolean loadFragment(Fragment fragment) {
-        //switching fragment
-        if (fragment != null) {
+    public static String getDateFromString(String givenDate) {
+        givenDate = givenDate.substring(givenDate.indexOf(" ") + 1);
+        //November 27, 2018
+        String dayYear = givenDate.substring(givenDate.indexOf(" ") + 1);
+        //27, 2018
+        String year = dayYear.substring(dayYear.indexOf(" ") + 1);
 
-            return true;
+        String day = dayYear.substring(0, dayYear.indexOf(","));
+
+        String month = givenDate.substring(0, givenDate.indexOf(" "));
+
+        switch (month) {
+            case "January":
+                month = "1";
+                break;
+            case "February":
+                month = "2";
+                break;
+            case "March":
+                month = "3";
+                break;
+            case "April":
+                month = "4";
+                break;
+            case "May":
+                month = "5";
+                break;
+            case "June":
+                month = "6";
+                break;
+            case "July":
+                month = "7";
+                break;
+            case "August":
+                month = "8";
+                break;
+            case "September":
+                month = "9";
+                break;
+            case "October":
+                month = "10";
+                break;
+            case "November":
+                month = "11";
+                break;
+            case "December":
+                month = "12";
+                break;
         }
-        return false;
+
+        givenDate = year + month + day;
+
+        return givenDate;
     }
+
 }
