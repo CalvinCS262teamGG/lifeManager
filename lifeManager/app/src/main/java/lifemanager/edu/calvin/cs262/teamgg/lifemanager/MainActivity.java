@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onResume() {
         super.onResume();
         myScheduleCardList.clear();
-        readSchedule(simpleSelectedDate);
+        readSchedule(simpleCurrentDate);
     }
 
     @Override

@@ -210,6 +210,7 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 //removing the item
+                String date = myScheduleCardList.get(position).getCardDate();
                 myScheduleCardList.remove(position);
 
                 //reloading the list
@@ -217,7 +218,7 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
                 ws.writeSchedule(myScheduleCardList, simpleCurrentDate);
                 newEvent.sortScheduleCard();
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new ScheduleFragment());
+                fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment.newInstance(date));
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
