@@ -155,6 +155,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 String time = (pickStartTime.getText() + " - " + pickEndTime.getText());
                 String date = pickDate.getText().toString();
 
+
                 Log.d("DATE", date);
                 time cardTime = new time(pickStartTime.getText().toString(), pickEndTime.getText().toString());
 
@@ -169,7 +170,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
                     sortScheduleCard();
 
                     WriteSchedule  ws = new WriteSchedule();
-                    ws.writeSchedule();
+                    ws.writeSchedule(MainActivity.myScheduleCardList, ScheduleFragment.getDateFromString(date));
                 }
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(this).attach(this).commit();
@@ -249,7 +250,6 @@ public class newEvent extends Fragment implements View.OnClickListener {
     // sort the schedule card list
     public static void sortScheduleCard() {
         Collections.sort(MainActivity.myScheduleCardList, new Comparator<ScheduleCard>(){
-
             @Override
             public int compare(ScheduleCard s1, ScheduleCard s2) {
 

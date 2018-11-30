@@ -72,6 +72,12 @@ public class ScheduleFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
         dateText = rootView.findViewById(R.id.pickDateText);
 
+        Calendar cal = Calendar.getInstance();
+        DateFormat format = DateFormat.getDateInstance(DateFormat.FULL);
+        format.setTimeZone(cal.getTimeZone());
+
+        currentDate = format.format(cal.getTime());
+
         dateText.setText(givenDate);
 
         //initializing objects
@@ -205,6 +211,7 @@ public class ScheduleFragment extends Fragment {
         pickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currentDate = pickDate.getText().toString();
                 newFragment = new DatePickerFragment(pickDate);
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
@@ -281,9 +288,7 @@ public class ScheduleFragment extends Fragment {
                 month = "12";
                 break;
         }
-
-        givenDate = year + month + day;
-
+        givenDate = month + day + year;
         return givenDate;
     }
 

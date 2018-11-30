@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.simpleCurrentDate;
 
 
 public class EditCardFragment extends android.support.v4.app.Fragment {
@@ -183,7 +184,7 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
                 newEvent.sortScheduleCard();
 
                 WriteSchedule  ws = new WriteSchedule();
-                ws.writeSchedule();
+                ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(pickDate.getText().toString()));
                 }
         });
 
@@ -213,7 +214,7 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
 
                 //reloading the list
                 WriteSchedule  ws = new WriteSchedule();
-                ws.writeSchedule();
+                ws.writeSchedule(myScheduleCardList, simpleCurrentDate);
                 newEvent.sortScheduleCard();
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, new ScheduleFragment());

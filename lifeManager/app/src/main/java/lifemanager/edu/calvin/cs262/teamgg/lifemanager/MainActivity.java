@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public static String jsonFile;
 
-    public static String currentDate, selectedDate;
+    public static String currentDate, selectedDate, simpleCurrentDate, simpleSelectedDate;
 
     @SuppressLint("SdCardPath")
     @Override
@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         format.setTimeZone(cal.getTimeZone());
 
 
-        currentDate = format.format(cal.getTime());
-        selectedDate = currentDate;
+        simpleCurrentDate = format.format(cal.getTime());
+        simpleSelectedDate = simpleCurrentDate;
         String dirPath = getFilesDir().getAbsolutePath();
-        jsonFile = "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + currentDate + ".json";
+        jsonFile = getPath(simpleCurrentDate);
 
-        Log.d(TAG, " currentDate" +  currentDate);
+        Log.d(TAG, " currentDate" +  simpleCurrentDate);
         Log.d(TAG, "dirPath" + dirPath);
 
 
@@ -74,9 +74,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fos.close();
             } catch (IOException e) {}
         } else {
-            readSchedule(currentDate);
+            readSchedule(simpleCurrentDate);
         }
-
     }
 
 
@@ -84,14 +83,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onStop() {
         super.onStop();
         myScheduleCardList.clear();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         myScheduleCardList.clear();
-        readSchedule(selectedDate);
+        readSchedule(simpleSelectedDate);
     }
 
     @Override
@@ -168,18 +166,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 myScheduleCardList.add(new ScheduleCard(title, category, description, date, time, startTime, endTime,label, note, totalHr, totalMin));
                 Log.d(TAG, "save!" + title );
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            Log.e("readSchedule", e.toString());
+        }
     }
 
     public void reloadSchedule(View view) {
-        myScheduleCardList.clear();
+        WriteSchedule ws = new WriteSchedule();
+
+        Log.d("EEEEEEEEEEEEEEEEEEEEEEE", "we made it?");
+        ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(currentDate));
         TextView text = findViewById(R.id.pickDateText);
         selectedDate = text.getText().toString();
+        myScheduleCardList.clear();
 
         readSchedule(ScheduleFragment.getDateFromString(selectedDate));
-        WriteSchedule ws = new WriteSchedule();
-        ws.writeSchedule();
 
         loadFragment(ScheduleFragment.newInstance(selectedDate));
+    }
+
+    public static String getPath(String date) {
+        return "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + date + ".json";
     }
 }

@@ -126,47 +126,45 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
 //
 //        });
 
-
-
         //finally returning the view
         return myview;
     }
 
 
     //this method will remove the item from the list
-    public void deleteCard(final int position) {
-        //Creating an alert dialog to confirm the deletion
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.activity);
-        builder.setTitle("Are you sure you want to delete this?");
-
-        //if the response is positive in the alert
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                //removing the item
-                myScheduleCardList.remove(position);
-
-                //reloading the list
-                notifyDataSetChanged();
-
-                WriteSchedule  ws = new WriteSchedule();
-                ws.writeSchedule();
-            }
-        });
-
-        //if response is negative nothing is being done
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-
-        //creating and displaying the alert dialog
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
+//    public void deleteCard(final int position) {
+//        //Creating an alert dialog to confirm the deletion
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this.activity);
+//        builder.setTitle("Are you sure you want to delete this?");
+//
+//        //if the response is positive in the alert
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                //removing the item
+//                myScheduleCardList.remove(position);
+//
+//                //reloading the list
+//                notifyDataSetChanged();
+//
+//                WriteSchedule  ws = new WriteSchedule();
+//                ws.writeSchedule();
+//            }
+//        });
+//
+//        //if response is negative nothing is being done
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//            }
+//        });
+//
+//        //creating and displaying the alert dialog
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
+//    }
 
 //    private void openDetails(final int position) {
 //        ScheduleCard scheduleCard = scheduleCardList.get(position);
