@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void reloadSchedule(View view) {
         WriteSchedule ws = new WriteSchedule();
 
-        Log.d("EEEEEEEEEEEEEEEEEEEEEEE", "we made it?");
         ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(currentDate));
         TextView text = findViewById(R.id.pickDateText);
         selectedDate = text.getText().toString();

@@ -85,8 +85,7 @@ public class WriteSchedule {
 
             try {
                 Writer output = null;
-                Log.d("RRRRRRRRRRRRRRRRR", "did we get to the writeschedule?");
-                File file = new File(MainActivity.getPath(ScheduleFragment.getDateFromString(myDate)));
+                File file = new File(MainActivity.getPath(myDate));
 
                 output = new BufferedWriter(new FileWriter(file));
                 output.write(obj.toString());
