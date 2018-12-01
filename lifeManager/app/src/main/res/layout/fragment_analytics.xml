@@ -15,14 +15,13 @@
         <!--android:text="@string/analyticst" /> -->
 
     <TextView
-    android:id="@+id/todayTextView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+        android:id="@+id/todayTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textColor="@color/colorText"
         android:padding="5dp"
-    android:text="Today"
-    android:textSize="24sp"
-    />
+        android:text="Today"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/today"

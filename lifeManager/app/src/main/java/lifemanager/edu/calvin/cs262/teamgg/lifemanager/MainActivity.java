@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,9 +20,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public static String jsonFile;
 
-    String currentDate;
+    public static String currentDate, selectedDate, simpleCurrentDate, simpleSelectedDate;
 
     @SuppressLint("SdCardPath")
     @Override
@@ -46,11 +50,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("MMddyyyy");
         format.setTimeZone(cal.getTimeZone());
 
-        currentDate = format.format(cal.getTime());
-        String dirPath = getFilesDir().getAbsolutePath();
-        jsonFile = "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + currentDate + ".json";
 
-        Log.d(TAG, " currentDate" +  currentDate);
+        simpleCurrentDate = format.format(cal.getTime());
+        simpleSelectedDate = simpleCurrentDate;
+        String dirPath = getFilesDir().getAbsolutePath();
+        jsonFile = getPath(simpleCurrentDate);
+
+        Log.d(TAG, " currentDate" +  simpleCurrentDate);
         Log.d(TAG, "dirPath" + dirPath);
 
 
@@ -68,11 +74,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fos.close();
             } catch (IOException e) {}
         } else {
-            readSchedule();
+            readSchedule(simpleCurrentDate);
         }
-//        myScheduleCardList.add(new ScheduleCard("Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM", "7:30 AM", "8:30 AM","LABEL", "note"));
-//        myScheduleCardList.add(new ScheduleCard("Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM", "7:30 AM", "8:30 AM","LABEL", "note"));
-
     }
 
 
@@ -80,23 +83,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onStop() {
         super.onStop();
         myScheduleCardList.clear();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         myScheduleCardList.clear();
-        readSchedule();
+        readSchedule(simpleCurrentDate);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment = null;
-
             switch (item.getItemId()) {
                 case R.id.navigation_schedule:
-                    fragment = new ScheduleFragment();
+                    Calendar cal = Calendar.getInstance();
+                    DateFormat format = DateFormat.getDateInstance(DateFormat.FULL);
+                    format.setTimeZone(cal.getTimeZone());
+
+                    String tempDate = format.format(cal.getTime());
+
+                    fragment = ScheduleFragment.newInstance(tempDate);
                     break;
 
                 case R.id.navigation_new_event:
@@ -111,11 +118,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return loadFragment(fragment);
     }
 
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
+    public void setActionBarTitle(String title) { getSupportActionBar().setTitle(title); }
 
-    private boolean loadFragment(Fragment fragment) {
+    public boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
             getSupportFragmentManager()
@@ -127,11 +132,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-    private void readSchedule() {
+    public void readSchedule(String d) {
         String res = null;
         InputStream inputStream = null;
         try{
-            inputStream = openFileInput(currentDate+".json");
+            inputStream = openFileInput(d + ".json");
             InputStreamReader isr = new InputStreamReader(inputStream);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -161,7 +166,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 myScheduleCardList.add(new ScheduleCard(title, category, description, date, time, startTime, endTime,label, note, totalHr, totalMin));
                 Log.d(TAG, "save!" + title );
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            Log.e("readSchedule", e.toString());
+        }
     }
 
+    public void reloadSchedule(View view) {
+        WriteSchedule ws = new WriteSchedule();
+
+        ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(currentDate));
+        TextView text = findViewById(R.id.pickDateText);
+        selectedDate = text.getText().toString();
+        myScheduleCardList.clear();
+
+        readSchedule(ScheduleFragment.getDateFromString(selectedDate));
+
+        loadFragment(ScheduleFragment.newInstance(selectedDate));
+    }
+
+    public static String getPath(String date) {
+        return "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + date + ".json";
+    }
 }
