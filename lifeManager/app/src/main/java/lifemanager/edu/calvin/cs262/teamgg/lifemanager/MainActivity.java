@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fos.close();
             } catch (IOException e) {}
         } else {
-            readSchedule(simpleCurrentDate);
+            readSchedule(simpleCurrentDate, myScheduleCardList);
         }
     }
 
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onResume() {
         super.onResume();
         myScheduleCardList.clear();
-        readSchedule(simpleCurrentDate);
+        readSchedule(simpleCurrentDate, myScheduleCardList);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-    public void readSchedule(String d) {
+    public static void readSchedule(String d, ArrayList<ScheduleCard> readList) {
         String res = null;
         InputStream inputStream = null;
         try{
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 int totalMin =  jsonArray.getJSONObject(i).getInt("totalMin");
 
 
-                myScheduleCardList.add(new ScheduleCard(title, category, description, date, time, startTime, endTime,label, note, totalHr, totalMin));
+                readList.add(new ScheduleCard(title, category, description, date, time, startTime, endTime,label, note, totalHr, totalMin));
                 Log.d(TAG, "save!" + title );
             }
         } catch (Exception e) {
@@ -173,13 +173,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public void reloadSchedule(View view) {
         WriteSchedule ws = new WriteSchedule();
-
-        ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(currentDate));
         TextView text = findViewById(R.id.pickDateText);
         selectedDate = text.getText().toString();
+        simpleSelectedDate = ScheduleFragment.getDateFromString(selectedDate);
+        String tempDate;
+
+        //First write schedule to our file at the day we're at
+        if (myScheduleCardList.size() > 0) {
+            tempDate = myScheduleCardList.get(0).getCardDate();
+            ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(tempDate));
+        }
+
         myScheduleCardList.clear();
 
-        readSchedule(ScheduleFragment.getDateFromString(selectedDate));
+        readSchedule(simpleSelectedDate, myScheduleCardList);
 
         loadFragment(ScheduleFragment.newInstance(selectedDate));
     }

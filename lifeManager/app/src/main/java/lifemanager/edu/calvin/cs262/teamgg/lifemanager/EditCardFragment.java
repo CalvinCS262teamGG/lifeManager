@@ -216,7 +216,7 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
                 //reloading the list
                 WriteSchedule  ws = new WriteSchedule();
                 ws.writeSchedule(myScheduleCardList, simpleCurrentDate);
-                newEvent.sortScheduleCard();
+
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment.newInstance(date));
                 fragmentTransaction.addToBackStack(null);

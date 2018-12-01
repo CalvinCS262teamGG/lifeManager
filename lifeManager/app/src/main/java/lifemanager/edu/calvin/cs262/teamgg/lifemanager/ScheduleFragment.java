@@ -32,6 +32,7 @@ import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.selec
 public class ScheduleFragment extends Fragment {
 
     String categoryString, givenDate, simpleDate;
+    public String previous;
     TextView pickDate, pickStartTime, pickEndTime, dateText;
     EditText titleText;
     DialogFragment newFragment;
@@ -104,15 +105,15 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-                editCard(position);
-
-                return false;
-            }
-        });
+//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                editCard(position);
+//
+//                return false;
+//            }
+//        });
 
         dateText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,115 +130,115 @@ public class ScheduleFragment extends Fragment {
     }
 
 
-    private void openDetails(final int position) {
-        ScheduleCard scheduleCard = myScheduleCardList.get(position);
-
-        Dialog popupDialog = new Dialog(getContext());
-        popupDialog.setContentView(R.layout.schedule_popup);
-
-        //getting the view elements of the popup from the view
-        TextView popupTextViewCategory = popupDialog.findViewById(R.id.itemCategory);
-        TextView popupTextViewDescription = popupDialog.findViewById(R.id.itemDescription);
-        TextView popupTextViewTime = popupDialog.findViewById(R.id.itemTime);
-
-        //adding values to the popup item
-        popupTextViewCategory.setText(scheduleCard.getCardTitle());
-        popupTextViewDescription.setText(scheduleCard.getCardCategory());
-        popupTextViewTime.setText(scheduleCard.getCardTime());
-
-        Window window = popupDialog.getWindow();
-
-        WindowManager.LayoutParams wlp = window.getAttributes();
-
-        wlp.gravity = Gravity.TOP;
-        wlp.y = 50;
-        popupDialog.show();
-
-    }
-
-
-    private void editCard(final int position) {
-        ScheduleCard scheduleCard = myScheduleCardList.get(position);
-
-
-        Dialog editDialog = new Dialog(getContext());
-        editDialog.setContentView(R.layout.fragment_new_event);
-
-        titleText = editDialog.findViewById(R.id.editTextTitle);
-
-        pickDate = editDialog.findViewById(R.id.enterDate);
-        pickStartTime = editDialog.findViewById(R.id.enterStart);
-        pickEndTime = editDialog.findViewById(R.id.enterEnd);
-        Button enterButton = editDialog.findViewById(R.id.enterButton);
-
-        RadioGroup rg = editDialog.findViewById(R.id.eventCategory);
-
-
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if ( i == R.id.direct) {
-                    categoryString = "Direct";
-                } else if (i == R.id.indirect) {
-                    categoryString = "Indirect";
-                } else if (i == R.id.personal) {
-                    categoryString = "Personal";
-                } else if (i == R.id.selfDev) {
-                    categoryString = "Self-development";
-                } else if (i == R.id.etc) {
-                    categoryString = "Etc";
-                }
-            }
-        });
-
-
-        Calendar cal = Calendar.getInstance();
-        DateFormat format = DateFormat.getDateInstance(DateFormat.FULL);
-        format.setTimeZone(cal.getTimeZone());
-
-        currentDate = format.format(cal.getTime());
-        pickDate.setText(currentDate);
-
-        String ampm = "";
-        String defTIme = (cal.get(Calendar.HOUR) == 0) ?"12":cal.get(Calendar.HOUR)+"";
-        if (cal.get(Calendar.AM_PM) == Calendar.AM) {
-            ampm = "AM";
-        } else if (cal.get(Calendar.AM_PM) == Calendar.PM) {
-            ampm = "PM";
-        }
-        pickStartTime.setText(defTIme +":" + String.format("%02d", cal.get(Calendar.MINUTE)) + " " + ampm );
-        pickEndTime.setText(defTIme +":" + String.format("%02d", cal.get(Calendar.MINUTE)) + " " + ampm);
-
-        pickDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentDate = pickDate.getText().toString();
-                newFragment = new DatePickerFragment(pickDate);
-                newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
-            }
-
-        });
-
-
-        pickStartTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newFragment = new TimePickerFragment(pickStartTime);
-                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
-            }
-        });
-
-        pickEndTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newFragment = new TimePickerFragment(pickEndTime);
-                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
-            }
-        });
-
-
-        editDialog.show();
-    }
+//    private void openDetails(final int position) {
+//        ScheduleCard scheduleCard = myScheduleCardList.get(position);
+//
+//        Dialog popupDialog = new Dialog(getContext());
+//        popupDialog.setContentView(R.layout.schedule_popup);
+//
+//        //getting the view elements of the popup from the view
+//        TextView popupTextViewCategory = popupDialog.findViewById(R.id.itemCategory);
+//        TextView popupTextViewDescription = popupDialog.findViewById(R.id.itemDescription);
+//        TextView popupTextViewTime = popupDialog.findViewById(R.id.itemTime);
+//
+//        //adding values to the popup item
+//        popupTextViewCategory.setText(scheduleCard.getCardTitle());
+//        popupTextViewDescription.setText(scheduleCard.getCardCategory());
+//        popupTextViewTime.setText(scheduleCard.getCardTime());
+//
+//        Window window = popupDialog.getWindow();
+//
+//        WindowManager.LayoutParams wlp = window.getAttributes();
+//
+//        wlp.gravity = Gravity.TOP;
+//        wlp.y = 50;
+//        popupDialog.show();
+//
+//    }
+//
+//
+//    private void editCard(final int position) {
+//        ScheduleCard scheduleCard = myScheduleCardList.get(position);
+//
+//
+//        Dialog editDialog = new Dialog(getContext());
+//        editDialog.setContentView(R.layout.fragment_new_event);
+//
+//        titleText = editDialog.findViewById(R.id.editTextTitle);
+//
+//        pickDate = editDialog.findViewById(R.id.enterDate);
+//        pickStartTime = editDialog.findViewById(R.id.enterStart);
+//        pickEndTime = editDialog.findViewById(R.id.enterEnd);
+//        Button enterButton = editDialog.findViewById(R.id.enterButton);
+//
+//        RadioGroup rg = editDialog.findViewById(R.id.eventCategory);
+//
+//
+//        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//                if ( i == R.id.direct) {
+//                    categoryString = "Direct";
+//                } else if (i == R.id.indirect) {
+//                    categoryString = "Indirect";
+//                } else if (i == R.id.personal) {
+//                    categoryString = "Personal";
+//                } else if (i == R.id.selfDev) {
+//                    categoryString = "Self-development";
+//                } else if (i == R.id.etc) {
+//                    categoryString = "Etc";
+//                }
+//            }
+//        });
+//
+//
+//        Calendar cal = Calendar.getInstance();
+//        DateFormat format = DateFormat.getDateInstance(DateFormat.FULL);
+//        format.setTimeZone(cal.getTimeZone());
+//
+//        currentDate = format.format(cal.getTime());
+//        pickDate.setText(currentDate);
+//
+//        String ampm = "";
+//        String defTIme = (cal.get(Calendar.HOUR) == 0) ?"12":cal.get(Calendar.HOUR)+"";
+//        if (cal.get(Calendar.AM_PM) == Calendar.AM) {
+//            ampm = "AM";
+//        } else if (cal.get(Calendar.AM_PM) == Calendar.PM) {
+//            ampm = "PM";
+//        }
+//        pickStartTime.setText(defTIme +":" + String.format("%02d", cal.get(Calendar.MINUTE)) + " " + ampm );
+//        pickEndTime.setText(defTIme +":" + String.format("%02d", cal.get(Calendar.MINUTE)) + " " + ampm);
+//
+//        pickDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                currentDate = pickDate.getText().toString();
+//                newFragment = new DatePickerFragment(pickDate);
+//                newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+//            }
+//
+//        });
+//
+//
+//        pickStartTime.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                newFragment = new TimePickerFragment(pickStartTime);
+//                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+//            }
+//        });
+//
+//        pickEndTime.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                newFragment = new TimePickerFragment(pickEndTime);
+//                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+//            }
+//        });
+//
+//
+//        editDialog.show();
+//    }
 
     public static String getDateFromString(String givenDate) {
         givenDate = givenDate.substring(givenDate.indexOf(" ") + 1);
@@ -247,6 +248,10 @@ public class ScheduleFragment extends Fragment {
         String year = dayYear.substring(dayYear.indexOf(" ") + 1);
 
         String day = dayYear.substring(0, dayYear.indexOf(","));
+
+        if (day.length() < 2) {
+            day = "0" + day;
+        }
 
         String month = givenDate.substring(0, givenDate.indexOf(" "));
 

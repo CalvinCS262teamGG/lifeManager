@@ -26,6 +26,7 @@ import java.util.List;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.currentDate;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.simpleCurrentDate;
 
 public class newEvent extends Fragment implements View.OnClickListener {
 
@@ -165,6 +166,10 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 int totalMin = cardTime.getTotalMin();
 
                 if (!title.equals("") & category != null) {
+//                    if (!(simpleCurrentDate.equals(ScheduleFragment.getDateFromString(date)))) {
+//                        ArrayList<ScheduleCard> tempList = new ArrayList<ScheduleCard>();
+//                        MainActivity.readSchedule(date, tempList);
+//                    }
                     MainActivity.myScheduleCardList.add(new ScheduleCard(title, category, activity, date, time, cardStart, cardEnd, label, note, totalHr, totalMin));
 
                     sortScheduleCard();
