@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newEvent">
+    tools:context=".newEvent"
+    android:background="@color/colorPrimary">
 
     <!-- TODO: Update blank fragment layout -->
     <EditText
@@ -18,6 +19,7 @@
         android:textSize="24sp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/colorText"
         android:hint="@string/titleHint" />
 
     <TextView
@@ -30,6 +32,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:textSize="16sp"
+        android:textColor="@color/colorText"
         android:text="@string/choose_an_area" />
 
     <View
@@ -39,6 +42,7 @@
         android:layout_marginEnd="8dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:textColor="@color/colorText"
         android:background="@android:color/darker_gray"/>
 
     <RadioGroup
@@ -48,35 +52,41 @@
         android:layout_below="@+id/line1"
         android:orientation="horizontal"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true" >
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/colorText">
         <RadioButton
             android:id="@+id/direct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/direct" />
+            android:text="@string/direct"
+            android:textColor="@color/colorText"/>
         <RadioButton
             android:id="@+id/indirect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/indirect" />
+            android:text="@string/indirect"
+            android:textColor="@color/colorText"/>
 
         <RadioButton
             android:id="@+id/personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/personal" />
+            android:text="@string/personal"
+            android:textColor="@color/colorText"/>
 
         <RadioButton
             android:id="@+id/selfDev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/self_dev" />
+            android:text="@string/self_dev"
+            android:textColor="@color/colorText"/>
 
         <RadioButton
             android:id="@+id/etc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/etc" />
+            android:text="@string/etc"
+            android:textColor="@color/colorText"/>
     </RadioGroup>
 
     <View
@@ -86,6 +96,7 @@
         android:layout_marginEnd="8dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:textColor="@color/colorText"
         android:background="@android:color/darker_gray"/>
 
     <EditText
@@ -99,6 +110,7 @@
         android:layout_marginLeft="4dp"
         android:ems="12"
         android:hint="@string/activityHint"
+        android:textColor="@color/colorText"
         android:textSize="16sp" />
 
     <TextView
@@ -111,6 +123,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:textSize="16sp"
+        android:textColor="@color/colorText"
         android:text="@string/date" />
 
     <TextView
@@ -124,6 +137,7 @@
         android:layout_marginRight="8dp"
         android:onClick="onClick"
         android:textSize="16sp"
+        android:textColor="@color/colorText"
         android:text="@string/defaultDate" />
 
     <View
@@ -134,6 +148,7 @@
         android:layout_marginVertical="3dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:textColor="@color/colorText"
         android:background="@android:color/darker_gray"/>
 
     <TextView
@@ -146,6 +161,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:textSize="16sp"
+        android:textColor="@color/colorText"
         android:text="@string/start" />
 
     <TextView
@@ -159,6 +175,7 @@
         android:layout_marginRight="8dp"
         android:textSize="16sp"
         android:onClick="onClick"
+        android:textColor="@color/colorText"
         android:text="@string/defaultStart" />
 
     <TextView
@@ -171,6 +188,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:textSize="16sp"
+        android:textColor="@color/colorText"
         android:text="@string/end" />
 
     <TextView
@@ -184,6 +202,7 @@
         android:layout_marginRight="8dp"
         android:textSize="16sp"
         android:onClick="onClick"
+        android:textColor="@color/colorText"
         android:text="@string/defaultEnd" />
 
     <View
@@ -193,6 +212,7 @@
         android:layout_marginEnd="8dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:textColor="@color/colorText"
         android:background="@android:color/darker_gray"/>
 
     <EditText
@@ -204,6 +224,7 @@
         android:layout_alignParentLeft="true"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/colorText"
         android:hint="@string/lableHint" />
 
     <EditText
@@ -215,15 +236,18 @@
         android:layout_alignParentLeft="true"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/colorText"
         android:hint="@string/noteHint" />
 
     <Button
         android:id="@+id/enterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/eventCategory"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="135dp"
-        android:text="Enter" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="17dp"
+        android:text="Enter"
+        android:textColor="@color/colorText" />
 
 </RelativeLayout>

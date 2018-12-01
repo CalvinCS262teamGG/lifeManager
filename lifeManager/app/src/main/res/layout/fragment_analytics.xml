@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".Analytics">
 
     <!-- TODO: Update blank fragment layout -->
@@ -14,19 +15,20 @@
         <!--android:text="@string/analyticst" /> -->
 
     <TextView
-    android:id="@+id/todayTextView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+        android:id="@+id/todayTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorText"
         android:padding="5dp"
-    android:text="Today"
-    android:textSize="24sp"
-    />
+        android:text="Today"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/today"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/todayTextView"
+        android:textColor="@color/colorText"
         android:padding="5dp"/>
 
     <TextView
@@ -35,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/today"
         android:padding="5dp"
+        android:textColor="@color/colorText"
         android:text="Yesterday"
         android:textSize="24sp"
         />
@@ -43,12 +46,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/yesterdayTextView"
+        android:textColor="@color/colorText"
         android:padding="5dp"/>
     <TextView
         android:id="@+id/thisMonthTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/yesterday"
+        android:textColor="@color/colorText"
         android:padding="5dp"
         android:text="This Month"
         android:textSize="24sp"
@@ -57,6 +62,7 @@
         android:id="@+id/thisMonth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorText"
         android:layout_below="@+id/thisMonthTextView"
         android:padding="5dp"/>
 
