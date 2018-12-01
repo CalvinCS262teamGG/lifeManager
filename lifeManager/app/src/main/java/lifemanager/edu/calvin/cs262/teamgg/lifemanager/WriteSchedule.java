@@ -10,11 +10,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.currentDate;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.jsonFile;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.newEvent.currentDate;
 
 /*
  * write arrayList of myScheduleCardList as a JSON format
@@ -55,36 +56,36 @@ import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.newEvent.currentDa
 
 public class WriteSchedule {
 
-    public void writeSchedule() {
+    public void writeSchedule(ArrayList<ScheduleCard> myCards, String myDate) {
         JSONObject obj = new JSONObject();
         try {
             JSONArray jArray = new JSONArray();
-            for (int j = 0; j < myScheduleCardList.size(); j++)
+            for (int j = 0; j < myCards.size(); j++)
             {
                 JSONObject sObject = new JSONObject();
-                sObject.put("title", myScheduleCardList.get(j).getCardTitle());
-                sObject.put("category", myScheduleCardList.get(j).getCardCategory());
-                sObject.put("description", myScheduleCardList.get(j).getCardDescription());
-                sObject.put("date", myScheduleCardList.get(j).getCardDate());
-                sObject.put("time", myScheduleCardList.get(j).getCardTime());
-                sObject.put("startTime", myScheduleCardList.get(j).getCardStartTime());
-                sObject.put("endTime", myScheduleCardList.get(j).getCardEndTime());
-                sObject.put("label", myScheduleCardList.get(j).getCardLabel());
-                sObject.put("note", myScheduleCardList.get(j).getCardNote());
-                sObject.put("totalHr", myScheduleCardList.get(j).getCardTotalHr());
-                sObject.put("totalMin", myScheduleCardList.get(j).getCardTotalMin());
+                sObject.put("title", myCards.get(j).getCardTitle());
+                sObject.put("category", myCards.get(j).getCardCategory());
+                sObject.put("description", myCards.get(j).getCardDescription());
+                sObject.put("date", myCards.get(j).getCardDate());
+                sObject.put("time", myCards.get(j).getCardTime());
+                sObject.put("startTime", myCards.get(j).getCardStartTime());
+                sObject.put("endTime", myCards.get(j).getCardEndTime());
+                sObject.put("label", myCards.get(j).getCardLabel());
+                sObject.put("note", myCards.get(j).getCardNote());
+                sObject.put("totalHr", myCards.get(j).getCardTotalHr());
+                sObject.put("totalMin", myCards.get(j).getCardTotalMin());
 
 
                 jArray.put(sObject);
             }
-            obj.put("date", currentDate);
+            obj.put("date", myDate);
             obj.put("data", jArray);
 
             System.out.println(obj.toString());
 
             try {
                 Writer output = null;
-                File file = new File(jsonFile);
+                File file = new File(MainActivity.getPath(myDate));
 
                 output = new BufferedWriter(new FileWriter(file));
                 output.write(obj.toString());
