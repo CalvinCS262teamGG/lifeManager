@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
+
 
 ///**
 // * A simple {@link Fragment} subclass.
@@ -68,24 +70,29 @@ public class Analytics extends Fragment {
 
 
 
-        ArrayList<ScheduleCard> scheduleCardList = new ArrayList<>();
-        //add values to the test array
-        scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
-                "DESCRIPTION", "11/13/2018","3:30 AM - 4:30 PM",
-                "3:30 PM", "4:30 PM","LABEL" ,
-                "NOTE", 5, 300));
-        scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
-                "DESCRIPTION", "11/12/2018","3:30 AM - 4:30 PM",
-                "3:30 PM", "4:30 PM","LABEL" ,
-                "NOTE", 3, 180));
-        scheduleCardList.add(new ScheduleCard("Study", "Study",
-                "DESCRIPTION", "11/07/2018","3:30 AM - 4:30 PM",
-                "3:30 PM", "4:30 PM","LABEL" ,
-                "NOTE", 2, 120));
-        scheduleCardList.add(new ScheduleCard("Study", "Homework",
-                "DESCRIPTION", "10/07/2018","3:30 AM - 4:30 PM",
-                "3:30 PM", "4:30 PM","LABEL" ,
-                "NOTE", 2, 120));
+//        ArrayList<ScheduleCard> scheduleCardList = new ArrayList<>();
+//        //add values to the test array
+//        scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
+//                "DESCRIPTION", "11/13/2018","3:30 AM - 4:30 PM",
+//                "3:30 PM", "4:30 PM","LABEL" ,
+//                "NOTE", 5, 300));
+//        scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
+//                "DESCRIPTION", "11/12/2018","3:30 AM - 4:30 PM",
+//                "3:30 PM", "4:30 PM","LABEL" ,
+//                "NOTE", 3, 180));
+//        scheduleCardList.add(new ScheduleCard("Study", "Study",
+//                "DESCRIPTION", "11/07/2018","3:30 AM - 4:30 PM",
+//                "3:30 PM", "4:30 PM","LABEL" ,
+//                "NOTE", 2, 120));
+//        scheduleCardList.add(new ScheduleCard("Study", "Homework",
+//                "DESCRIPTION", "10/07/2018","3:30 AM - 4:30 PM",
+//                "3:30 PM", "4:30 PM","LABEL" ,
+//                "NOTE", 2, 120));
+
+        ArrayList<ScheduleCard> scheduleCardList = myScheduleCardList;
+        ArrayList<ScheduleCard> scheduleCardListYd = new ArrayList<>();
+        ArrayList<ScheduleCard> scheduleCardListMonth = new ArrayList<>();
+
 
         //getting current date information
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -97,19 +104,66 @@ public class Analytics extends Fragment {
         String concatResults = "";
 
         //create a hashmap of each category with total hours for today
-        HashMap<String, Integer> todayHash = new HashMap<String, Integer>();
-        for (ScheduleCard card : scheduleCardList) {
-            if (card.getCardDate().equals(df.format(cal.getTime()).trim())) //if date = today
-            {
-                Integer oldValue = todayHash.get(card.getCardCategory());
-                if (oldValue == null) {oldValue = 0;}
-                //update the total hours of specific category
-                todayHash.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
+//        HashMap<String, Integer> todayHash = new HashMap<String, Integer>();
+//        for (ScheduleCard card : scheduleCardList) {
+//            if (card.getCardDate().equals(df.format(cal.getTime()).trim())) //if date = today
+//            {
+//                Integer oldValue = todayHash.get(card.getCardCategory());
+//                if (oldValue == null) {oldValue = 0;}
+//                //update the total hours of specific category
+//                todayHash.put(card.getCardCategory(), oldValue + card.getCardTotalHr());
+//            }
+//        }
+//        for (Map.Entry<String, Integer> entry : todayHash.entrySet()){
+//            concatResults += entry.getKey() + " \ttotal hours: " + entry.getValue() + "\n";
+//        }
+//        todayText.setText(concatResults);
+
+        int DirectHr = 0, DirectMin = 0, IndirectHr = 0, IndirectMin = 0, PersonalHr = 0, PersonalMin = 0, Self_devHr = 0, Self_devMin = 0, EtcHr = 0, EtcMin = 0;
+        for (int i = 0; i < scheduleCardList.size(); i++) {
+            if (scheduleCardList.get(i).getCardCategory().equals("Direct")) {
+                DirectHr += scheduleCardList.get(i).getCardTotalHr();
+                DirectMin += scheduleCardList.get(i).getCardTotalMin();
+            } else if (scheduleCardList.get(i).getCardCategory().equals("Indirect")) {
+                IndirectHr += scheduleCardList.get(i).getCardTotalHr();
+                IndirectMin += scheduleCardList.get(i).getCardTotalMin();
+            } else if (scheduleCardList.get(i).getCardCategory().equals("Personal")) {
+                PersonalHr += scheduleCardList.get(i).getCardTotalHr();
+                PersonalMin += scheduleCardList.get(i).getCardTotalMin();
+            } else if (scheduleCardList.get(i).getCardCategory().equals("Self-development")) {
+                Self_devHr += scheduleCardList.get(i).getCardTotalHr();
+                Self_devMin += scheduleCardList.get(i).getCardTotalMin();
+            } else if (scheduleCardList.get(i).getCardCategory().equals("Etc")) {
+                EtcHr += scheduleCardList.get(i).getCardTotalHr();
+                EtcMin += scheduleCardList.get(i).getCardTotalMin();
             }
+
         }
-        for (Map.Entry<String, Integer> entry : todayHash.entrySet()){
-            concatResults += entry.getKey() + " \ttotal hours: " + entry.getValue() + "\n";
+        DirectHr += (DirectMin - (DirectMin%60))/60;
+        DirectMin = DirectMin%60;
+        IndirectHr += (IndirectMin - (IndirectMin%60))/60;
+        IndirectMin = IndirectMin%60;
+        PersonalHr += (PersonalMin - (PersonalMin%60))/60;
+        PersonalMin = PersonalMin%60;
+        Self_devHr += (Self_devMin - (Self_devMin%60))/60;
+        Self_devMin = Self_devMin%60;
+        EtcHr += (EtcMin - (EtcMin%60))/60;
+        EtcMin = EtcMin%60;
+        concatResults += "Direct performance  " + " \t" + Integer.toString(DirectHr)+"H " + Integer.toString(DirectMin)+"M" + "\n";
+        concatResults += "Indirect performance" + " \t" + Integer.toString(IndirectHr)+"H " + Integer.toString(IndirectMin)+"M" + "\n";
+        concatResults += "Personal                    " + " \t" + Integer.toString(PersonalHr)+"H " + Integer.toString(PersonalMin)+"M" + "\n";
+        concatResults += "Self-development      " + " \t" + Integer.toString(Self_devHr)+"H " + Integer.toString(Self_devMin)+"M" + "\n";
+        concatResults += "Etc                              " + " \t" + Integer.toString(EtcHr)+"H " + Integer.toString(EtcMin)+"M" + "\n";
+        int FreeHr = DirectHr + IndirectHr + PersonalHr + Self_devHr + EtcHr;
+        int FreeMin = DirectMin + IndirectMin + PersonalMin + Self_devMin + EtcMin;
+        FreeHr += (FreeMin - (FreeMin%60))/60;
+        FreeHr = 24 - FreeHr;
+        FreeMin = FreeMin%60;
+        if (FreeMin > 0) {
+            FreeHr = FreeHr - 1;
+            FreeMin = 60 - FreeMin;
         }
+        concatResults += "\nFree time                    " + "\t" + Integer.toString(FreeHr) + "H " + Integer.toString(FreeMin)+"M";
         todayText.setText(concatResults);
 
 
