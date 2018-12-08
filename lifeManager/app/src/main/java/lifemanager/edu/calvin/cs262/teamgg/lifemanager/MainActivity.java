@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -187,4 +190,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public static String getPath(String date) {
         return "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + date + ".json";
     }
+
+    public void helpButton(View view) {
+        DialogFragment newFragment = MyDialogFragment.newInstance();
+        newFragment.show(getSupportFragmentManager(), "dialog");
+    }
 }
+

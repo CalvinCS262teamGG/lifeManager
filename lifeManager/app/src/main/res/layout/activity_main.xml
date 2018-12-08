@@ -38,6 +38,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         android:layout_margin="10dp"
+        android:onClick="helpButton"
 
         />
 
