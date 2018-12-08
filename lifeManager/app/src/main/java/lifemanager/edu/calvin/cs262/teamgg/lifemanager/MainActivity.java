@@ -192,8 +192,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void helpButton(View view) {
-        DialogFragment newFragment = MyDialogFragment.newInstance();
-        newFragment.show(getSupportFragmentManager(), "dialog");
+
+        try{
+            DialogFragment newFragment = MyDialogFragment.newInstance(getSupportActionBar().getTitle().toString());
+            newFragment.show(getSupportFragmentManager(), "dialog");
+
+        }catch (Exception e){
+            Log.e("error", e.toString());
+        }
     }
 }
 
