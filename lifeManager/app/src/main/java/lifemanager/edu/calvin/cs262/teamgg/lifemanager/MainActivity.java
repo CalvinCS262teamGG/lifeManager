@@ -1,6 +1,7 @@
 package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fos.close();
             } catch (IOException e) {}
         } else {
-            readSchedule(simpleCurrentDate, myScheduleCardList);
+            myScheduleCardList = readSchedule(simpleCurrentDate, getBaseContext());
         }
     }
 
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onResume() {
         super.onResume();
         myScheduleCardList.clear();
-        readSchedule(simpleCurrentDate, myScheduleCardList);
+        myScheduleCardList = readSchedule(simpleCurrentDate, getBaseContext());
     }
 
     @Override
@@ -132,11 +133,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-    public static void readSchedule(String d, ArrayList<ScheduleCard> readList) {
+    public static ArrayList<ScheduleCard> readSchedule(String d, Context ctx) {
         String res = null;
         InputStream inputStream = null;
+        ArrayList<ScheduleCard> readList = new ArrayList<ScheduleCard>();
         try{
-            inputStream = openFileInput(d + ".json");
+            inputStream = ctx.openFileInput(d + ".json");
             InputStreamReader isr = new InputStreamReader(inputStream);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -169,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         } catch (Exception e) {
             Log.e("readSchedule", e.toString());
         }
+        return readList;
     }
 
     public void reloadSchedule(View view) {
@@ -186,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         myScheduleCardList.clear();
 
-        readSchedule(simpleSelectedDate, myScheduleCardList);
+        myScheduleCardList = readSchedule(simpleSelectedDate, getBaseContext());
 
         loadFragment(ScheduleFragment.newInstance(selectedDate));
     }
