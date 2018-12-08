@@ -29,6 +29,19 @@
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/navigation" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_help"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        android:layout_margin="10dp"
+
+        />
+
+
     <!--<Button-->
     <!--android:id="@+id/button"-->
     <!--android:layout_width="wrap_content"-->
