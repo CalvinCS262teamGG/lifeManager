@@ -70,28 +70,28 @@ public class Analytics extends Fragment {
 
 
 
-//        ArrayList<ScheduleCard> scheduleCardList = new ArrayList<>();
-//        //add values to the test array
-//        scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
-//                "DESCRIPTION", "11/13/2018","3:30 AM - 4:30 PM",
-//                "3:30 PM", "4:30 PM","LABEL" ,
-//                "NOTE", 5, 300));
-//        scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
-//                "DESCRIPTION", "11/12/2018","3:30 AM - 4:30 PM",
-//                "3:30 PM", "4:30 PM","LABEL" ,
-//                "NOTE", 3, 180));
-//        scheduleCardList.add(new ScheduleCard("Study", "Study",
-//                "DESCRIPTION", "11/07/2018","3:30 AM - 4:30 PM",
-//                "3:30 PM", "4:30 PM","LABEL" ,
-//                "NOTE", 2, 120));
-//        scheduleCardList.add(new ScheduleCard("Study", "Homework",
-//                "DESCRIPTION", "10/07/2018","3:30 AM - 4:30 PM",
-//                "3:30 PM", "4:30 PM","LABEL" ,
-//                "NOTE", 2, 120));
+        ArrayList<ScheduleCard> scheduleCardList = new ArrayList<>();
+        //add values to the test array
+        scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
+                "DESCRIPTION", "11/13/2018","3:30 AM - 4:30 PM",
+                "3:30 PM", "4:30 PM","LABEL" ,
+                "NOTE", 5, 300));
+        scheduleCardList.add(new ScheduleCard("Exercise", "Self-development",
+                "DESCRIPTION", "11/12/2018","3:30 AM - 4:30 PM",
+                "3:30 PM", "4:30 PM","LABEL" ,
+                "NOTE", 3, 180));
+        scheduleCardList.add(new ScheduleCard("Study", "Study",
+                "DESCRIPTION", "11/07/2018","3:30 AM - 4:30 PM",
+                "3:30 PM", "4:30 PM","LABEL" ,
+                "NOTE", 2, 120));
+        scheduleCardList.add(new ScheduleCard("Study", "Homework",
+                "DESCRIPTION", "10/07/2018","3:30 AM - 4:30 PM",
+                "3:30 PM", "4:30 PM","LABEL" ,
+                "NOTE", 2, 120));
 
-        ArrayList<ScheduleCard> scheduleCardList = myScheduleCardList;
-        ArrayList<ScheduleCard> scheduleCardListYd = new ArrayList<>();
-        ArrayList<ScheduleCard> scheduleCardListMonth = new ArrayList<>();
+//        ArrayList<ScheduleCard> scheduleCardList = myScheduleCardList;
+//        ArrayList<ScheduleCard> scheduleCardListYd = new ArrayList<>();
+//        ArrayList<ScheduleCard> scheduleCardListMonth = new ArrayList<>();
 
 
         //getting current date information
