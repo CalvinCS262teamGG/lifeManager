@@ -13,17 +13,22 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -199,14 +204,64 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private boolean isUser() {
+        String res = null;
+        InputStream inputStream = null;
+        ArrayList<ScheduleCard> readList = new ArrayList<ScheduleCard>();
+        try{
+            inputStream = openFileInput( "user.json");
+            InputStreamReader isr = new InputStreamReader(inputStream);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String str ="";
+            while((str = br.readLine()) != null){
+                sb.append(str);
+            }
+
+            res = sb.toString();
+            JSONObject obj = new JSONObject(res);
+
+            String userName =  obj.getString("name");
+            String userEmail =  obj.getString("email");
 
 
+            // TODO: Here is where we would search the data base for name and email !!!!!
 
-        return false;
+            return true;
+        } catch (Exception e) {
+            Log.e("readSchedule", e.toString());
+            return false;
+        }
     }
 
     public void signIn(View view) {
+        EditText nameText = findViewById(R.id.editName);
+        EditText mailText = findViewById(R.id.editEmail);
 
+        String userName = nameText.getText().toString();
+        String userMail = mailText.getText().toString();
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("name", userName);
+            obj.put("email", userMail);
+
+            System.out.println(obj.toString());
+
+            try {
+                Writer output = null;
+                File file = new File(MainActivity.getPath("user"));
+
+                output = new BufferedWriter(new FileWriter(file));
+                output.write(obj.toString());
+                output.close();
+            } catch (Exception e) {}
+
+
+        } catch (Exception e) {
+            Log.e("Error with Signin", e.toString());
+        }
+
+        // TODO : This is where we push data to data base 'userName' and 'userMail' are the strings
 
         getSupportFragmentManager()
                 .beginTransaction()
