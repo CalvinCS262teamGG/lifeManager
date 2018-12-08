@@ -175,23 +175,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void reloadSchedule(View view) {
-        WriteSchedule ws = new WriteSchedule();
         TextView text = findViewById(R.id.pickDateText);
         selectedDate = text.getText().toString();
-        simpleSelectedDate = ScheduleFragment.getDateFromString(selectedDate);
-        String tempDate;
 
-        //First write schedule to our file at the day we're at
-        if (myScheduleCardList.size() > 0) {
-            tempDate = myScheduleCardList.get(0).getCardDate();
-            ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(tempDate));
-        }
-
-        myScheduleCardList.clear();
-
-        myScheduleCardList = readSchedule(simpleSelectedDate, getBaseContext());
-
-        loadFragment(ScheduleFragment.newInstance(selectedDate));
+//        WriteSchedule ws = new WriteSchedule();
+//        simpleSelectedDate = ScheduleFragment.getDateFromString(selectedDate);
+//        String tempDate;
+//
+//        //First write schedule to our file at the day we're at
+//        if (myScheduleCardList.size() > 0) {
+//            tempDate = myScheduleCardList.get(0).getCardDate();
+//            ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(tempDate));
+//        }
+//
+//        myScheduleCardList.clear();
+//
+//        myScheduleCardList = readSchedule(simpleSelectedDate, getBaseContext());
+        Log.d("EEEEEEEEEEEEEEEE", selectedDate);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, ScheduleFragment.newInstance(selectedDate))
+                .commit();
     }
 
     public static String getPath(String date) {

@@ -42,6 +42,7 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
     //activity context
     Activity activity;
     View myview;
+    ArrayList<ScheduleCard> scheduleCardList;
 
 
 
@@ -55,7 +56,7 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
         super(activity, resource, scheduleCardList);
         this.activity = activity;
         this.resource = resource;
-//        this.scheduleCardList = myScheduleCardList;
+        this.scheduleCardList = scheduleCardList;
 
     }
 
@@ -80,7 +81,7 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
 
 
         //getting the scheduleCard of the specified position
-        final ScheduleCard scheduleCard = myScheduleCardList.get(position);
+        final ScheduleCard scheduleCard = scheduleCardList.get(position);
 
         //adding values to the list item
         textViewCategory.setText(scheduleCard.getCardTitle());

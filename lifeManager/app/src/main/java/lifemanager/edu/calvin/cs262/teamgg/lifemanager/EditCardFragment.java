@@ -20,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,16 +36,18 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
     TextView pickDate, pickStartTime, pickEndTime;
     EditText titleText, activity, labelText, noteText;
     DialogFragment newFragment;
+    String givenDate, simpleDate;
 
     public EditCardFragment() {
 
     }
 
 
-    public static EditCardFragment newInstance(int position) {
+    public static EditCardFragment newInstance(int position, String date) {
         EditCardFragment fragment = new EditCardFragment();
         Bundle args = new Bundle();
         args.putInt("Position", position);
+        args.putString("Date", date);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +57,8 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             position = getArguments().getInt("Position");
+            givenDate = getArguments().getString("Date");
+            simpleDate = ScheduleFragment.getDateFromString(givenDate);
         }
     }
 
@@ -210,15 +215,17 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 //removing the item
-                String date = myScheduleCardList.get(position).getCardDate();
-                myScheduleCardList.remove(position);
+                ArrayList<ScheduleCard> delList = MainActivity.readSchedule(simpleDate, getContext());
+                Log.d("EEEEEEEEEEEEEEEEE", Integer.toString(delList.size()));
 
+                delList.remove(position);
                 //reloading the list
                 WriteSchedule  ws = new WriteSchedule();
-                ws.writeSchedule(myScheduleCardList, simpleCurrentDate);
+                ws.writeSchedule(delList, simpleDate);
+                Log.d("EEEEEEEEEEEEEEEEE", Integer.toString(delList.size()));
 
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment.newInstance(date));
+                fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment.newInstance(givenDate));
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

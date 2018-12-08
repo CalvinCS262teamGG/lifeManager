@@ -168,21 +168,11 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 ScheduleCard newCard = new ScheduleCard(title, category, activity, date, time, cardStart, cardEnd, label, note, totalHr, totalMin);
 
                 if (!title.equals("") & category != null) {
-                    if (!(simpleCurrentDate.equals(ScheduleFragment.getDateFromString(date)))) {
-                        ArrayList<ScheduleCard> tempList = new ArrayList<ScheduleCard>();
-                        tempList = MainActivity.readSchedule(ScheduleFragment.getDateFromString(date), getContext());
-                        tempList.add(newCard);
-                        Log.d("EEEEEEEEEEEEE", "WE HIT THE CONDITIONAL CORRECTLY");
-                        WriteSchedule  ws = new WriteSchedule();
-                        ws.writeSchedule(tempList, ScheduleFragment.getDateFromString(date));
-                    } else {
-                        MainActivity.myScheduleCardList.add(newCard);
-
-                        sortScheduleCard();
-
-                        WriteSchedule  ws = new WriteSchedule();
-                        ws.writeSchedule(MainActivity.myScheduleCardList, ScheduleFragment.getDateFromString(date));
-                    }
+                    ArrayList<ScheduleCard> tempList = new ArrayList<ScheduleCard>();
+                    tempList = MainActivity.readSchedule(ScheduleFragment.getDateFromString(date), getContext());
+                    tempList.add(newCard);
+                    WriteSchedule  ws = new WriteSchedule();
+                    ws.writeSchedule(tempList, ScheduleFragment.getDateFromString(date));
                 }
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(this).attach(this).commit();

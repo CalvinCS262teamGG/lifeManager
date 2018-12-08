@@ -36,6 +36,7 @@ public class ScheduleFragment extends Fragment {
     TextView pickDate, pickStartTime, pickEndTime, dateText;
     EditText titleText;
     DialogFragment newFragment;
+    ArrayList<ScheduleCard> mySchedule;
 
     public ScheduleFragment() {
 
@@ -86,10 +87,10 @@ public class ScheduleFragment extends Fragment {
         ListView listView = rootView.findViewById(R.id.listView);
 
         //adding some values to our list
-//        scheduleCardList.add(new ScheduleCard("1", "Exercise", "Self-development", "DESCRIPTION", "October 9", "7:30 AM - 8:30 AM","LABEL", "note"));
+        mySchedule = MainActivity.readSchedule(simpleDate,getContext());
 
         //creating the adapter
-        MyListAdapter adapter = new MyListAdapter(getActivity(), R.layout.fragment_schedule_list, myScheduleCardList);
+        MyListAdapter adapter = new MyListAdapter(getActivity(), R.layout.fragment_schedule_list, mySchedule);
 
         //attaching adapter to the listview
         listView.setAdapter(adapter);
@@ -97,7 +98,7 @@ public class ScheduleFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment editFragment = EditCardFragment.newInstance(position);
+                Fragment editFragment = EditCardFragment.newInstance(position, givenDate);
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, editFragment);
                 fragmentTransaction.addToBackStack(null);
@@ -122,9 +123,6 @@ public class ScheduleFragment extends Fragment {
                 newDateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
-
-
-
 
         return rootView;
     }
