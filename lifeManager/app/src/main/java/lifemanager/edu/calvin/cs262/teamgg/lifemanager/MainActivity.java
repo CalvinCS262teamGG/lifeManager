@@ -199,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     private boolean isUser() {
 
 
@@ -215,6 +216,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .replace(R.id.fragment_container, new newEvent())
                 .commit();
 =======
+=======
+>>>>>>> master
     public void helpButton(View view) {
 
         try{
@@ -224,7 +227,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }catch (Exception e){
             Log.e("error", e.toString());
         }
+<<<<<<< HEAD
 >>>>>>> 111e0f25e5d9b9fc33c1de12276e61bcdfb09947
+=======
+>>>>>>> master
     }
 }
 
