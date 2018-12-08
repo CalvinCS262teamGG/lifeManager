@@ -19,12 +19,9 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
 
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.simpleCurrentDate;
+//import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
 
 
 public class EditCardFragment extends android.support.v4.app.Fragment {
@@ -35,16 +32,20 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
     TextView pickDate, pickStartTime, pickEndTime;
     EditText titleText, activity, labelText, noteText;
     DialogFragment newFragment;
+    String givenDate, simpleDate;
+    ArrayList<ScheduleCard> currentSchedule, outsideSchedule;
+    ScheduleCard scheduleCard;
 
     public EditCardFragment() {
 
     }
 
 
-    public static EditCardFragment newInstance(int position) {
+    public static EditCardFragment newInstance(int position, String date) {
         EditCardFragment fragment = new EditCardFragment();
         Bundle args = new Bundle();
         args.putInt("Position", position);
+        args.putString("Date", date);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +55,8 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             position = getArguments().getInt("Position");
+            givenDate = getArguments().getString("Date");
+            simpleDate = ScheduleFragment.getDateFromString(givenDate);
         }
     }
 
@@ -62,7 +65,8 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_edit_card, container, false);
 
-        final ScheduleCard scheduleCard = myScheduleCardList.get(position);
+        currentSchedule = MainActivity.readSchedule(simpleDate, getContext());
+        scheduleCard = currentSchedule.get(position);
 
         titleText = view.findViewById(R.id.editTextTitle);
         pickDate = view.findViewById(R.id.enterDate);
@@ -76,6 +80,24 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
         Button deleteButton = view.findViewById(R.id.deleteButton);
         enterButton.setText("Save Changes");
         RadioGroup rg = view.findViewById(R.id.eventCategory);
+        categoryString = scheduleCard.getCardCategory();
+        switch (categoryString) {
+            case "Direct":
+                rg.check(R.id.direct);
+                break;
+            case "Indirect":
+                rg.check(R.id.indirect);
+                break;
+            case "Personal":
+                rg.check(R.id.personal);
+                break;
+            case "Self-development":
+                rg.check(R.id.selfDev);
+                break;
+            case "Etc":
+                rg.check(R.id.etc);
+                break;
+        }
 
         titleText.setText(scheduleCard.getCardTitle());
         activity.setText(scheduleCard.getCardDescription());
@@ -181,11 +203,27 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
                 scheduleCard.setCardTotalHr( totalHr );
                 scheduleCard.setCardTotalMin( totalMin );
 
-                newEvent.sortScheduleCard();
+                if (!scheduleCard.getCardDate().equals(givenDate)) {
+                    WriteSchedule  ws1 = new WriteSchedule();
+                    String newSimpDate = ScheduleFragment.getDateFromString(scheduleCard.getCardDate());
 
-                WriteSchedule  ws = new WriteSchedule();
-                ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(pickDate.getText().toString()));
+                    currentSchedule.remove(position);
+                    ws1.writeSchedule(currentSchedule, simpleDate);
+                    outsideSchedule = MainActivity.readSchedule(newSimpDate, getContext());
+                    outsideSchedule.add(scheduleCard);
+                    outsideSchedule = newEvent.sortScheduleCard(outsideSchedule);
+                    WriteSchedule ws2 = new WriteSchedule();
+                    ws2.writeSchedule(outsideSchedule, newSimpDate);
+
+                } else {
+                    currentSchedule.remove(position);
+                    currentSchedule.add(scheduleCard);
+                    currentSchedule = newEvent.sortScheduleCard(currentSchedule);
+
+                    WriteSchedule  ws = new WriteSchedule();
+                    ws.writeSchedule(currentSchedule, simpleDate);
                 }
+            }
         });
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -210,15 +248,15 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 //removing the item
-                String date = myScheduleCardList.get(position).getCardDate();
-                myScheduleCardList.remove(position);
+                ArrayList<ScheduleCard> delList = MainActivity.readSchedule(simpleDate, getContext());
 
+                delList.remove(position);
                 //reloading the list
                 WriteSchedule  ws = new WriteSchedule();
-                ws.writeSchedule(myScheduleCardList, simpleCurrentDate);
-                newEvent.sortScheduleCard();
+                ws.writeSchedule(delList, simpleDate);
+
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment.newInstance(date));
+                fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment.newInstance(givenDate));
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -236,45 +274,4 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
-
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-//
-//    /**
-//     * This interface must be implemented by activities that contain this
-//     * fragment to allow an interaction in this fragment to be communicated
-//     * to the activity and potentially other fragments contained in that
-//     * activity.
-//     * <p>
-//     * See the Android Training lesson <a href=
-//     * "http://developer.android.com/training/basics/fragments/communicating.html"
-//     * >Communicating with Other Fragments</a> for more information.
-//     */
-//    public interface OnFragmentInteractionListener {
-//        void onFragmentInteraction(Uri uri);
-//    }
-
-
-
 }

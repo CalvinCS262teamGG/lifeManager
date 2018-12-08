@@ -1,6 +1,7 @@
 package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fos.close();
             } catch (IOException e) {}
         } else {
-            readSchedule(simpleCurrentDate);
+            myScheduleCardList = readSchedule(simpleCurrentDate, getBaseContext());
         }
     }
 
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onResume() {
         super.onResume();
         myScheduleCardList.clear();
-        readSchedule(simpleCurrentDate);
+        myScheduleCardList = readSchedule(simpleCurrentDate, getBaseContext());
     }
 
     @Override
@@ -132,11 +133,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-    public void readSchedule(String d) {
+    public static ArrayList<ScheduleCard> readSchedule(String d, Context ctx) {
         String res = null;
         InputStream inputStream = null;
+        ArrayList<ScheduleCard> readList = new ArrayList<ScheduleCard>();
         try{
-            inputStream = openFileInput(d + ".json");
+            inputStream = ctx.openFileInput(d + ".json");
             InputStreamReader isr = new InputStreamReader(inputStream);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -163,25 +165,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 int totalMin =  jsonArray.getJSONObject(i).getInt("totalMin");
 
 
-                myScheduleCardList.add(new ScheduleCard(title, category, description, date, time, startTime, endTime,label, note, totalHr, totalMin));
+                readList.add(new ScheduleCard(title, category, description, date, time, startTime, endTime,label, note, totalHr, totalMin));
                 Log.d(TAG, "save!" + title );
             }
         } catch (Exception e) {
             Log.e("readSchedule", e.toString());
         }
+        return readList;
     }
 
     public void reloadSchedule(View view) {
-        WriteSchedule ws = new WriteSchedule();
-
-        ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(currentDate));
         TextView text = findViewById(R.id.pickDateText);
         selectedDate = text.getText().toString();
-        myScheduleCardList.clear();
 
-        readSchedule(ScheduleFragment.getDateFromString(selectedDate));
-
-        loadFragment(ScheduleFragment.newInstance(selectedDate));
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, ScheduleFragment.newInstance(selectedDate))
+                .commit();
     }
 
     public static String getPath(String date) {
