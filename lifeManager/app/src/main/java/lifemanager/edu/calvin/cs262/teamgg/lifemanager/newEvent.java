@@ -26,6 +26,7 @@ import java.util.List;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.currentDate;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.simpleCurrentDate;
 
 public class newEvent extends Fragment implements View.OnClickListener {
 
@@ -164,13 +165,15 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 int totalHr = cardTime.getTotalHr();
                 int totalMin = cardTime.getTotalMin();
 
+                ScheduleCard newCard = new ScheduleCard(title, category, activity, date, time, cardStart, cardEnd, label, note, totalHr, totalMin);
+
                 if (!title.equals("") & category != null) {
-                    MainActivity.myScheduleCardList.add(new ScheduleCard(title, category, activity, date, time, cardStart, cardEnd, label, note, totalHr, totalMin));
-
-                    sortScheduleCard();
-
+                    ArrayList<ScheduleCard> tempList;
+                    tempList = MainActivity.readSchedule(ScheduleFragment.getDateFromString(date), getContext());
+                    tempList.add(newCard);
+                    tempList = sortScheduleCard(tempList);
                     WriteSchedule  ws = new WriteSchedule();
-                    ws.writeSchedule(MainActivity.myScheduleCardList, ScheduleFragment.getDateFromString(date));
+                    ws.writeSchedule(tempList, ScheduleFragment.getDateFromString(date));
                 }
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(this).attach(this).commit();
@@ -248,8 +251,8 @@ public class newEvent extends Fragment implements View.OnClickListener {
     }
 
     // sort the schedule card list
-    public static void sortScheduleCard() {
-        Collections.sort(MainActivity.myScheduleCardList, new Comparator<ScheduleCard>(){
+    public static ArrayList<ScheduleCard> sortScheduleCard(ArrayList<ScheduleCard> sortList) {
+        Collections.sort(sortList, new Comparator<ScheduleCard>(){
             @Override
             public int compare(ScheduleCard s1, ScheduleCard s2) {
 
@@ -262,6 +265,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 }
             }
         });
+        return sortList;
     }
 
 }
