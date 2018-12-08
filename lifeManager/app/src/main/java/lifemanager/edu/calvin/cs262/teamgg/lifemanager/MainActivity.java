@@ -40,9 +40,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
 
-        loadFragment(new newEvent());
+        if (!isUser()) {
+            // Open login page
+            loadFragment(new LoginFragment());
+        } else {
+            loadFragment(new newEvent());
+        }
+
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
@@ -66,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (!file.exists()) {
             file.mkdirs();
         }
-//        String res = null;
 
         File schedule = new File(jsonFile);
         if (!schedule.exists()) {
@@ -186,5 +193,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public static String getPath(String date) {
         return "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + date + ".json";
+    }
+
+    private boolean isUser() {
+
+
+
+        return false;
+    }
+
+    public void signIn(View view) {
+
+
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new newEvent())
+                .commit();
     }
 }
