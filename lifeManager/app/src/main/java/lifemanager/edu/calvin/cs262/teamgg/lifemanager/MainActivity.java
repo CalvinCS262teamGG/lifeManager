@@ -178,20 +178,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         TextView text = findViewById(R.id.pickDateText);
         selectedDate = text.getText().toString();
 
-//        WriteSchedule ws = new WriteSchedule();
-//        simpleSelectedDate = ScheduleFragment.getDateFromString(selectedDate);
-//        String tempDate;
-//
-//        //First write schedule to our file at the day we're at
-//        if (myScheduleCardList.size() > 0) {
-//            tempDate = myScheduleCardList.get(0).getCardDate();
-//            ws.writeSchedule(myScheduleCardList, ScheduleFragment.getDateFromString(tempDate));
-//        }
-//
-//        myScheduleCardList.clear();
-//
-//        myScheduleCardList = readSchedule(simpleSelectedDate, getBaseContext());
-        Log.d("EEEEEEEEEEEEEEEE", selectedDate);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, ScheduleFragment.newInstance(selectedDate))

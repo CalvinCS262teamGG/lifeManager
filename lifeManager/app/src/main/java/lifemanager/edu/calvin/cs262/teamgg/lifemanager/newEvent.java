@@ -168,9 +168,10 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 ScheduleCard newCard = new ScheduleCard(title, category, activity, date, time, cardStart, cardEnd, label, note, totalHr, totalMin);
 
                 if (!title.equals("") & category != null) {
-                    ArrayList<ScheduleCard> tempList = new ArrayList<ScheduleCard>();
+                    ArrayList<ScheduleCard> tempList;
                     tempList = MainActivity.readSchedule(ScheduleFragment.getDateFromString(date), getContext());
                     tempList.add(newCard);
+                    tempList = sortScheduleCard(tempList);
                     WriteSchedule  ws = new WriteSchedule();
                     ws.writeSchedule(tempList, ScheduleFragment.getDateFromString(date));
                 }
@@ -250,8 +251,8 @@ public class newEvent extends Fragment implements View.OnClickListener {
     }
 
     // sort the schedule card list
-    public static void sortScheduleCard() {
-        Collections.sort(MainActivity.myScheduleCardList, new Comparator<ScheduleCard>(){
+    public static ArrayList<ScheduleCard> sortScheduleCard(ArrayList<ScheduleCard> sortList) {
+        Collections.sort(sortList, new Comparator<ScheduleCard>(){
             @Override
             public int compare(ScheduleCard s1, ScheduleCard s2) {
 
@@ -264,6 +265,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 }
             }
         });
+        return sortList;
     }
 
 }
