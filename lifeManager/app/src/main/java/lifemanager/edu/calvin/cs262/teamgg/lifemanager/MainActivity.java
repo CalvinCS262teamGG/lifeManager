@@ -198,8 +198,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + date + ".json";
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     private boolean isUser() {
 
 
@@ -210,14 +208,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void signIn(View view) {
 
 
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, new newEvent())
                 .commit();
-=======
-=======
->>>>>>> master
+    }
+
     public void helpButton(View view) {
 
         try{
@@ -227,10 +223,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }catch (Exception e){
             Log.e("error", e.toString());
         }
-<<<<<<< HEAD
->>>>>>> 111e0f25e5d9b9fc33c1de12276e61bcdfb09947
-=======
->>>>>>> master
     }
 }
 
