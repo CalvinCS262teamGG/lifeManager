@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -156,7 +158,6 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 String time = (pickStartTime.getText() + " - " + pickEndTime.getText());
                 String date = pickDate.getText().toString();
 
-
                 Log.d("DATE", date);
                 time cardTime = new time(pickStartTime.getText().toString(), pickEndTime.getText().toString());
 
@@ -165,19 +166,40 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 int totalHr = cardTime.getTotalHr();
                 int totalMin = cardTime.getTotalMin();
 
+                if (totalHr < 0 || totalMin < 0) {
+                    Toast toast = Toast.makeText(getContext(), "End time must be after the start time!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
+                    break;
+                } else if (title.equals("")) {
+                    Toast toast = Toast.makeText(getContext(), "A Title is necessary to create a new item!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
+                    break;
+                } else if (category == null) {
+                    Toast toast = Toast.makeText(getContext(), "A Category is necessary to create a new item!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
+                    break;
+                }
+
                 ScheduleCard newCard = new ScheduleCard(title, category, activity, date, time, cardStart, cardEnd, label, note, totalHr, totalMin);
 
-                if (!title.equals("") & category != null) {
-                    ArrayList<ScheduleCard> tempList;
-                    tempList = MainActivity.readSchedule(ScheduleFragment.getDateFromString(date), getContext());
-                    tempList.add(newCard);
-                    tempList = sortScheduleCard(tempList);
-                    WriteSchedule  ws = new WriteSchedule();
-                    ws.writeSchedule(tempList, ScheduleFragment.getDateFromString(date));
-                }
+                ArrayList<ScheduleCard> tempList;
+                tempList = MainActivity.readSchedule(ScheduleFragment.getDateFromString(date), getContext());
+                tempList.add(newCard);
+                tempList = sortScheduleCard(tempList);
+                WriteSchedule  ws = new WriteSchedule();
+                ws.writeSchedule(tempList, ScheduleFragment.getDateFromString(date));
+
+                Toast toast = Toast.makeText(getContext(), title + " has been added to the schedule" , Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                toast.show();
+
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(this).attach(this).commit();
-//                enterData();
+                
+                break;
         }
     }
 
