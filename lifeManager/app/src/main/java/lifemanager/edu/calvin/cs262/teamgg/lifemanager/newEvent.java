@@ -210,9 +210,10 @@ public class newEvent extends Fragment implements View.OnClickListener {
         int totalHr, totalMin;
 
         public time(String start, String end) {
-            String startHr = start.substring(0,start.lastIndexOf(":"));
-            String startMin = start.substring(start.lastIndexOf(":")+1,start.lastIndexOf(":")+3);
-            String startAm_pm = start.substring(start.lastIndexOf(":")+4,start.lastIndexOf(":")+6);
+            int colIndex = start.lastIndexOf(":");
+            String startHr = start.substring(0,colIndex);
+            String startMin = start.substring(colIndex+1,colIndex+3);
+            String startAm_pm = start.substring(colIndex+4,colIndex+6);
 
             int startHrInt = Integer.parseInt(startHr);
             int startMinInt = Integer.parseInt(startMin);
@@ -227,9 +228,10 @@ public class newEvent extends Fragment implements View.OnClickListener {
             }
             Log.d(TAG, "check!!!: " + Integer.toString(startHrInt) + startMin + startAm_pm);
 
-            String endHr = end.substring(0,end.lastIndexOf(":"));
-            String endMin = end.substring(end.lastIndexOf(":")+1,end.lastIndexOf(":")+3);
-            String endAm_pm = end.substring(end.lastIndexOf(":")+4,end.lastIndexOf(":")+6);
+            colIndex = end.lastIndexOf(":");
+            String endHr = end.substring(0,colIndex);
+            String endMin = end.substring(colIndex+1,colIndex+3);
+            String endAm_pm = end.substring(colIndex+4,colIndex+6);
 
             int endHrInt = Integer.parseInt(endHr);
             int endMinInt = Integer.parseInt(endMin);
@@ -244,12 +246,15 @@ public class newEvent extends Fragment implements View.OnClickListener {
             }
             Log.d(TAG, "check!!!: " + Integer.toString(endHrInt) + endMin + endAm_pm);
 
+            totalHr = endHrInt - startHrInt;
+
             totalMin = endMinInt - startMinInt;
             if (totalMin < 0) {
-                endHrInt = endHrInt - 1;
+                totalHr = totalHr - 1;
                 totalMin = totalMin + 60;
             }
-            totalHr = endHrInt - startHrInt;
+
+            totalMin = totalMin + (totalHr * 60);
 
             Log.d(TAG, "check!!!: hr diff: " + Integer.toString(totalHr)  + " min diff: " + Integer.toString(totalMin));
 
