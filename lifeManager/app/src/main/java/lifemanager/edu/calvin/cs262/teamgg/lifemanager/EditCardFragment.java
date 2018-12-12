@@ -68,7 +68,10 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
         View view =  inflater.inflate(R.layout.fragment_edit_card, container, false);
 
         currentSchedule = MainActivity.readSchedule(simpleDate, getContext());
-        scheduleCard = currentSchedule.get(position);
+
+        try {
+            scheduleCard = currentSchedule.get(position);
+        } catch(Exception e) {}
 
         titleText = view.findViewById(R.id.editTextTitle);
         pickDate = view.findViewById(R.id.enterDate);
