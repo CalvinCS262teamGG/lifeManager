@@ -243,10 +243,9 @@
         android:id="@+id/enterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/eventCategory"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="17dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="39dp"
         android:text="Enter"
         android:textColor="@color/colorText" />
 

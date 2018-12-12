@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -191,38 +193,52 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
                 int totalHr = cardTime.getTotalHr();
                 int totalMin = cardTime.getTotalMin();
 
-                scheduleCard.setCardTitle( titleText.getText().toString() );
-                scheduleCard.setCardCategory( categoryString );
-                scheduleCard.setCardDescription( activity.getText().toString() );
-                scheduleCard.setCardTime( pickStartTime.getText() + " - " + pickEndTime.getText() );
-                scheduleCard.setCardDate( pickDate.getText().toString() );
-                scheduleCard.setCardLabel( labelText.getText().toString() );
-                scheduleCard.setCardNote( noteText.getText().toString() );
-                scheduleCard.setCardStartTime( cardTime.getCardStart() );
-                scheduleCard.setCardEndTime( cardTime.getCardEnd() );
-                scheduleCard.setCardTotalHr( totalHr );
-                scheduleCard.setCardTotalMin( totalMin );
-
-                if (!scheduleCard.getCardDate().equals(givenDate)) {
-                    WriteSchedule  ws1 = new WriteSchedule();
-                    String newSimpDate = ScheduleFragment.getDateFromString(scheduleCard.getCardDate());
-
-                    currentSchedule.remove(position);
-                    ws1.writeSchedule(currentSchedule, simpleDate);
-                    outsideSchedule = MainActivity.readSchedule(newSimpDate, getContext());
-                    outsideSchedule.add(scheduleCard);
-                    outsideSchedule = newEvent.sortScheduleCard(outsideSchedule);
-                    WriteSchedule ws2 = new WriteSchedule();
-                    ws2.writeSchedule(outsideSchedule, newSimpDate);
-
+                if (totalHr < 0 || totalMin < 0) {
+                    Toast toast = Toast.makeText(getContext(), "End time must be after the start time!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
+                } else if (titleText.getText().toString().equals("")) {
+                    Toast toast = Toast.makeText(getContext(), "A Title is necessary to save!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
                 } else {
-                    currentSchedule.remove(position);
-                    currentSchedule.add(scheduleCard);
-                    currentSchedule = newEvent.sortScheduleCard(currentSchedule);
+                    scheduleCard.setCardTitle( titleText.getText().toString() );
+                    scheduleCard.setCardCategory( categoryString );
+                    scheduleCard.setCardDescription( activity.getText().toString() );
+                    scheduleCard.setCardTime( pickStartTime.getText() + " - " + pickEndTime.getText() );
+                    scheduleCard.setCardDate( pickDate.getText().toString() );
+                    scheduleCard.setCardLabel( labelText.getText().toString() );
+                    scheduleCard.setCardNote( noteText.getText().toString() );
+                    scheduleCard.setCardStartTime( cardTime.getCardStart() );
+                    scheduleCard.setCardEndTime( cardTime.getCardEnd() );
+                    scheduleCard.setCardTotalHr( totalHr );
+                    scheduleCard.setCardTotalMin( totalMin );
 
-                    WriteSchedule  ws = new WriteSchedule();
-                    ws.writeSchedule(currentSchedule, simpleDate);
+
+
+                    if (!scheduleCard.getCardDate().equals(givenDate)) {
+                        WriteSchedule  ws1 = new WriteSchedule();
+                        String newSimpDate = ScheduleFragment.getDateFromString(scheduleCard.getCardDate());
+
+                        currentSchedule.remove(position);
+                        ws1.writeSchedule(currentSchedule, simpleDate);
+                        outsideSchedule = MainActivity.readSchedule(newSimpDate, getContext());
+                        outsideSchedule.add(scheduleCard);
+                        outsideSchedule = newEvent.sortScheduleCard(outsideSchedule);
+                        WriteSchedule ws2 = new WriteSchedule();
+                        ws2.writeSchedule(outsideSchedule, newSimpDate);
+
+                    } else {
+                        currentSchedule.remove(position);
+                        currentSchedule.add(scheduleCard);
+                        currentSchedule = newEvent.sortScheduleCard(currentSchedule);
+
+                        WriteSchedule  ws = new WriteSchedule();
+                        ws.writeSchedule(currentSchedule, simpleDate);
+                    }
+
                 }
+
             }
         });
 

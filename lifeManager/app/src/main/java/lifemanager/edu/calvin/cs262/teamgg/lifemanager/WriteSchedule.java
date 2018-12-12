@@ -1,6 +1,5 @@
 package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,11 +10,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.currentDate;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.jsonFile;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
 
 /*
  * write arrayList of myScheduleCardList as a JSON format
