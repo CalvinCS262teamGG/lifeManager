@@ -83,6 +83,5 @@ class NetworkUtils {
 
         }
         return resultJSONString;
-
     }
 }
