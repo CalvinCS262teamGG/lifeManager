@@ -95,6 +95,17 @@ public class MyDialogFragment extends DialogFragment {
 
     public void newEvent(TextView tv) {
 
-        tv.setText("");
+        tv.setText("Enter New Event\n" +
+                "\n" +
+                "You can create a new event through the new event page and add it to the schedule of your choice of date.\n" +
+                "\n" +
+                "Imagine that you want to add a new event to the current schedule. The detailed steps show you how to:\n" +
+                "1. Click New Event on the bottom bar, to move to the new event page,\n" +
+                "2. Enter the title of your new event,\n" +
+                "3. Select one of the given areas to categorize the new event,\n" +
+                "4. Select date, start time and end time for the new event,\n" +
+                "5. Optionally enter a detail description into 'What activity',\n" +
+                "6. Optionally enter a label and a note according to user’s purpose,\n" +
+                "7. Click the enter button to add the new event into the schedule.");
     }
 }

@@ -4,9 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -25,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -33,13 +37,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, BottomNavigationView.OnNavigationItemSelectedListener {
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     public static ArrayList<ScheduleCard> myScheduleCardList = new ArrayList<>();
     public static final String TAG = "MyLog";
@@ -50,17 +69,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
 
-    private String userName;
-    private String userEmail;
-    private boolean found = false;
-    private JSONArray itemsArray;
-
 
     @SuppressLint("SdCardPath")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //needed to add to fix a network connect issue
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -220,99 +241,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + date + ".json";
     }
 
-    @NonNull
-    @Override
-    public Loader<String> onCreateLoader(int i, @Nullable Bundle args) {
-        return new UserLoader(this, args.getString("queryInput"));
-
-    }
-    @Override
-    public void onLoaderReset(Loader<String> loader) {
-    }
-    @Override
-    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-        // Convert the response into a JSON object.
-        try {
-            if (data == null) {
-                displayToast("none found");
-                return;
-            }
-            Log.d("data", data);
-            JSONObject jsonObject = new JSONObject(data);
-
-            try {
-                //get array of the JSON items
-                JSONArray itemsArray = jsonObject.getJSONArray("items");
-                String concatenatedResults = "";
-
-//                Log.e("itemsArray", Integer.toString(itemsArray.length()));
-
-                for (int i = 0; i < itemsArray.length(); i++) {
-                    String user = null;
-                    String email = null;
-                    String id = null;
-                    JSONObject userInfo = itemsArray.getJSONObject(i);
-
-                    try {
-                        user = userInfo.getString("name");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        user = "no name";
-                    }
-                    try {
-                        email = userInfo.getString("emailAddress");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        email = "no contact email...";
-                    }
-                    try {
-                        id = userInfo.getString("id");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    if (userName.equals(user)) {
-                        if (userEmail.equals(email)){
-                            found = true;
-                        } else {
-                            found = false;
-                        }
-                    } else {
-                        found = false;
-                    }
-
-                }
-            } catch (Exception e) {
-                String concatenatedResults = "";
-                String player;
-                String email;
-                String id = null;
-                try {
-                    player = jsonObject.getString("name");
-                } catch (Exception f) {
-                    e.printStackTrace();
-                    player = "no name";
-                }
-                try {
-                    email = jsonObject.getString("emailAddress");
-                } catch (Exception f) {
-                    e.printStackTrace();
-                    email = "no contact email...";
-                }
-                try {
-                    id = jsonObject.getString("id");
-                } catch (Exception f) {
-                    e.printStackTrace();
-                }
-
-            }
-
-
-        } catch (Exception e) {
-            displayToast("Invalid ID");
-            e.printStackTrace();
-        }
-    }
 
 
     private boolean isUser() {
@@ -332,42 +260,117 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             res = sb.toString();
             JSONObject obj = new JSONObject(res);
 
-            userName =  obj.getString("name");
-            userEmail =  obj.getString("email");
+            String userName =  obj.getString("name");
+            String userEmail =  obj.getString("email");
 
 
             // TODO: Here is where we would search the data base for name and email !!!!!
-
-            displayToast("Loading");
-            String inputName = userName;
-            String inputEmail = userEmail;
-            String input = inputName + " " + inputEmail;
-
-
-            try {
-                //check for a network connection
-                ConnectivityManager connMgr = (ConnectivityManager)
-                        getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-                if (networkInfo.isConnected()) {
-                    Bundle queryBundle = new Bundle();
-                    queryBundle.putString("queryInput", input);
-                    getSupportLoaderManager().restartLoader(0, queryBundle, this);
-                }
-            } catch (Exception e) {
-                displayToast("No Connection");
-//                displayToast("No Connection");
-                e.printStackTrace();
-            }
-
-            return found;
+            return isNameAndEmailInDatabase(userName, userEmail);
         } catch (Exception e) {
             Log.e("readSchedule", e.toString());
             return false;
         }
     }
 
+    private boolean isNameAndEmailInDatabase(String userName, String userEmail) {
+
+        String origName = userName;
+        String origEmail = userEmail;
+
+
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+        String resultJSONString = null;
+
+        try {
+
+            URL requestURL;
+            //turn the base url and parameters into the final URL string
+            requestURL = new URL("https://calvincs262-fall2018-teamgg.appspot.com/lifemanager/v1/lifeusers");
+
+
+            //create the connection and request the information from the API
+            urlConnection = (HttpURLConnection) requestURL.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
+
+            InputStream inputStream = urlConnection.getInputStream();
+            StringBuffer buffer = new StringBuffer();
+            if (inputStream == null) {
+                // Nothing to do.
+                return false;
+            }
+
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line + "\n");
+            }
+            if (buffer.length() == 0) {
+                // Stream was empty.  No point in parsing.
+                return false;
+            }
+            resultJSONString = buffer.toString();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            return false;
+
+        }finally {
+
+            //close the reader and url connections
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (resultJSONString == null){
+                return false;
+            }
+            Log.d("JSON", resultJSONString);
+        }
+
+        //get a JSON array of the data
+        try {
+            JSONObject jsonObject = new JSONObject(resultJSONString);
+            JSONArray itemsArray = jsonObject.getJSONArray("items");
+            for (int i = 0; i < itemsArray.length(); i++){
+                String name;
+                String email;
+                JSONObject userInfo = itemsArray.getJSONObject(i);
+
+                try {
+                    name = userInfo.getString("name");
+                } catch (Exception e){
+                    e.printStackTrace();
+                    name = "no name";
+                }
+                try {
+                    email = userInfo.getString("emailAddress");
+                } catch (Exception e){
+                    e.printStackTrace();
+                    email = "no email address";
+                }
+                if (name.equals(origName)){
+                    if (email.equals(origEmail)){
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e){
+            Log.e("isNameAndEmailInDataba", e.toString());
+        }
+        return false;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void signIn(View view) {
         EditText nameText = findViewById(R.id.editName);
         EditText mailText = findViewById(R.id.editEmail);
@@ -398,39 +401,66 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
 
-
-
-
-//        displayToast("Loading");
-        String inputName = userName;
-        String inputEmail = userEmail;
-        String input = inputName + " " + inputEmail;
-        try {
-            //check for a network connection
-            ConnectivityManager connMgr = (ConnectivityManager)
-                    getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-            if (networkInfo.isConnected()) {
-                Bundle queryBundle = new Bundle();
-                queryBundle.putString("queryInput", input);
-                getSupportLoaderManager().restartLoader(0, queryBundle, this);
-            }
-        } catch (Exception e) {
-            displayToast("No Connection");
-//                displayToast("No Connection");
-            e.printStackTrace();
-        }
-
-
-
         // TODO : This is where we push data to data base 'userName' and 'userMail' are the strings
+        pushToServer(userName, userMail);
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, new newEvent())
                 .commit();
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void pushToServer(String userName, String userMail) {
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+
+        try {
+
+            URL requestURL;
+            //turn the base url and parameters into the final URL string
+            requestURL = new URL("https://calvincs262-fall2018-teamgg.appspot.com/lifemanager/v1/lifeuser");
+
+
+            //create the connection and request the information from the API
+            urlConnection = (HttpURLConnection) requestURL.openConnection();
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+//            urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
+            urlConnection.connect();
+
+            String data = "{\"name\":\"" +  userName + "\"" + "," + "\"emailAddress\":\"" + userMail + "\"}";
+            byte[] out = data.getBytes(StandardCharsets.UTF_8);
+            Log.e("output", data.getBytes().toString());
+            OutputStream outputPost = new BufferedOutputStream(urlConnection.getOutputStream());
+            outputPost.write(out);
+//            writeStream(outputPost);
+            outputPost.flush();
+            outputPost.close();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }finally {
+
+            //close the reader and url connections
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
+
 
     public void helpButton(View view) {
 
