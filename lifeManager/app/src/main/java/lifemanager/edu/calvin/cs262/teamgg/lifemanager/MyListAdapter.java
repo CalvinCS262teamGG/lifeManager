@@ -1,6 +1,7 @@
 package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 import android.app.Activity;
+<<<<<<< HEAD
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,11 +15,15 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+=======
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+>>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+<<<<<<< HEAD
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
@@ -34,6 +39,11 @@ import java.util.List;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.newEvent.currentDate;
+=======
+import android.widget.TextView;
+
+import java.util.ArrayList;
+>>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 
 
 //we need to extend the ArrayAdapter class as we are building an adapter
@@ -44,6 +54,10 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
     //activity context
     Activity activity;
     View myview;
+<<<<<<< HEAD
+=======
+    ArrayList<ScheduleCard> scheduleCardList;
+>>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 
 
 
@@ -61,7 +75,6 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
 
     }
 
-
     //this will return the ListView Item as a View
     @NonNull
     @Override
@@ -78,7 +91,11 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
         TextView textViewCategory = myview.findViewById(R.id.itemCategory);
         TextView textViewDescription = myview.findViewById(R.id.itemDescription);
         TextView textViewTime = myview.findViewById(R.id.itemTime);
+<<<<<<< HEAD
         final TextView textViewOptions = myview.findViewById(R.id.textViewOptions);
+=======
+//        final TextView textViewOptions = myview.findViewById(R.id.textViewOptions);
+>>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 
 
         //getting the scheduleCard of the specified position
@@ -89,6 +106,7 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
         textViewDescription.setText(scheduleCard.getCardCategory());
         textViewTime.setText(scheduleCard.getCardTime());
 
+<<<<<<< HEAD
 
 
         textViewOptions.setOnClickListener(new View.OnClickListener() {
@@ -330,4 +348,9 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
 
 
 
+=======
+        //finally returning the view
+        return myview;
+    }
+>>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 }

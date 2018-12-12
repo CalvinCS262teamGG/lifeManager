@@ -31,4 +31,9 @@
     <string name="action_order">Order</string>
     <string name="action_status">Status</string>
     <string name="action_favorites">Favorites</string>
+<<<<<<< HEAD
+=======
+    <string name="loading">Loading...</string>
+
+>>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 </resources>

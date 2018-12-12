@@ -2,7 +2,7 @@ package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 public class ScheduleCard {
 
-    private String id, title, category, description, date, time, startTime, endTime, label, note;
+    private String title, category, description, date, time, startTime, endTime, label, note;
 
     private int totalHr, totalMin;
 
@@ -22,7 +22,6 @@ public class ScheduleCard {
     }
 
     public ScheduleCard () {
-//        this.id = "ID";
         this.title = "Card Title";
         this.category = "Category";
         this.description = "Description";
@@ -35,7 +34,6 @@ public class ScheduleCard {
         this.totalHr = 0;
         this.totalMin = 0;
     }
-//    public String getCardId() { return id; }
 
     public String getCardTitle() { return title; }
 
@@ -72,4 +70,28 @@ public class ScheduleCard {
     public int getCardTotalHr() { return totalHr; }
 
     public int getCardTotalMin() { return totalMin; }
+
+    public void setCardTitle(String title) { this.title = title; }
+
+    public void setCardCategory(String category) { this.category = category;}
+
+    public void setCardDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCardDate(String date) { this.date = date; }
+
+    public void setCardTime(String time) { this.time = time; }
+
+    public void setCardStartTime(String startTime) { this.startTime = startTime; }
+
+    public void setCardEndTime(String endTime) { this.endTime = endTime; }
+
+    public void setCardLabel(String label) { this.label = label; }
+
+    public void setCardNote(String note) { this.note = note; }
+
+    public void setCardTotalHr(int totalHr) { this.totalHr = totalHr; }
+
+    public void setCardTotalMin(int totalMin) { this.totalMin = totalMin; }
 }

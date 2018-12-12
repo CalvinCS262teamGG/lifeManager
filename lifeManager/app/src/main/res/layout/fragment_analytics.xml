@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".Analytics">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,6 +14,7 @@
         <!--android:layout_centerVertical="true"-->
         <!--android:text="@string/analyticst" /> -->
 
+<<<<<<< HEAD
     <TextView
     android:id="@+id/todayTextView"
     android:layout_width="match_parent"
@@ -59,6 +61,103 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/thisMonthTextView"
         android:padding="5dp"/>
+=======
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/todayTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:padding="5dp"
+                android:text="Today"
+                android:textSize="45sp" />
+
+            <TextView
+                android:id="@+id/today"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/todayTextView"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"
+                android:padding="5dp"/>
+
+            <TextView
+                android:id="@+id/yesterdayTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/today"
+                android:padding="5dp"
+                android:textColor="@color/colorText"
+                android:text="Yesterday"
+                android:textSize="45sp" />
+            <TextView
+                android:id="@+id/yesterday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/yesterdayTextView"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"
+                android:padding="5dp"/>
+
+            <TextView
+                android:id="@+id/thisWeekTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/colorText"
+                android:padding="5dp"
+                android:textSize="45sp"
+                android:layout_below="@+id/yesterday"
+                android:text="Past Week" />
+
+            <TextView
+                android:id="@+id/pastWeek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/thisWeekTextView"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"
+                android:padding="5dp"/>
+
+            <TextView
+                android:id="@+id/thisMonthTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pastWeek"
+                android:textColor="@color/colorText"
+                android:padding="5dp"
+                android:text="This Month"
+                android:textSize="45sp" />
+
+            <TextView
+                android:id="@+id/thisMonth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:layout_below="@+id/thisMonthTextView"
+                android:textSize="20sp"
+                android:padding="5dp"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+>>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 
     <!--<ListView-->
         <!--android:id="@+id/todayListView"-->

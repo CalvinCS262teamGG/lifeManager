@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -25,10 +27,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.currentDate;
+import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.simpleCurrentDate;
 
 public class newEvent extends Fragment implements View.OnClickListener {
-
-    private ArrayList<ScheduleCard> myScheduleCardList = MainActivity.myScheduleCardList;
 
     private String id;
     private EditText title;
@@ -57,15 +59,17 @@ public class newEvent extends Fragment implements View.OnClickListener {
         return myEvent;
     }
 
+<<<<<<< HEAD
     EditText titleText;
+=======
+    EditText titleText, activityText, labelText, noteText;
+>>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 
     TextView pickDate, pickStartTime, pickEndTime;
 
     RadioGroup rg;
 
     String categoryString;
-
-    static String currentDate;
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
@@ -76,14 +80,17 @@ public class newEvent extends Fragment implements View.OnClickListener {
 
         View rootView = inflater.inflate(R.layout.fragment_new_event, container, false);
 
-        titleText = (EditText) rootView.findViewById(R.id.editTextTitle);
+        titleText = rootView.findViewById(R.id.editTextTitle);
 
-        pickDate = (TextView) rootView.findViewById(R.id.enterDate);
-        pickStartTime = (TextView) rootView.findViewById(R.id.enterStart);
-        pickEndTime = (TextView) rootView.findViewById(R.id.enterEnd);
-        Button   enterButton = (Button) rootView.findViewById(R.id.enterButton);
+        pickDate = rootView.findViewById(R.id.enterDate);
+        pickStartTime = rootView.findViewById(R.id.enterStart);
+        pickEndTime = rootView.findViewById(R.id.enterEnd);
+        Button   enterButton = rootView.findViewById(R.id.enterButton);
+        activityText = rootView.findViewById(R.id.editTextActivity);
+        labelText = rootView.findViewById(R.id.editTextLabel);
+        noteText = rootView.findViewById(R.id.editTextNote);
 
-        rg = (RadioGroup) rootView.findViewById(R.id.eventCategory);
+        rg = rootView.findViewById(R.id.eventCategory);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -132,13 +139,13 @@ public class newEvent extends Fragment implements View.OnClickListener {
         DialogFragment newFragment;
         switch (view.getId()) {
             case R.id.enterDate:
-                    newFragment = new DatePickerFragment(pickDate);
-                    newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                newFragment = new DatePickerFragment(pickDate);
+                newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
                 break;
 
             case R.id.enterStart:
-                    newFragment = new TimePickerFragment(pickStartTime);
-                    newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+                newFragment = new TimePickerFragment(pickStartTime);
+                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
                 break;
 
             case R.id.enterEnd:
@@ -148,11 +155,14 @@ public class newEvent extends Fragment implements View.OnClickListener {
 
             case R.id.enterButton:
                 String title = titleText.getText().toString() ;
-//                String category;
                 String category = categoryString;
-//                String date;
+                String activity = labelText.getText().toString();
+                String label = labelText.getText().toString();
+                String note = noteText.getText().toString();
                 String time = (pickStartTime.getText() + " - " + pickEndTime.getText());
+                String date = pickDate.getText().toString();
 
+                Log.d("DATE", date);
                 time cardTime = new time(pickStartTime.getText().toString(), pickEndTime.getText().toString());
 
                 String cardStart = cardTime.getCardStart();
@@ -160,35 +170,54 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 int totalHr = cardTime.getTotalHr();
                 int totalMin = cardTime.getTotalMin();
 
-//                String label;
-//                String note;
-                if (!title.equals("") & category != null) {
-                    myScheduleCardList.add(new ScheduleCard(title, category, "Description", "October 9", time, cardStart, cardEnd, "LABEL", "note", totalHr, totalMin));
-
-                    Log.d(TAG, "pickStartTime" + pickStartTime.getText().toString() );
-                    Log.d(TAG, "pickEndTime" + pickEndTime.getText().toString() );
-
-                    sortScheduleCard();
-
-                    WriteSchedule  ws = new WriteSchedule();
-                    ws.writeSchedule();
+                if (totalHr < 0 || totalMin < 0) {
+                    Toast toast = Toast.makeText(getContext(), "End time must be after the start time!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
+                    break;
+                } else if (title.equals("")) {
+                    Toast toast = Toast.makeText(getContext(), "A Title is necessary to create a new item!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
+                    break;
+                } else if (category == null) {
+                    Toast toast = Toast.makeText(getContext(), "A Category is necessary to create a new item!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
+                    break;
                 }
+
+                ScheduleCard newCard = new ScheduleCard(title, category, activity, date, time, cardStart, cardEnd, label, note, totalHr, totalMin);
+
+                ArrayList<ScheduleCard> tempList;
+                tempList = MainActivity.readSchedule(ScheduleFragment.getDateFromString(date), getContext());
+                tempList.add(newCard);
+                tempList = sortScheduleCard(tempList);
+                WriteSchedule  ws = new WriteSchedule();
+                ws.writeSchedule(tempList, ScheduleFragment.getDateFromString(date));
+
+                Toast toast = Toast.makeText(getContext(), title + " has been added to the schedule" , Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                toast.show();
+
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(this).attach(this).commit();
-//                enterData();
+                
+                break;
         }
     }
 
     // output the start and end time and the total hours and total mins for calculation of analytics
-    public class time {
+    public static class time {
 
         String cardStart, cardEnd;
         int totalHr, totalMin;
 
         public time(String start, String end) {
-            String startHr = start.substring(0,start.lastIndexOf(":"));
-            String startMin = start.substring(start.lastIndexOf(":")+1,start.lastIndexOf(":")+3);
-            String startAm_pm = start.substring(start.lastIndexOf(":")+4,start.lastIndexOf(":")+6);
+            int colIndex = start.lastIndexOf(":");
+            String startHr = start.substring(0,colIndex);
+            String startMin = start.substring(colIndex+1,colIndex+3);
+            String startAm_pm = start.substring(colIndex+4,colIndex+6);
 
             int startHrInt = Integer.parseInt(startHr);
             int startMinInt = Integer.parseInt(startMin);
@@ -203,9 +232,10 @@ public class newEvent extends Fragment implements View.OnClickListener {
             }
             Log.d(TAG, "check!!!: " + Integer.toString(startHrInt) + startMin + startAm_pm);
 
-            String endHr = end.substring(0,end.lastIndexOf(":"));
-            String endMin = end.substring(end.lastIndexOf(":")+1,end.lastIndexOf(":")+3);
-            String endAm_pm = end.substring(end.lastIndexOf(":")+4,end.lastIndexOf(":")+6);
+            colIndex = end.lastIndexOf(":");
+            String endHr = end.substring(0,colIndex);
+            String endMin = end.substring(colIndex+1,colIndex+3);
+            String endAm_pm = end.substring(colIndex+4,colIndex+6);
 
             int endHrInt = Integer.parseInt(endHr);
             int endMinInt = Integer.parseInt(endMin);
@@ -220,12 +250,15 @@ public class newEvent extends Fragment implements View.OnClickListener {
             }
             Log.d(TAG, "check!!!: " + Integer.toString(endHrInt) + endMin + endAm_pm);
 
+            totalHr = endHrInt - startHrInt;
+
             totalMin = endMinInt - startMinInt;
             if (totalMin < 0) {
-                endHrInt = endHrInt - 1;
+                totalHr = totalHr - 1;
                 totalMin = totalMin + 60;
             }
-            totalHr = endHrInt - startHrInt;
+
+            totalMin = totalMin + (totalHr * 60);
 
             Log.d(TAG, "check!!!: hr diff: " + Integer.toString(totalHr)  + " min diff: " + Integer.toString(totalMin));
 
@@ -249,9 +282,8 @@ public class newEvent extends Fragment implements View.OnClickListener {
     }
 
     // sort the schedule card list
-    public void sortScheduleCard() {
-        Collections.sort(myScheduleCardList, new Comparator<ScheduleCard>(){
-
+    public static ArrayList<ScheduleCard> sortScheduleCard(ArrayList<ScheduleCard> sortList) {
+        Collections.sort(sortList, new Comparator<ScheduleCard>(){
             @Override
             public int compare(ScheduleCard s1, ScheduleCard s2) {
 
@@ -264,6 +296,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 }
             }
         });
+        return sortList;
     }
 
 }
