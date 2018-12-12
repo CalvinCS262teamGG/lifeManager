@@ -59,11 +59,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
         return myEvent;
     }
 
-<<<<<<< HEAD
-    EditText titleText;
-=======
     EditText titleText, activityText, labelText, noteText;
->>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 
     TextView pickDate, pickStartTime, pickEndTime;
 

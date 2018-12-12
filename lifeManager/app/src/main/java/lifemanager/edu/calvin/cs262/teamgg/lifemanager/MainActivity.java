@@ -114,9 +114,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         Log.d(TAG, " currentDate" +  simpleCurrentDate);
         Log.d(TAG, "dirPath" + dirPath);
-        File[] listFile = getFilesDir().listFiles();
-        Log.d(TAG, "listFiles!!" + listFile.toString());
-
 
 
         File file = new File("/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files");
@@ -132,12 +129,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fos.close();
             } catch (IOException e) {}
         } else {
-<<<<<<< HEAD
-            readSchedule();
-            myScheduleCardList = myScheduleCardList;
-=======
             myScheduleCardList = readSchedule(simpleCurrentDate, getBaseContext());
->>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
         }
     }
 

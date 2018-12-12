@@ -45,20 +45,6 @@
                 android:layout_alignParentLeft="true"
                 android:text="@string/timeText" />
 
-<<<<<<< HEAD
-            <TextView
-                android:id="@+id/textViewOptions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginVertical="8dp"
-                android:text="   &#8942;   "
-                android:onClick="openOptions"
-                android:textSize="30sp"
-                android:textAppearance="?android:textAppearanceLarge" />
-=======
             <!--<TextView-->
                 <!--android:id="@+id/textViewOptions"-->
                 <!--android:layout_width="wrap_content"-->
@@ -71,7 +57,6 @@
                 <!--android:onClick="openOptions"-->
                 <!--android:textSize="30sp"-->
                 <!--android:textAppearance="?android:textAppearanceLarge" />-->
->>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 
         </RelativeLayout>
 

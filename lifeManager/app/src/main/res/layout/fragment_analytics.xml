@@ -14,54 +14,6 @@
         <!--android:layout_centerVertical="true"-->
         <!--android:text="@string/analyticst" /> -->
 
-<<<<<<< HEAD
-    <TextView
-    android:id="@+id/todayTextView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-        android:padding="5dp"
-    android:text="Today"
-    android:textSize="24sp"
-    />
-
-    <TextView
-        android:id="@+id/today"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/todayTextView"
-        android:padding="5dp"/>
-
-    <TextView
-        android:id="@+id/yesterdayTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/today"
-        android:padding="5dp"
-        android:text="Yesterday"
-        android:textSize="24sp"
-        />
-    <TextView
-        android:id="@+id/yesterday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/yesterdayTextView"
-        android:padding="5dp"/>
-    <TextView
-        android:id="@+id/thisMonthTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/yesterday"
-        android:padding="5dp"
-        android:text="This Month"
-        android:textSize="24sp"
-        />
-    <TextView
-        android:id="@+id/thisMonth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/thisMonthTextView"
-        android:padding="5dp"/>
-=======
 
     <ScrollView
         android:layout_width="match_parent"
@@ -157,7 +109,6 @@
         </RelativeLayout>
     </ScrollView>
 
->>>>>>> f72853f464cbb26ffbcef6b14503b86450ceb1ae
 
     <!--<ListView-->
         <!--android:id="@+id/todayListView"-->
