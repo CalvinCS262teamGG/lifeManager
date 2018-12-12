@@ -75,13 +75,13 @@ public class Analytics extends Fragment {
         //Get today data
         todayList = readSchedule(today, getContext());
         todayTot = getCategoryTotals(todayList);
-        todayText.setText(concatResults(todayTot));
+        todayText.setText(concatResults(todayTot, 1));
 
         //Get yesterday data
         String yesterday = getYesterday(today);
         yesterdayList = readSchedule(yesterday, getContext());
         yesterdayTot = getCategoryTotals(yesterdayList);
-        yesterdayText.setText(concatResults(yesterdayTot));
+        yesterdayText.setText(concatResults(yesterdayTot, 1));
 
         //Get past week data
         String tempday = today;
@@ -92,7 +92,7 @@ public class Analytics extends Fragment {
             tempday = getYesterday(tempday);
         }
         weekTot = getCategoryTotals(weekList);
-        weekText.setText(concatResults(weekTot));
+        weekText.setText(concatResults(weekTot, 7));
 
 
         //Get past month data
@@ -103,11 +103,11 @@ public class Analytics extends Fragment {
             tempday = getYesterday(tempday);
         }
         monthTot = getCategoryTotals(monthList);
-        monthText.setText(concatResults(monthTot));
+        monthText.setText(concatResults(monthTot, 30));
         return rootView;
     }
 
-    private String concatResults(ArrayList<Integer> todayTot) {
+    private String concatResults(ArrayList<Integer> todayTot, int numberofdays) {
         String concatResults = "";
         int DirectMin = todayTot.get(0);
         int IndirectMin = todayTot.get(1);
@@ -115,7 +115,7 @@ public class Analytics extends Fragment {
         int Self_devMin = todayTot.get(3);
         int EtcMin = todayTot.get(4);
         int TotalMin = DirectMin + IndirectMin + PersonalMin + Self_devMin + EtcMin;
-        int FreeMin = 1440 - TotalMin;
+        int FreeMin = numberofdays*24*60 - TotalMin;
 
         int DirectHr = DirectMin/60;
         DirectMin = DirectMin%60;
@@ -130,12 +130,12 @@ public class Analytics extends Fragment {
         int FreeHr = FreeMin/60;
         FreeMin = FreeMin%60;
 
-        concatResults += "Direct performance  " + " \t\t" + Integer.toString(DirectHr)+"H " + Integer.toString(DirectMin)+"M" + "\n";
-        concatResults += "Indirect performance" + " \t\t" + Integer.toString(IndirectHr)+"H " + Integer.toString(IndirectMin)+"M" + "\n";
-        concatResults += "Personal                    " + " \t\t" + Integer.toString(PersonalHr)+"H " + Integer.toString(PersonalMin)+"M" + "\n";
-        concatResults += "Self-development      " + " \t\t" + Integer.toString(Self_devHr)+"H " + Integer.toString(Self_devMin)+"M" + "\n";
-        concatResults += "Etc                              " + " \t\t" + Integer.toString(EtcHr)+"H " + Integer.toString(EtcMin)+"M" + "\n";
-        concatResults += "\nFree time                    " + "\t\t" + Integer.toString(FreeHr) + "H " + Integer.toString(FreeMin)+"M";
+        concatResults += "Direct performance     " + "\t\t" + Integer.toString(DirectHr)+"H " + Integer.toString(DirectMin)+"M" + "\n";
+        concatResults += "Indirect performance  " + "\t\t" + Integer.toString(IndirectHr)+"H " + Integer.toString(IndirectMin)+"M" + "\n";
+        concatResults += "Personal                        " + "\t\t" + Integer.toString(PersonalHr)+"H " + Integer.toString(PersonalMin)+"M" + "\n";
+        concatResults += "Self-development         " + "\t\t" + Integer.toString(Self_devHr)+"H " + Integer.toString(Self_devMin)+"M" + "\n";
+        concatResults += "Etc                                   " + "\t\t" + Integer.toString(EtcHr)+"H " + Integer.toString(EtcMin)+"M" + "\n\n";
+        concatResults += "Free time                      " + "\t\t" + Integer.toString(FreeHr) + "H " + Integer.toString(FreeMin)+"M";
 
         return concatResults;
     }
