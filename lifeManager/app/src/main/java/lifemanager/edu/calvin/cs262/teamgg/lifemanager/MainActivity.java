@@ -470,8 +470,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private void pushToServer(String userName, String userMail) {
         JSONObject data = new JSONObject();
         try {
-            data.put("name", userName);
-            data.put("emailAddress", userMail);
+            data.put("emailAddress", userName);
+            data.put("name", userMail);
+
         } catch (JSONException e) {
             Log.d("POST", "Failed to build request object");
         }
