@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -26,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,9 +37,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,6 +56,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -274,22 +281,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String resultJSONString = null;
-//        try {
-//            //check for a network connection
-//            ConnectivityManager connMgr = (ConnectivityManager)
-//                    getSystemService(Context.CONNECTIVITY_SERVICE);
-//            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-//
-//            if (networkInfo.isConnected()) {
-////                Bundle queryBundle = new Bundle();
-////                queryBundle.putString("queryInput", input);
-////                getSupportLoaderManager().restartLoader(0, queryBundle, this);
-//            }
-//        } catch (Exception e) {
-////            resultText.setText("");
-//            displayToast("No Connection");
-//            e.printStackTrace();
-//        }
 
         try {
 
@@ -379,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void signIn(View view) {
         EditText nameText = findViewById(R.id.editName);
         EditText mailText = findViewById(R.id.editEmail);
@@ -410,12 +402,65 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
         // TODO : This is where we push data to data base 'userName' and 'userMail' are the strings
+        pushToServer(userName, userMail);
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, new newEvent())
                 .commit();
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void pushToServer(String userName, String userMail) {
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+
+        try {
+
+            URL requestURL;
+            //turn the base url and parameters into the final URL string
+            requestURL = new URL("https://calvincs262-fall2018-teamgg.appspot.com/lifemanager/v1/lifeuser");
+
+
+            //create the connection and request the information from the API
+            urlConnection = (HttpURLConnection) requestURL.openConnection();
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+//            urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
+            urlConnection.connect();
+
+            String data = "{\"name\":\"" +  userName + "\"" + "," + "\"emailAddress\":\"" + userMail + "\"}";
+            byte[] out = data.getBytes(StandardCharsets.UTF_8);
+            Log.e("output", data.getBytes().toString());
+            OutputStream outputPost = new BufferedOutputStream(urlConnection.getOutputStream());
+            outputPost.write(out);
+//            writeStream(outputPost);
+            outputPost.flush();
+            outputPost.close();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }finally {
+
+            //close the reader and url connections
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
+
 
     public void helpButton(View view) {
 
