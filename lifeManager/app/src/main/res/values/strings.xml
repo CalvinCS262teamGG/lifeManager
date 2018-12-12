@@ -31,4 +31,6 @@
     <string name="action_order">Order</string>
     <string name="action_status">Status</string>
     <string name="action_favorites">Favorites</string>
+    <string name="loading">Loading...</string>
+
 </resources>

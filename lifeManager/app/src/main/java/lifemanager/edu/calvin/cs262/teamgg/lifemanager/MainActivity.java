@@ -2,11 +2,16 @@ package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, BottomNavigationView.OnNavigationItemSelectedListener {
 
     public static ArrayList<ScheduleCard> myScheduleCardList = new ArrayList<>();
     public static final String TAG = "MyLog";
@@ -43,6 +49,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public static String jsonFile;
 
     public static String currentDate, selectedDate, simpleCurrentDate, simpleSelectedDate;
+
+
+
+    private String userName;
+    private String userEmail;
+    private boolean found = false;
+    private JSONArray itemsArray;
+
 
     @SuppressLint("SdCardPath")
     @Override
@@ -147,6 +161,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         return false;
     }
+    public void displayToast(String message) {
+        Toast.makeText(getApplicationContext(), message,
+                Toast.LENGTH_SHORT).show();
+    }
+
 
     public static ArrayList<ScheduleCard> readSchedule(String d, Context ctx) {
         String res = null;
@@ -203,6 +222,101 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return "/data/data/lifemanager.edu.calvin.cs262.teamgg.lifemanager/files/" + date + ".json";
     }
 
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int i, @Nullable Bundle args) {
+        return new UserLoader(this, args.getString("queryInput"));
+
+    }
+    @Override
+    public void onLoaderReset(Loader<String> loader) {
+    }
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+        // Convert the response into a JSON object.
+        try {
+            if (data == null) {
+                displayToast("none found");
+                return;
+            }
+            Log.d("data", data);
+            JSONObject jsonObject = new JSONObject(data);
+
+            try {
+                //get array of the JSON items
+                JSONArray itemsArray = jsonObject.getJSONArray("items");
+                String concatenatedResults = "";
+
+//                Log.e("itemsArray", Integer.toString(itemsArray.length()));
+
+                for (int i = 0; i < itemsArray.length(); i++) {
+                    String user = null;
+                    String email = null;
+                    String id = null;
+                    JSONObject userInfo = itemsArray.getJSONObject(i);
+
+                    try {
+                        user = userInfo.getString("name");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        user = "no name";
+                    }
+                    try {
+                        email = userInfo.getString("emailAddress");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        email = "no contact email...";
+                    }
+                    try {
+                        id = userInfo.getString("id");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    if (userName.equals(user)) {
+                        if (userEmail.equals(email)){
+                            found = true;
+                        } else {
+                            found = false;
+                        }
+                    } else {
+                        found = false;
+                    }
+
+                }
+            } catch (Exception e) {
+                String concatenatedResults = "";
+                String player;
+                String email;
+                String id = null;
+                try {
+                    player = jsonObject.getString("name");
+                } catch (Exception f) {
+                    e.printStackTrace();
+                    player = "no name";
+                }
+                try {
+                    email = jsonObject.getString("emailAddress");
+                } catch (Exception f) {
+                    e.printStackTrace();
+                    email = "no contact email...";
+                }
+                try {
+                    id = jsonObject.getString("id");
+                } catch (Exception f) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+        } catch (Exception e) {
+            displayToast("Invalid ID");
+            e.printStackTrace();
+        }
+    }
+
+
     private boolean isUser() {
         String res = null;
         InputStream inputStream = null;
@@ -220,13 +334,36 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             res = sb.toString();
             JSONObject obj = new JSONObject(res);
 
-            String userName =  obj.getString("name");
-            String userEmail =  obj.getString("email");
+            userName =  obj.getString("name");
+            userEmail =  obj.getString("email");
 
 
             // TODO: Here is where we would search the data base for name and email !!!!!
 
-            return true;
+            displayToast("Loading");
+            String inputName = userName;
+            String inputEmail = userEmail;
+            String input = inputName + " " + inputEmail;
+
+
+            try {
+                //check for a network connection
+                ConnectivityManager connMgr = (ConnectivityManager)
+                        getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+                if (networkInfo.isConnected()) {
+                    Bundle queryBundle = new Bundle();
+                    queryBundle.putString("queryInput", input);
+                    getSupportLoaderManager().restartLoader(0, queryBundle, this);
+                }
+            } catch (Exception e) {
+                displayToast("No Connection");
+//                displayToast("No Connection");
+                e.printStackTrace();
+            }
+
+            return found;
         } catch (Exception e) {
             Log.e("readSchedule", e.toString());
             return false;
@@ -260,6 +397,34 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         } catch (Exception e) {
             Log.e("Error with Signin", e.toString());
         }
+
+
+
+
+
+
+//        displayToast("Loading");
+        String inputName = userName;
+        String inputEmail = userEmail;
+        String input = inputName + " " + inputEmail;
+        try {
+            //check for a network connection
+            ConnectivityManager connMgr = (ConnectivityManager)
+                    getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+            if (networkInfo.isConnected()) {
+                Bundle queryBundle = new Bundle();
+                queryBundle.putString("queryInput", input);
+                getSupportLoaderManager().restartLoader(0, queryBundle, this);
+            }
+        } catch (Exception e) {
+            displayToast("No Connection");
+//                displayToast("No Connection");
+            e.printStackTrace();
+        }
+
+
 
         // TODO : This is where we push data to data base 'userName' and 'userMail' are the strings
 
