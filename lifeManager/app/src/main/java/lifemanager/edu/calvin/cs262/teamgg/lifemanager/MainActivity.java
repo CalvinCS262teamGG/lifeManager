@@ -9,10 +9,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -28,7 +26,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -168,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 int totalMin =  jsonArray.getJSONObject(i).getInt("totalMin");
 
 
-                readList.add(new ScheduleCard(title, category, description, date, time, startTime, endTime,label, note, totalHr, totalMin));
+                readList.add(new ScheduleCard(title, category, description, date, time, startTime, endTime, label, note, totalHr, totalMin));
                 Log.d(TAG, "save!" + title );
             }
         } catch (Exception e) {
