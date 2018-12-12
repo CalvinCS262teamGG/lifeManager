@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -156,7 +158,6 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 String time = (pickStartTime.getText() + " - " + pickEndTime.getText());
                 String date = pickDate.getText().toString();
 
-
                 Log.d("DATE", date);
                 time cardTime = new time(pickStartTime.getText().toString(), pickEndTime.getText().toString());
 
@@ -165,19 +166,40 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 int totalHr = cardTime.getTotalHr();
                 int totalMin = cardTime.getTotalMin();
 
+                if (totalHr < 0 || totalMin < 0) {
+                    Toast toast = Toast.makeText(getContext(), "End time must be after the start time!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
+                    break;
+                } else if (title.equals("")) {
+                    Toast toast = Toast.makeText(getContext(), "A Title is necessary to create a new item!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
+                    break;
+                } else if (category == null) {
+                    Toast toast = Toast.makeText(getContext(), "A Category is necessary to create a new item!", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.show();
+                    break;
+                }
+
                 ScheduleCard newCard = new ScheduleCard(title, category, activity, date, time, cardStart, cardEnd, label, note, totalHr, totalMin);
 
-                if (!title.equals("") & category != null) {
-                    ArrayList<ScheduleCard> tempList;
-                    tempList = MainActivity.readSchedule(ScheduleFragment.getDateFromString(date), getContext());
-                    tempList.add(newCard);
-                    tempList = sortScheduleCard(tempList);
-                    WriteSchedule  ws = new WriteSchedule();
-                    ws.writeSchedule(tempList, ScheduleFragment.getDateFromString(date));
-                }
+                ArrayList<ScheduleCard> tempList;
+                tempList = MainActivity.readSchedule(ScheduleFragment.getDateFromString(date), getContext());
+                tempList.add(newCard);
+                tempList = sortScheduleCard(tempList);
+                WriteSchedule  ws = new WriteSchedule();
+                ws.writeSchedule(tempList, ScheduleFragment.getDateFromString(date));
+
+                Toast toast = Toast.makeText(getContext(), title + " has been added to the schedule" , Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                toast.show();
+
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(this).attach(this).commit();
-//                enterData();
+                
+                break;
         }
     }
 
@@ -188,9 +210,10 @@ public class newEvent extends Fragment implements View.OnClickListener {
         int totalHr, totalMin;
 
         public time(String start, String end) {
-            String startHr = start.substring(0,start.lastIndexOf(":"));
-            String startMin = start.substring(start.lastIndexOf(":")+1,start.lastIndexOf(":")+3);
-            String startAm_pm = start.substring(start.lastIndexOf(":")+4,start.lastIndexOf(":")+6);
+            int colIndex = start.lastIndexOf(":");
+            String startHr = start.substring(0,colIndex);
+            String startMin = start.substring(colIndex+1,colIndex+3);
+            String startAm_pm = start.substring(colIndex+4,colIndex+6);
 
             int startHrInt = Integer.parseInt(startHr);
             int startMinInt = Integer.parseInt(startMin);
@@ -205,9 +228,10 @@ public class newEvent extends Fragment implements View.OnClickListener {
             }
             Log.d(TAG, "check!!!: " + Integer.toString(startHrInt) + startMin + startAm_pm);
 
-            String endHr = end.substring(0,end.lastIndexOf(":"));
-            String endMin = end.substring(end.lastIndexOf(":")+1,end.lastIndexOf(":")+3);
-            String endAm_pm = end.substring(end.lastIndexOf(":")+4,end.lastIndexOf(":")+6);
+            colIndex = end.lastIndexOf(":");
+            String endHr = end.substring(0,colIndex);
+            String endMin = end.substring(colIndex+1,colIndex+3);
+            String endAm_pm = end.substring(colIndex+4,colIndex+6);
 
             int endHrInt = Integer.parseInt(endHr);
             int endMinInt = Integer.parseInt(endMin);
@@ -222,12 +246,15 @@ public class newEvent extends Fragment implements View.OnClickListener {
             }
             Log.d(TAG, "check!!!: " + Integer.toString(endHrInt) + endMin + endAm_pm);
 
+            totalHr = endHrInt - startHrInt;
+
             totalMin = endMinInt - startMinInt;
             if (totalMin < 0) {
-                endHrInt = endHrInt - 1;
+                totalHr = totalHr - 1;
                 totalMin = totalMin + 60;
             }
-            totalHr = endHrInt - startHrInt;
+
+            totalMin = totalMin + (totalHr * 60);
 
             Log.d(TAG, "check!!!: hr diff: " + Integer.toString(totalHr)  + " min diff: " + Integer.toString(totalMin));
 
