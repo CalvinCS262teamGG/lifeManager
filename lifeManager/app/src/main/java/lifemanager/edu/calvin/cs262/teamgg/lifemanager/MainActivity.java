@@ -50,6 +50,12 @@ import java.util.Calendar;
 
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -409,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .replace(R.id.fragment_container, new newEvent())
                 .commit();
     }
-
+    /*
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void pushToServer(String userName, String userMail) {
         HttpURLConnection urlConnection = null;
@@ -430,7 +436,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             urlConnection.setDoInput(true);
             urlConnection.connect();
 
-            String data = "{\"name\":\"" +  userName + "\"" + "," + "\"emailAddress\":\"" + userMail + "\"}";
+            String data = "{\"id\": \"20\", \"name\":\"" +  userName + "\"" + "," + "\"emailAddress\":\"" + userMail + "\"}";
             byte[] out = data.getBytes(StandardCharsets.UTF_8);
             Log.e("output", data.getBytes().toString());
             OutputStream outputPost = new BufferedOutputStream(urlConnection.getOutputStream());
@@ -438,13 +444,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //            writeStream(outputPost);
             outputPost.flush();
             outputPost.close();
-
+            Log.d("POST REQUEST", "success maybe");
         } catch (IOException e) {
-
+            Log.d("POST REQUEST", "failed");
             e.printStackTrace();
 
         }finally {
-
+            Log.d("POST REQUEST", "finally");
             //close the reader and url connections
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -460,7 +466,33 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
     }
+*/
+    private void pushToServer(String userName, String userMail) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("name", userName);
+            data.put("emailAddress", userMail);
+        } catch (JSONException e) {
+            Log.d("POST", "Failed to build request object");
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "https://calvincs262-fall2018-teamgg.appspot.com/lifemanager/v1/lifeuser", data,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("POST SUCCESS", response.toString());
+                        displayToast("Success");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                displayToast("Failed");
+                Log.d("POST FAILED", error.toString());
+            }
+        });
 
+        // Add the request to the RequestQueue.
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
 
     public void helpButton(View view) {
 
