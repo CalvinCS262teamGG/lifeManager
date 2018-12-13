@@ -17,7 +17,7 @@ import java.util.Date;
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
-    TextView dateText;
+    private TextView dateText;
 
     public DatePickerFragment() {}
     @SuppressLint("ValidFragment")

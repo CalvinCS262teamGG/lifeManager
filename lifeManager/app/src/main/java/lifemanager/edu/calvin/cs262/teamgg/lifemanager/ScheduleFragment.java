@@ -17,17 +17,23 @@ import java.util.Calendar;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.currentDate;
 
+/**
+ * This class displays all of the schedule data for a given date
+ */
 public class ScheduleFragment extends Fragment {
 
-    String givenDate, simpleDate;
-    public String previous;
-    TextView dateText;
-    ArrayList<ScheduleCard> mySchedule;
+    private String givenDate, simpleDate;
+    private TextView dateText;
 
     public ScheduleFragment() {
 
     }
 
+    /**
+     * newInstance constructor for the Schedule page, it is given a date in the full format
+     * @param date
+     * @return
+     */
     public static ScheduleFragment newInstance(String date) {
 
         ScheduleFragment mySchedule = new ScheduleFragment();
@@ -40,6 +46,7 @@ public class ScheduleFragment extends Fragment {
         return mySchedule;
     }
 
+    // Takes the given date and coverts it to MMddYYYY format
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +63,11 @@ public class ScheduleFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBarTitle("Schedule");
 
 
-
+        // Inflate our schedule layout
         View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
         dateText = rootView.findViewById(R.id.pickDateText);
 
+        // Get the current date in full format
         Calendar cal = Calendar.getInstance();
         DateFormat format = DateFormat.getDateInstance(DateFormat.FULL);
         format.setTimeZone(cal.getTimeZone());
@@ -72,7 +80,7 @@ public class ScheduleFragment extends Fragment {
         ListView listView = rootView.findViewById(R.id.listView);
 
         //adding some values to our list
-        mySchedule = MainActivity.readSchedule(simpleDate,getContext());
+        ArrayList<ScheduleCard> mySchedule = MainActivity.readSchedule(simpleDate,getContext());
 
         //creating the adapter
         MyListAdapter adapter = new MyListAdapter(getActivity(), R.layout.fragment_schedule_list, mySchedule);
@@ -80,6 +88,7 @@ public class ScheduleFragment extends Fragment {
         //attaching adapter to the listview
         listView.setAdapter(adapter);
 
+        //Set onclick listener for items in the schedule and open the edit page if tapped on.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -91,6 +100,7 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
+        //Set onclick listener for date at the top
         dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +112,7 @@ public class ScheduleFragment extends Fragment {
         return rootView;
     }
 
+    //When given a date in the full format it returns the date in format MMddYYYY
     public static String getDateFromString(String givenDate) {
         givenDate = givenDate.substring(givenDate.indexOf(" ") + 1);
         //November 27, 2018

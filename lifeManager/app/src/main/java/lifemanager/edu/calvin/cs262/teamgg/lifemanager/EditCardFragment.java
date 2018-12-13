@@ -1,16 +1,10 @@
 package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,20 +17,19 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-//import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.myScheduleCardList;
 
 
 public class EditCardFragment extends android.support.v4.app.Fragment {
 
 //    private OnFragmentInteractionListener mListener;
     private int position;
-    String categoryString;
-    TextView pickDate, pickStartTime, pickEndTime;
-    EditText titleText, activity, labelText, noteText;
-    DialogFragment newFragment;
-    String givenDate, simpleDate;
-    ArrayList<ScheduleCard> currentSchedule, outsideSchedule;
-    ScheduleCard scheduleCard;
+    private String categoryString;
+    private TextView pickDate, pickStartTime, pickEndTime;
+    private EditText titleText, activity, labelText, noteText;
+    private DialogFragment newFragment;
+    private String givenDate, simpleDate;
+    private ArrayList<ScheduleCard> currentSchedule, outsideSchedule;
+    private ScheduleCard scheduleCard;
 
     public EditCardFragment() {
 
@@ -73,6 +66,7 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
             scheduleCard = currentSchedule.get(position);
         } catch(Exception e) {}
 
+        // Get all of the data from the edit page
         titleText = view.findViewById(R.id.editTextTitle);
         pickDate = view.findViewById(R.id.enterDate);
         pickStartTime = view.findViewById(R.id.enterStart);
@@ -161,8 +155,6 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
             }
         });
 
-
-
         pickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,7 +163,6 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
             }
 
         });
-
 
         pickStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,20 +182,23 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
 
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
+            // This method will save any changes
             public void onClick(View view) {
+                //Get the time values from the card
                 newEvent.time cardTime = new newEvent.time(pickStartTime.getText().toString(), pickEndTime.getText().toString());
                 int totalHr = cardTime.getTotalHr();
                 int totalMin = cardTime.getTotalMin();
 
+                // Make sure user is not inputting bad data
                 if (totalHr < 0 || totalMin < 0) {
                     Toast toast = Toast.makeText(getContext(), "End time must be after the start time!", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 650);
                     toast.show();
                 } else if (titleText.getText().toString().equals("")) {
                     Toast toast = Toast.makeText(getContext(), "A Title is necessary to save!", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 650);
                     toast.show();
-                } else {
+                } else { // Otherwise, create the card
                     scheduleCard.setCardTitle( titleText.getText().toString() );
                     scheduleCard.setCardCategory( categoryString );
                     scheduleCard.setCardDescription( activity.getText().toString() );
@@ -217,8 +211,11 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
                     scheduleCard.setCardTotalHr( totalHr );
                     scheduleCard.setCardTotalMin( totalMin );
 
+                    Toast toast = Toast.makeText(getContext(), titleText.getText().toString() + " has been saved.", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 650);
+                    toast.show();
 
-
+                    // If the date has changed the card must be deleted from the current schedule and added to another
                     if (!scheduleCard.getCardDate().equals(givenDate)) {
                         WriteSchedule  ws1 = new WriteSchedule();
                         String newSimpDate = ScheduleFragment.getDateFromString(scheduleCard.getCardDate());
@@ -256,7 +253,7 @@ public class EditCardFragment extends android.support.v4.app.Fragment {
     }
 
     //this method will remove the item from the list
-    public void deleteCard(final int position) {
+    private void deleteCard(final int position) {
         //Creating an alert dialog to confirm the deletion
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Are you sure you want to delete this?");

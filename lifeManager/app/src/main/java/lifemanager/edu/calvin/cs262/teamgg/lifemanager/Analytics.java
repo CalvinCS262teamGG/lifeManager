@@ -29,19 +29,6 @@ import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.readS
 // */
 public class Analytics extends Fragment {
 
-    public static ArrayList<ScheduleCard> analyticsCardList = new ArrayList<>();
-
-    private TextView todayText;
-    private TextView yesterdayText;
-    private TextView weekText;
-    private TextView monthText;
-    ArrayList<ScheduleCard> todayList = new ArrayList<ScheduleCard>();
-    ArrayList<ScheduleCard> yesterdayList = new ArrayList<ScheduleCard>();
-    ArrayList<ScheduleCard> weekList = new ArrayList<ScheduleCard>();
-    ArrayList<ScheduleCard> monthList = new ArrayList<ScheduleCard>();
-    ArrayList<Integer> todayTot, yesterdayTot, weekTot, monthTot = new ArrayList<>(5);
-
-
     public Analytics() {
 
     }
@@ -53,17 +40,12 @@ public class Analytics extends Fragment {
 
         ((MainActivity) getActivity()).setActionBarTitle("Analytics");
 
-        //just change the fragment_dashboard
-        //with the fragment you want to inflate
-        //like if the class is HomeFragment it should have R.layout.home_fragment
-        //if it is DashboardFragment it should have R.layout.fragment_dashboard
         View rootView = inflater.inflate(R.layout.fragment_analytics, null);
-//        ListView listView = (ListView) rootView.findViewById(R.id.listView);
 
-        todayText = rootView.findViewById(R.id.today);
-        yesterdayText = rootView.findViewById(R.id.yesterday);
-        weekText = rootView.findViewById(R.id.pastWeek);
-        monthText = rootView.findViewById(R.id.thisMonth);
+        TextView todayText = rootView.findViewById(R.id.today);
+        TextView yesterdayText = rootView.findViewById(R.id.yesterday);
+        TextView weekText = rootView.findViewById(R.id.pastWeek);
+        TextView monthText = rootView.findViewById(R.id.thisMonth);
 
         Calendar cal = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("MMddyyyy");
@@ -73,36 +55,38 @@ public class Analytics extends Fragment {
 
 
         //Get today data
-        todayList = readSchedule(today, getContext());
-        todayTot = getCategoryTotals(todayList);
+        ArrayList<ScheduleCard> todayList = readSchedule(today, getContext());
+        ArrayList<Integer> todayTot = getCategoryTotals(todayList);
         todayText.setText(concatResults(todayTot, 1));
 
         //Get yesterday data
         String yesterday = getYesterday(today);
-        yesterdayList = readSchedule(yesterday, getContext());
-        yesterdayTot = getCategoryTotals(yesterdayList);
+        ArrayList<ScheduleCard> yesterdayList = readSchedule(yesterday, getContext());
+        ArrayList<Integer> yesterdayTot = getCategoryTotals(yesterdayList);
         yesterdayText.setText(concatResults(yesterdayTot, 1));
 
         //Get past week data
         String tempday = today;
         ArrayList<ScheduleCard> tempList;
+        ArrayList<ScheduleCard> weekList = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             tempList = readSchedule(tempday, getContext());
             weekList.addAll(tempList);
             tempday = getYesterday(tempday);
         }
-        weekTot = getCategoryTotals(weekList);
+        ArrayList<Integer> weekTot = getCategoryTotals(weekList);
         weekText.setText(concatResults(weekTot, 7));
 
 
         //Get past month data
         tempday = today;
+        ArrayList<ScheduleCard> monthList = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
             tempList = readSchedule(tempday, getContext());
             monthList.addAll(tempList);
             tempday = getYesterday(tempday);
         }
-        monthTot = getCategoryTotals(monthList);
+        ArrayList<Integer> monthTot = getCategoryTotals(monthList);
         monthText.setText(concatResults(monthTot, 30));
         return rootView;
     }
@@ -143,7 +127,7 @@ public class Analytics extends Fragment {
     private ArrayList<Integer> getCategoryTotals(ArrayList<ScheduleCard> myList) {
         //Totals are  Direct -- Indirect -- Personal -- Selfdev -- Etc.
         int DirectMin = 0, IndirectMin = 0, PersonalMin = 0, Self_devMin = 0, EtcMin = 0;
-        String category = "";
+        String category;
 
         for (int i = 0; i < myList.size(); i++ ) {
             category = myList.get(i).getCardCategory();
@@ -165,10 +149,9 @@ public class Analytics extends Fragment {
                     break;
             }
         }
-        ArrayList<Integer> totals = new ArrayList<Integer>(
+        return new ArrayList<>(
                 Arrays.asList(DirectMin, IndirectMin, PersonalMin, Self_devMin, EtcMin)
         );
-        return totals;
     }
 
     private String getYesterday(String today) {

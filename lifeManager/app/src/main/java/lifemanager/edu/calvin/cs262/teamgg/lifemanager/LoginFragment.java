@@ -1,7 +1,5 @@
 package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,8 +9,6 @@ import android.view.ViewGroup;
 
 
 public class LoginFragment extends Fragment {
-
-//    private OnFragmentInteractionListener mListener;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -44,11 +40,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myLoginView = inflater.inflate(R.layout.fragment_login, container, false);
-
-
-
-        return myLoginView;
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
 //    public void onButtonPressed(Uri uri) {
