@@ -11,11 +11,12 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
+        android:padding="@dimen/padding_regular"
         android:layout_alignParentTop="true"
-        android:textSize="24sp"
+        android:textSize="35sp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorText"
         android:hint="@string/titleHint" />
 
     <TextView
@@ -27,7 +28,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:textSize="16sp"
+        android:padding="@dimen/padding_regular"
+        android:textSize="@dimen/textSize"
         android:textColor="@color/colorText"
         android:text="@string/choose_an_area" />
 
@@ -46,64 +48,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line1"
+        android:orientation="horizontal"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="-2dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginRight="14dp"
-        android:orientation="horizontal"
+        android:padding="@dimen/padding_regular"
         android:textColor="@color/colorText">
-
         <RadioButton
             android:id="@+id/direct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/direct"
-            android:textColor="@color/colorText" />
-
+            android:textColor="@color/colorText"/>
         <RadioButton
             android:id="@+id/indirect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/indirect"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"/>
 
         <RadioButton
             android:id="@+id/personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/personal"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"/>
 
         <RadioButton
             android:id="@+id/selfDev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/self_dev"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"/>
 
         <RadioButton
             android:id="@+id/etc"
-            android:layout_width="65dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/etc"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"/>
     </RadioGroup>
 
     <View
         android:id="@+id/line2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
         android:layout_below="@+id/eventCategory"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="-1dp"
         android:layout_marginEnd="8dp"
-        android:background="@android:color/darker_gray"
-        android:textColor="@color/colorText" />
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:textColor="@color/colorText"
+        android:background="@android:color/darker_gray"/>
 
     <EditText
         android:id="@+id/editTextActivity"
@@ -114,10 +107,11 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
+        android:padding="@dimen/padding_regular"
         android:ems="12"
-        android:textColor="@color/colorText"
         android:hint="@string/activityHint"
-        android:textSize="16sp" />
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/textSize" />
 
     <TextView
         android:id="@+id/date"
@@ -128,7 +122,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:textSize="16sp"
+        android:padding="@dimen/padding_regular"
+        android:textSize="@dimen/textSize"
         android:textColor="@color/colorText"
         android:text="@string/date" />
 
@@ -141,8 +136,9 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:padding="@dimen/padding_regular"
         android:onClick="onClick"
-        android:textSize="16sp"
+        android:textSize="@dimen/textSize"
         android:textColor="@color/colorText"
         android:text="@string/defaultDate" />
 
@@ -166,7 +162,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:textSize="16sp"
+        android:padding="@dimen/padding_regular"
+        android:textSize="@dimen/textSize"
         android:textColor="@color/colorText"
         android:text="@string/start" />
 
@@ -179,7 +176,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="16sp"
+        android:padding="@dimen/padding_regular"
+        android:textSize="@dimen/textSize"
         android:onClick="onClick"
         android:textColor="@color/colorText"
         android:text="@string/defaultStart" />
@@ -193,7 +191,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:textSize="16sp"
+        android:padding="@dimen/padding_regular"
+        android:textSize="@dimen/textSize"
         android:textColor="@color/colorText"
         android:text="@string/end" />
 
@@ -206,7 +205,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="16sp"
+        android:padding="@dimen/padding_regular"
+        android:textSize="@dimen/textSize"
         android:onClick="onClick"
         android:textColor="@color/colorText"
         android:text="@string/defaultEnd" />
@@ -228,6 +228,8 @@
         android:layout_below="@+id/line5"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:padding="@dimen/padding_regular"
+        android:textSize="@dimen/textSize"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="@color/colorText"
@@ -240,6 +242,8 @@
         android:layout_below="@+id/editTextLabel"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:padding="@dimen/padding_regular"
+        android:textSize="@dimen/textSize"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="@color/colorText"

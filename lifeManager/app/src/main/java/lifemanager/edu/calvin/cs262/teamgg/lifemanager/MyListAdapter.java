@@ -17,14 +17,13 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
     //the list values in the List of type hero
 
     //activity context
-    Activity activity;
-    View myview;
-    ArrayList<ScheduleCard> scheduleCardList;
+    final private Activity activity;
+    final private ArrayList<ScheduleCard> scheduleCardList;
 
 
 
     //the layout resource file for the list items
-    int resource;
+    final private int resource;
 
 
     //constructor initializing the values
@@ -47,13 +46,12 @@ public class MyListAdapter extends ArrayAdapter<ScheduleCard> {
         LayoutInflater layoutInflater = LayoutInflater.from(activity);
 
         //getting the view
-        myview = layoutInflater.inflate(resource, null, false);
+        View myview = layoutInflater.inflate(resource, null, false);
 
         //getting the view elements of the list from the view
         TextView textViewCategory = myview.findViewById(R.id.itemCategory);
         TextView textViewDescription = myview.findViewById(R.id.itemDescription);
         TextView textViewTime = myview.findViewById(R.id.itemTime);
-//        final TextView textViewOptions = myview.findViewById(R.id.textViewOptions);
 
 
         //getting the scheduleCard of the specified position

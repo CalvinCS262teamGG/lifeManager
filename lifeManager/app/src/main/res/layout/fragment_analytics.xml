@@ -6,15 +6,6 @@
     android:background="@color/colorPrimary"
     tools:context=".Analytics">
 
-    <!-- TODO: Update blank fragment layout -->
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:text="@string/analyticst" /> -->
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -108,31 +99,4 @@
 
         </RelativeLayout>
     </ScrollView>
-
-
-    <!--<ListView-->
-        <!--android:id="@+id/todayListView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/todayTextView"-->
-    <!--/>-->
-
-
-    <!--<TextView-->
-        <!--android:id="@+id/yesterdayTextView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/todayListView"-->
-        <!--android:text="Yesterday"-->
-        <!--android:textSize="24sp"-->
-        <!--/>-->
-
-    <!--<ListView-->
-        <!--android:id="@+id/yesterdayListView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/yesterdayTextView"-->
-        <!--/>-->
-
-
 </RelativeLayout>

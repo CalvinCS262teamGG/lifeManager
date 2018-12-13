@@ -1,6 +1,5 @@
 package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

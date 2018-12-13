@@ -1,13 +1,10 @@
 package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.RequiresPermission;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,48 +21,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.currentDate;
-import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.simpleCurrentDate;
 
 public class newEvent extends Fragment implements View.OnClickListener {
-
-    private String id;
-    private EditText title;
-    private String category;
-    private String description;
-    private String date;
-    private String startTime;
-    private String endTime;
-    private String label;
-    private String note;
-    private static int position;
 
     public newEvent() {
 
     }
 
-    public static newEvent newEventInstance(int cardPosition) {
-        position = cardPosition;
-        newEvent myEvent = new newEvent();
+    private EditText titleText, activityText, labelText, noteText;
 
-        // Supply position input as argument
-        Bundle args = new Bundle();
-        args.putInt("position", position);
-        myEvent.setArguments(args);
+    private TextView pickDate, pickStartTime, pickEndTime;
 
-        return myEvent;
-    }
-
-    EditText titleText, activityText, labelText, noteText;
-
-    TextView pickDate, pickStartTime, pickEndTime;
-
-    RadioGroup rg;
-
-    String categoryString;
+    private String categoryString;
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
@@ -86,7 +56,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
         labelText = rootView.findViewById(R.id.editTextLabel);
         noteText = rootView.findViewById(R.id.editTextNote);
 
-        rg = rootView.findViewById(R.id.eventCategory);
+        RadioGroup rg = rootView.findViewById(R.id.eventCategory);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -152,7 +122,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
             case R.id.enterButton:
                 String title = titleText.getText().toString() ;
                 String category = categoryString;
-                String activity = labelText.getText().toString();
+                String activity = activityText.getText().toString();
                 String label = labelText.getText().toString();
                 String note = noteText.getText().toString();
                 String time = (pickStartTime.getText() + " - " + pickEndTime.getText());
@@ -168,17 +138,17 @@ public class newEvent extends Fragment implements View.OnClickListener {
 
                 if (totalHr < 0 || totalMin < 0) {
                     Toast toast = Toast.makeText(getContext(), "End time must be after the start time!", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 650);
                     toast.show();
                     break;
                 } else if (title.equals("")) {
                     Toast toast = Toast.makeText(getContext(), "A Title is necessary to create a new item!", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 650);
                     toast.show();
                     break;
                 } else if (category == null) {
                     Toast toast = Toast.makeText(getContext(), "A Category is necessary to create a new item!", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 650);
                     toast.show();
                     break;
                 }
@@ -193,7 +163,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
                 ws.writeSchedule(tempList, ScheduleFragment.getDateFromString(date));
 
                 Toast toast = Toast.makeText(getContext(), title + " has been added to the schedule" , Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 450);
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 650);
                 toast.show();
 
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -206,7 +176,7 @@ public class newEvent extends Fragment implements View.OnClickListener {
     // output the start and end time and the total hours and total mins for calculation of analytics
     public static class time {
 
-        String cardStart, cardEnd;
+        final String cardStart, cardEnd;
         int totalHr, totalMin;
 
         public time(String start, String end) {

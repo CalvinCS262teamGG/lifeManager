@@ -6,7 +6,6 @@
     tools:context=".newEvent"
     android:background="@color/colorPrimary">
 
-    <!-- TODO: Update blank fragment layout -->
     <EditText
         android:id="@+id/editTextTitle"
         android:layout_width="wrap_content"

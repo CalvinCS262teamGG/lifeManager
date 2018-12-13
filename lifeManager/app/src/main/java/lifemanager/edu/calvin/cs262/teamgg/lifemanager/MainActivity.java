@@ -2,24 +2,18 @@ package lifemanager.edu.calvin.cs262.teamgg.lifemanager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,18 +30,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -56,26 +45,25 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-
+/** This class starts and manages the LifeManager app
+ *
+ */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    public static ArrayList<ScheduleCard> myScheduleCardList = new ArrayList<>();
+    private static ArrayList<ScheduleCard> myScheduleCardList = new ArrayList<>();
     public static final String TAG = "MyLog";
 
     public static String jsonFile;
 
-    public static String currentDate, selectedDate, simpleCurrentDate, simpleSelectedDate;
+    public static String currentDate;
+    public static String selectedDate;
+    public static String simpleCurrentDate;
 
 
-
-
+    /** Handles events that need to happen when the app opens such as
+     *      Logging in then opening the different fragments
+     *
+     */
     @SuppressLint("SdCardPath")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         setContentView(R.layout.activity_main);
 
+        // Here we check if the login page needs to show
         if (!isUser()) {
             // Open login page
             loadFragment(new LoginFragment());
@@ -108,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
         simpleCurrentDate = format.format(cal.getTime());
-        simpleSelectedDate = simpleCurrentDate;
         String dirPath = getFilesDir().getAbsolutePath();
         jsonFile = getPath(simpleCurrentDate);
 
@@ -133,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
-
+    // Handle leaving and reopening the app
     @Override
     protected void onStop() {
         super.onStop();
@@ -147,6 +135,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         myScheduleCardList = readSchedule(simpleCurrentDate, getBaseContext());
     }
 
+    /**
+     * This function handles the navigation bar on the bottom of the screen
+     *
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment = null;
@@ -173,9 +165,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return loadFragment(fragment);
     }
 
+    //Sets the title based on which fragment is open
     public void setActionBarTitle(String title) { getSupportActionBar().setTitle(title); }
 
-    public boolean loadFragment(Fragment fragment) {
+    //opens a fragment
+    private boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
             getSupportFragmentManager()
@@ -186,16 +180,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         return false;
     }
-    public void displayToast(String message) {
+
+
+    private void displayToast(String message) {
         Toast.makeText(getApplicationContext(), message,
                 Toast.LENGTH_SHORT).show();
     }
 
-
+    /**
+     * When given a date this function returns an array of schedule cards read from the
+     * internal data of the machine
+     *
+     * @param d = String date in MMddYYYY format
+     * @param ctx = context, this is necessary for readSchedule to be static
+     * @return Returns ArrayList of schedule cards read from internal files
+     */
     public static ArrayList<ScheduleCard> readSchedule(String d, Context ctx) {
         String res = null;
         InputStream inputStream = null;
-        ArrayList<ScheduleCard> readList = new ArrayList<ScheduleCard>();
+        ArrayList<ScheduleCard> readList = new ArrayList<>();
         try{
             inputStream = ctx.openFileInput(d + ".json");
             InputStreamReader isr = new InputStreamReader(inputStream);
@@ -233,6 +236,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return readList;
     }
 
+
     public void reloadSchedule(View view) {
         TextView text = findViewById(R.id.pickDateText);
         selectedDate = text.getText().toString();
@@ -252,7 +256,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private boolean isUser() {
         String res = null;
         InputStream inputStream = null;
-        ArrayList<ScheduleCard> readList = new ArrayList<ScheduleCard>();
         try{
             inputStream = openFileInput( "user.json");
             InputStreamReader isr = new InputStreamReader(inputStream);
@@ -270,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             String userEmail =  obj.getString("email");
 
 
-            // TODO: Here is where we would search the data base for name and email !!!!!
             return isNameAndEmailInDatabase(userName, userEmail);
         } catch (Exception e) {
             Log.e("readSchedule", e.toString());
@@ -279,10 +281,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private boolean isNameAndEmailInDatabase(String userName, String userEmail) {
-
-        String origName = userName;
-        String origEmail = userEmail;
-
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -364,8 +362,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     e.printStackTrace();
                     email = "no email address";
                 }
-                if (name.equals(origName)){
-                    if (email.equals(origEmail)){
+                if (name.equals(userName)){
+                    if (email.equals(userEmail)){
                         return true;
                     }
                 }

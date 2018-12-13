@@ -42,16 +42,4 @@
 
         />
 
-
-    <!--<Button-->
-    <!--android:id="@+id/button"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignEnd="@+id/intro_text"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_marginEnd="-49dp"-->
-    <!--android:layout_marginBottom="117dp"-->
-    <!--android:onClick="openNewEvent"-->
-    <!--android:text="Button" />-->
-
 </android.support.constraint.ConstraintLayout>

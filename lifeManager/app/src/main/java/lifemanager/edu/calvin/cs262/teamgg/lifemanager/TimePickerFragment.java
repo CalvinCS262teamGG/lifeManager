@@ -14,10 +14,13 @@ import java.util.Calendar;
 
 import static lifemanager.edu.calvin.cs262.teamgg.lifemanager.MainActivity.TAG;
 
+/**
+ * This class handles the timepickers in the app
+ */
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
     public static String time;
-    TextView timeText;
+    private TextView timeText;
 
     public TimePickerFragment() {
     }

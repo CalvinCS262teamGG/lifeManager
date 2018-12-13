@@ -6,8 +6,21 @@ public class ScheduleCard {
 
     private int totalHr, totalMin;
 
+    /**
+     * Constructor for Schedule card class
+     * @param title == title of card
+     * @param category == category of the card
+     * @param description == A short description if necessary
+     * @param date == Full format of date of card
+     * @param time == full format of time of card
+     * @param startTime ==  short format of start time in 24hr time
+     * @param endTime == short format of end time in 24hr time
+     * @param label == label of card if necessary
+     * @param note == notes if necessary
+     * @param totalHr == total hours spent on activity
+     * @param totalMin == total minutes spent on activity
+     */
     public ScheduleCard(String title, String category, String description, String date, String time, String startTime, String endTime, String label, String note, int totalHr, int totalMin) {
-//        this.id = id;
         this.title = title;
         this.category = category;
         this.description = description;
@@ -21,21 +34,12 @@ public class ScheduleCard {
         this.totalMin = totalMin;
     }
 
-    public ScheduleCard () {
-        this.title = "Card Title";
-        this.category = "Category";
-        this.description = "Description";
-        this.date = "January 01";
-        this.time = "00:00 - 00:00";
-        this.startTime = "0000";
-        this.endTime = "0000"; // 24hr base
-        this.label = "Label";
-        this.note = "Note";
-        this.totalHr = 0;
-        this.totalMin = 0;
+    /**
+     * These are all of our getters and setters
+     */
+    public String getCardTitle() {
+        return title;
     }
-
-    public String getCardTitle() { return title; }
 
     public String getCardCategory() {
         return category;
@@ -75,9 +79,7 @@ public class ScheduleCard {
 
     public void setCardCategory(String category) { this.category = category;}
 
-    public void setCardDescription(String description) {
-        this.description = description;
-    }
+    public void setCardDescription(String description) { this.description = description; }
 
     public void setCardDate(String date) { this.date = date; }
 

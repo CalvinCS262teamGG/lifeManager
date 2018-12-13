@@ -93,7 +93,7 @@ public class MyDialogFragment extends DialogFragment {
 
     }
 
-    public void newEvent(TextView tv) {
+    private void newEvent(TextView tv) {
 
         tv.setText("Enter New Event\n" +
                 "\n" +
