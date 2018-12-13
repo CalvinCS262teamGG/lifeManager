@@ -83,8 +83,7 @@ public class MyDialogFragment extends DialogFragment {
     }
 
     private void analytics(TextView tv) {
-        String text = "As a user, I want to be able to view an analysis of how I spend my day/week/month\n" +
-                "\n" + "Imagine that you want to be able to see an overview of how you spend your time. " +
+        String text = "View Analytics \nImagine that you want to be able to see an overview of how you spend your time. " +
                 "The detailed steps in this section show you how to do this:\n" +
                 "\t1. Click on the analysis button at the bottom of the screen.\n" +
                 "\t2. Look through the list of analytics.\n" +
